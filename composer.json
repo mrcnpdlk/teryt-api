@@ -1,0 +1,25 @@
+{
+  "name": "marcin/teryt-api",
+  "description": "Teryt API",
+  "type": "library",
+  "license": "GNU",
+  "authors": [
+    {
+      "name": "Marcin Pudełek",
+      "email": "mpudelek@widzew.net"
+    }
+  ],
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=7.0",
+    "robrichards/wse-php": "2.0.2",
+    "ext-soap": "*",
+    "ext-mcrypt": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "mrcnpdlk\\Teryt\\": "src/mrcnpdlk/Teryt/"
+    }
+  }
+}
