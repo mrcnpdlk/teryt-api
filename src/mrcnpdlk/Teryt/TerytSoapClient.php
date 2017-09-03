@@ -2,7 +2,6 @@
 
 namespace mrcnpdlk\Teryt;
 
-
 use RobRichards\WsePhp\WSSESoap;
 
 class TerytSoapClient extends \SoapClient
@@ -20,6 +19,11 @@ class TerytSoapClient extends \SoapClient
      */
     private $digest;
 
+    /**
+     * @param string $username
+     * @param string $password
+     * @param bool   $digest
+     */
     public function addUserToken(string $username, string $password, bool $digest = false)
     {
         $this->username = $username;
@@ -27,6 +31,15 @@ class TerytSoapClient extends \SoapClient
         $this->digest   = $digest;
     }
 
+    /**
+     * @param string $request
+     * @param string $location
+     * @param string $action
+     * @param int    $version
+     * @param int    $one_way
+     *
+     * @return string
+     */
     public function __doRequest($request, $location, $action, $version, $one_way = 0)
     {
         $doc = new \DOMDocument('1.0');

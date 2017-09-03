@@ -1,15 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Marcin
- * Date: 03.09.2017
- * Time: 22:03
- */
+declare (strict_types=1);
 
 namespace mrcnpdlk\Teryt;
-
-
-use SplTempFileObject;
 
 class Client
 {
@@ -38,49 +30,9 @@ class Client
         $this->initClient();
     }
 
-    public function getTerritorialDivisionData(): SplTempFileObject
-    {
-        return $this->getFile('PobierzKatalogTERC');
-    }
-
-    public function getPlacesData(): SplTempFileObject
-    {
-        return $this->getFile('PobierzKatalogSIMC');
-    }
-
-    public function getStreetsData(): SplTempFileObject
-    {
-        return $this->getFile('PobierzKatalogULIC');
-    }
-
-    public function getPlacesDictionaryData(): SplTempFileObject
-    {
-        return $this->getFile('PobierzKatalogWMRODZ');
-    }
-
-    private function getFile($functionName): SplTempFileObject
-    {
-        $response  = $this->makeCall($functionName, [
-            'DataStanu' => (new \DateTime())->format('Y-m-d'),
-        ]);
-        $resultKey = $functionName . 'Result';
-
-        return $this->prepareTempFile($response->{$resultKey}->plik_zawartosc);
-    }
-
-    public function makeCall($functionName, array $args)
-    {
-        return $this->soapClient->__soapCall($functionName, [$args]);
-    }
-
-    private function prepareTempFile($data): SplTempFileObject
-    {
-        $tempXml = new SplTempFileObject();
-        $tempXml->fwrite(base64_decode($data));
-
-        return $tempXml;
-    }
-
+    /**
+     * @return $this
+     */
     private function initClient()
     {
         $this->soapClient = new TerytSoapClient($this->url, [
@@ -89,5 +41,75 @@ class Client
             'cache_wsdl'   => WSDL_CACHE_BOTH,
         ]);
         $this->soapClient->addUserToken($this->username, $this->password);
+
+        return $this;
     }
+
+    /**
+     * Czy zalogowany
+     *
+     * @return bool
+     */
+    public function isLogged()
+    {
+        return Helper::convertToBoolean($this->getResponse('CzyZalogowany'));
+    }
+
+    /**
+     * Lista województw
+     *
+     * @return mixed
+     */
+    public function getVoivodships()
+    {
+        return $this->getResponse('PobierzListeWojewodztw');
+    }
+
+    /**
+     * Lista powiatów we wskazanym województwie
+     *
+     * @param string $voivodshipId
+     *
+     * @return mixed
+     */
+    public function getPoviats(string $voivodshipId)
+    {
+        return $this->getResponse('PobierzListePowiatow');
+    }
+
+    /**
+     * Lista gmin we wskazanym powiecie
+     *
+     * @param string $voivodshipId
+     * @param string $poviatId
+     *
+     * @return mixed
+     */
+    public function getCommunes(string $voivodshipId, string $poviatId)
+    {
+        return $this->getResponse('PobierzListeGmin');
+    }
+
+    /**
+     * @param string $method
+     * @param array  $args
+     *
+     * @return mixed
+     * @throws Exception
+     */
+    private function getResponse(string $method, array $args = [])
+    {
+        try {
+            if (!array_key_exists('DataStanu', $args)) {
+                $args['DataStanu'] = (new \DateTime())->format('Y-m-d');
+            }
+            $res       = $this->soapClient->__soapCall($method, $args);
+            $resultKey = $method . 'Result';
+
+            return $res->{$resultKey};
+        } catch (\SoapFault $e) {
+            throw new Exception($e->faultcode);
+        }
+    }
+
 }
