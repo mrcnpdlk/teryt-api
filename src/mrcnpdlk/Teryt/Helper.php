@@ -110,4 +110,21 @@ class Helper
         }
     }
 
+    /**
+     * @param int $tercId
+     *
+     * @return array
+     */
+    public static function translateTercId(int $tercId)
+    {
+        $sTercId = str_pad(strval($tercId), 7, '0', \STR_PAD_LEFT);
+
+        return [
+            'provinceId'    => substr($sTercId, 0, 2),
+            'districtId'    => substr($sTercId, 2, 2),
+            'communeId'     => substr($sTercId, 4, 2),
+            'communeTypeId' => substr($sTercId, 6, 1),
+        ];
+    }
+
 }
