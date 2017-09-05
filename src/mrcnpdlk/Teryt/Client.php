@@ -262,15 +262,12 @@ class Client
     {
         $answer = [];
         $res    = $this->getResponse('PobierzListeWojewodztw');
-        if (isset($res->JednostkaTerytorialna)) {
-            foreach ($res->JednostkaTerytorialna as $p) {
-                $answer[] = TerritorialDivisionUnitData::create($p);
-            };
+        foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
+            $answer[] = TerritorialDivisionUnitData::create($p);
+        };
 
-            return $answer;
-        } else {
-            throw new Exception(sprintf('%s Empty response', __METHOD__));
-        }
+        return $answer;
+
     }
 
     /**
@@ -304,21 +301,17 @@ class Client
      * @param string $provinceId Province ID
      *
      * @return TerritorialDivisionUnitData[]
-     * @throws Exception
      */
     public function getDistricts(string $provinceId)
     {
         $answer = [];
         $res    = $this->getResponse('PobierzListePowiatow', ['Woj' => $provinceId]);
-        if (isset($res->JednostkaTerytorialna)) {
-            foreach ($res->JednostkaTerytorialna as $p) {
-                $answer[] = TerritorialDivisionUnitData::create($p);
-            };
+        foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
+            $answer[] = TerritorialDivisionUnitData::create($p);
+        };
 
-            return $answer;
-        } else {
-            throw new Exception(sprintf('%s Empty response', __METHOD__));
-        }
+        return $answer;
+
     }
 
     /**
@@ -348,14 +341,23 @@ class Client
      *
      * @return TerritorialDivisionUnitData[]
      */
-    public function searchDistrict(string $provinceId, string $phrase)
+    public function searchDistrict(string $phrase, string $provinceId = null)
     {
-        $answer = [];
-        foreach ($this->getDistricts($provinceId) as $p) {
-            if (strpos(mb_strtolower($p->name), mb_strtolower($phrase)) !== false) {
-                $answer[] = $p;
+        $answer       = [];
+        $tProvinceIds = [];
+        if (is_null($provinceId)) {
+            $tProvinceIds = Helper::getKeyValues($this->getProvinces(), 'provinceId', true);
+        } else {
+            $tProvinceIds = [$provinceId];
+        }
+        foreach ($tProvinceIds as $pId) {
+            foreach ($this->getDistricts($pId) as $p) {
+                if (strpos(mb_strtolower($p->name), mb_strtolower($phrase)) !== false) {
+                    $answer[] = $p;
+                }
             }
         }
+
 
         return $answer;
     }
@@ -363,20 +365,43 @@ class Client
     /**
      * Searching Commune by name
      *
+     * @param string $phrase
      * @param string $provinceId
      * @param string $districtId
-     * @param string $phrase
      *
      * @return TerritorialDivisionUnitData[]
      */
-    public function searchCommune(string $provinceId, string $districtId, string $phrase)
+    public function searchCommune(string $phrase, string $provinceId = null, string $districtId = null)
     {
-        $answer = [];
-        foreach ($this->getCommunes($provinceId, $districtId) as $p) {
-            if (strpos(mb_strtolower($p->name), mb_strtolower($phrase)) !== false) {
-                $answer[] = $p;
+        /**
+         * @var $tProvinceIds string[]
+         * @var $tDistrictIds string[]
+         */
+        $answer       = [];
+        $tProvinceIds = [];
+        if (is_null($provinceId)) {
+            $tProvinceIds = Helper::getKeyValues($this->getProvinces(), 'provinceId', true);
+        } else {
+            $tProvinceIds = [$provinceId];
+        }
+
+        foreach ($tProvinceIds as $pId) {
+            $tDistrictIds = [];
+            if (is_null($districtId)) {
+                $tDistrictIds = Helper::getKeyValues($this->getDistricts($pId), 'districtId', true);
+            } else {
+                $tDistrictIds = [$districtId];
+            }
+
+            foreach ($tDistrictIds as $dId) {
+                foreach ($this->getCommunes($pId, $dId) as $p) {
+                    if (strpos(mb_strtolower($p->name), mb_strtolower($phrase)) !== false) {
+                        $answer[] = $p;
+                    }
+                }
             }
         }
+
 
         return $answer;
     }
@@ -388,21 +413,17 @@ class Client
      * @param string $districtId ID powiatu
      *
      * @return TerritorialDivisionUnitData[]
-     * @throws Exception
      */
     public function getCommunes(string $provinceId, string $districtId)
     {
         $answer = [];
         $res    = $this->getResponse('PobierzListeGmin', ['Woj' => $provinceId, 'Pow' => $districtId]);
-        if (isset($res->JednostkaTerytorialna)) {
-            foreach ($res->JednostkaTerytorialna as $p) {
-                $answer[] = TerritorialDivisionUnitData::create($p);
-            };
+        foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
+            $answer[] = TerritorialDivisionUnitData::create($p);
+        };
 
-            return $answer;
-        } else {
-            throw new Exception(sprintf('%s Empty response', __METHOD__));
-        }
+        return $answer;
+
     }
 
     public function __debugInfo()
