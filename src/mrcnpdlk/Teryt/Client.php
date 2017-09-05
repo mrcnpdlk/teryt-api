@@ -1,8 +1,16 @@
 <?php
+/**
+ * Copyright (c) 2017.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 declare (strict_types=1);
 
 namespace mrcnpdlk\Teryt;
+
+use mrcnpdlk\Teryt\Exception\Connection;
+use mrcnpdlk\Teryt\Exception\Response;
 
 /**
  * Class Client
@@ -48,12 +56,16 @@ class Client
      */
     private function initClient()
     {
-        $this->soapClient = new TerytSoapClient($this->url, [
-            'soap_version' => SOAP_1_1,
-            'exceptions'   => true,
-            'cache_wsdl'   => WSDL_CACHE_BOTH,
-        ]);
-        $this->soapClient->addUserToken($this->username, $this->password);
+        try {
+            $this->soapClient = new TerytSoapClient($this->url, [
+                'soap_version' => SOAP_1_1,
+                'exceptions'   => true,
+                'cache_wsdl'   => WSDL_CACHE_BOTH,
+            ]);
+            $this->soapClient->addUserToken($this->username, $this->password);
+        } catch (\Exception $e) {
+            static::handleException($e);
+        }
 
         return $this;
     }
@@ -72,6 +84,7 @@ class Client
      * Lista województw
      *
      * @return mixed
+     * @throws \mrcnpdlk\Teryt\Exception
      */
     public function getProvinces()
     {
@@ -81,6 +94,8 @@ class Client
         } else {
             throw new Exception(sprintf('%s Empty response', __METHOD__));
         }
+
+        return $res;
     }
 
     /**
@@ -113,7 +128,9 @@ class Client
      * @param array  $args
      *
      * @return mixed
-     * @throws Exception
+     * @throws \Throwable
+     * @throws \mrcnpdlk\Teryt\Exception
+     * @throws \mrcnpdlk\Teryt\Exception\Connection
      */
     private function getResponse(string $method, array $args = [])
     {
@@ -124,9 +141,40 @@ class Client
             $res       = $this->soapClient->__soapCall($method, [$args]);
             $resultKey = $method . 'Result';
 
+            if (!isset($res->{$resultKey})) {
+                throw new Response(sprintf('%s doesnt exist in response', $resultKey));
+            }
+
             return $res->{$resultKey};
-        } catch (\SoapFault $e) {
-            throw new Exception($e->faultcode);
+        } catch (\Exception $e) {
+            throw static::handleException($e);
+        }
+
+
+    }
+
+    /**
+     * @param \Exception $e
+     *
+     * @return \mrcnpdlk\Teryt\Exception|\mrcnpdlk\Teryt\Exception\Connection|\Exception
+     */
+    private static function handleException(\Exception $e)
+    {
+        if ($e instanceof \SoapFault) {
+            switch ($e->faultcode ?? null) {
+                case 'a:InvalidSecurityToken':
+                    return new Connection(sprintf('Invalid Security Token'), 1, $e);
+                case 'WSDL':
+                    return new Connection(sprintf('%s', $e->faultstring ?? 'Unknown', 1, $e));
+                default:
+                    return $e;
+            }
+        } else {
+            if ($e instanceof Exception) {
+                return $e;
+            } else {
+                return new Exception('Unknown Exception', 1, $e);
+            }
         }
     }
 
