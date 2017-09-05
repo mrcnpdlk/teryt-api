@@ -12,6 +12,7 @@ namespace mrcnpdlk\Teryt;
 use mrcnpdlk\Teryt\Exception\Connection;
 use mrcnpdlk\Teryt\Exception\NotFound;
 use mrcnpdlk\Teryt\Exception\Response;
+use mrcnpdlk\Teryt\Model\RegionDivisionUnitData;
 use mrcnpdlk\Teryt\Model\TerritorialDivisionUnitData;
 use phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface;
 
@@ -427,5 +428,36 @@ class Client
     public function __debugInfo()
     {
         return ['Top secret'];
+    }
+
+    /**
+     * Get list of Regions
+     *
+     * @return RegionDivisionUnitData[]
+     */
+    public function getRegions()
+    {
+        $answer = [];
+        $res    = $this->getResponse('PobierzListeRegionow');
+        foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
+            $answer[] = RegionDivisionUnitData::create($p);
+        };
+
+        return $answer;
+    }
+    /**
+     * Get list of Regions
+     *
+     * @return RegionDivisionUnitData[]
+     */
+    public function getSubRegions(string $provinceId)
+    {
+        $answer = [];
+        $res    = $this->getResponse('PobierzListePodregionow',['Woj' => $provinceId]);
+        foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
+            $answer[] = RegionDivisionUnitData::create($p);
+        };
+
+        return $answer;
     }
 }
