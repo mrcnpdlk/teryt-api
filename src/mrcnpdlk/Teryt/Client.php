@@ -10,9 +10,9 @@ declare (strict_types=1);
 namespace mrcnpdlk\Teryt;
 
 use mrcnpdlk\Teryt\Exception\Connection;
+use mrcnpdlk\Teryt\Exception\NotFound;
 use mrcnpdlk\Teryt\Exception\Response;
-use mrcnpdlk\Teryt\Model\Province;
-use mrcnpdlk\Teryt\Model\ProvinceData;
+use mrcnpdlk\Teryt\Model\TerritorialDivisionUnitData;
 use phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface;
 
 /**
@@ -165,7 +165,7 @@ class Client
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      */
-    public function getResponse(string $method, array $args = [])
+    private function getResponse(string $method, array $args = [])
     {
         try {
             if (!array_key_exists('DataStanu', $args)) {
@@ -201,7 +201,7 @@ class Client
      *
      * @return mixed
      */
-    public function useCache(\Closure $closure, string $hashKey, int $ttl = null)
+    private function useCache(\Closure $closure, string $hashKey, int $ttl = null)
     {
         if ($this->oCache && $this->oCache->hasItem($hashKey)) {
             return $this->oCache->getItem($hashKey)->get();
@@ -224,21 +224,33 @@ class Client
     }
 
     /**
-     * Get province object with ID
+     * Return Province data
      *
      * @param string $provinceId
      *
-     * @return Province
+     * @return TerritorialDivisionUnitData
      */
     public function getProvince(string $provinceId)
     {
-        return Province::create($provinceId);
+        $self = $this;
+
+        return $this->useCache(
+            function () use ($self, $provinceId) {
+                foreach ($self->getProvinces() as $p) {
+                    if ($p->provinceId === $provinceId) {
+                        return $p;
+                    }
+                }
+                throw new NotFound(sprintf('Province [id:%s] not found', $provinceId));
+            },
+            md5(json_encode([__METHOD__, $provinceId]))
+        );
     }
 
     /**
-     * Lista województw
+     * Provinces list
      *
-     * @return ProvinceData[]
+     * @return TerritorialDivisionUnitData[]
      * @throws \mrcnpdlk\Teryt\Exception
      */
     public function getProvinces()
@@ -247,7 +259,7 @@ class Client
         $res    = $this->getResponse('PobierzListeWojewodztw');
         if (isset($res->JednostkaTerytorialna)) {
             foreach ($res->JednostkaTerytorialna as $p) {
-                $answer[] = ProvinceData::create($p);
+                $answer[] = TerritorialDivisionUnitData::create($p);
             };
 
             return $answer;
@@ -257,15 +269,42 @@ class Client
     }
 
     /**
-     * Lista powiatów we wskazanym województwie
+     * Return Districts list in Province
      *
-     * @param string $provinceId ID województwa
+     * @param string $provinceId Province ID
      *
-     * @return mixed
+     * @return TerritorialDivisionUnitData[]
      */
     public function getDistricts(string $provinceId)
     {
-        return $this->getResponse('PobierzListePowiatow', ['Woj' => $provinceId]);
+        $answer = [];
+        $res    = $this->getResponse('PobierzListePowiatow', ['Woj' => $provinceId]);
+        if (isset($res->JednostkaTerytorialna)) {
+            foreach ($res->JednostkaTerytorialna as $p) {
+                $answer[] = TerritorialDivisionUnitData::create($p);
+            };
+
+            return $answer;
+        } else {
+            throw new Exception(sprintf('%s Empty response', __METHOD__));
+        }
+    }
+
+    public function getDistrict(string $provinceId, string $districtId)
+    {
+        $self = $this;
+
+        return $this->useCache(
+            function () use ($self, $provinceId, $districtId) {
+                foreach ($self->getDistricts($provinceId) as $p) {
+                    if ($p->districtId === $districtId) {
+                        return $p;
+                    }
+                }
+                throw new NotFound(sprintf('District [id:%s] not found', $provinceId));
+            },
+            md5(json_encode([__METHOD__, $provinceId]))
+        );
     }
 
     /**
