@@ -14,6 +14,9 @@
 namespace mrcnpdlk\Teryt\Model;
 
 
+use mrcnpdlk\Teryt\Client;
+use mrcnpdlk\Teryt\Helper;
+
 class CityData
 {
     /**
@@ -29,6 +32,10 @@ class CityData
      */
     public $name;
     /**
+     * Typu string, określa identyfikator jednostki. Identyfikator posiada 7
+     * znaków i jest złączeniem symboli jednostki określających województwo
+     * (2 znaki), powiat (2 znaki), gminę (2 znaki) i rodzaj jednostki (1 znak)
+     *
      * @var integer
      */
     public $tercId;
@@ -42,6 +49,13 @@ class CityData
 
 
         return $resData;
+    }
+
+    public function getStreets()
+    {
+        $tIds = Helper::translateTercId($this->tercId);
+
+        return Client::getInstance()->getStreets($tIds['provinceId'], $tIds['districtId'], $tIds['communeId'], $tIds['communeTypeId'], $this->id);
     }
 
 }

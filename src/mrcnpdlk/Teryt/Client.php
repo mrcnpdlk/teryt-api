@@ -100,9 +100,9 @@ class Client
         if (empty($tConfig)) {
             $tConfig = $this->tDefTerytConfig;
         }
-        $this->tTerytConfig['url']      = $tConfig['url'] ?: 'https://uslugaterytws1.stat.gov.pl/terytws1.svc';
-        $this->tTerytConfig['username'] = $tConfig['username'] ?: null;
-        $this->tTerytConfig['password'] = $tConfig['password'] ?: null;;
+        $this->tTerytConfig['url']      = $tConfig['url'] ?? 'https://uslugaterytws1.stat.gov.pl/wsdl/terytws1.wsdl';
+        $this->tTerytConfig['username'] = $tConfig['username'] ?? null;
+        $this->tTerytConfig['password'] = $tConfig['password'] ?? null;;
 
         if (!$this->tTerytConfig['username'] || !$this->tTerytConfig['password']) {
             throw new Connection(sprintf('Username and password for TERYT WS1 is required'));
@@ -509,5 +509,46 @@ class Client
 
         return $answer;
 
+    }
+
+    /**
+     * @param string $provinceId
+     * @param string $districtId
+     * @param string $communeId
+     * @param string $communeTypeId
+     * @param string $cityId
+     * @param bool   $asAddressVer
+     *
+     * @return array
+     *
+     * @todo Poprawić działanie metody - zwraca 0 wyników
+     */
+    public function getStreets(
+        string $provinceId,
+        string $districtId,
+        string $communeId,
+        string $communeTypeId,
+        string $cityId,
+        bool $asAddressVer = true
+    ) {
+        $answer = [];
+        $conf   = [
+            'Woj'               => $provinceId,
+            'Pow'               => $districtId,
+            'Gmi'               => $communeId,
+            'Rodz'              => $communeTypeId,
+            'msc'               => $cityId,
+            'czyWersjaUrzedowa' => !$asAddressVer,
+            'czyWersjaAdresowa' => $asAddressVer,
+
+        ];
+        $res    = $this->getResponse('PobierzListeUlicDlaMiejscowosci', $conf);
+        print_r($res);
+
+        /*        foreach (Helper::getPropertyAsArray($res, 'Miejscowosc') as $p) {
+                    $answer[] = CityData::create($p);
+                };*/
+
+        return $answer;
     }
 }
