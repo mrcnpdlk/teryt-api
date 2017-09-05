@@ -1,8 +1,14 @@
 <?php
+
 declare (strict_types=1);
 
 namespace mrcnpdlk\Teryt;
 
+/**
+ * Class Client
+ *
+ * @package mrcnpdlk\Teryt
+ */
 class Client
 {
     /**
@@ -22,6 +28,13 @@ class Client
      */
     private $soapClient;
 
+    /**
+     * Client constructor.
+     *
+     * @param string $url
+     * @param string $username
+     * @param string $password
+     */
     public function __construct(string $url, string $username, string $password)
     {
         $this->url      = $url;
@@ -60,34 +73,39 @@ class Client
      *
      * @return mixed
      */
-    public function getVoivodships()
+    public function getProvinces()
     {
-        return $this->getResponse('PobierzListeWojewodztw');
+        $res = $this->getResponse('PobierzListeWojewodztw');
+        if (isset($res->JednostkaTerytorialna)) {
+
+        } else {
+            throw new Exception(sprintf('%s Empty response', __METHOD__));
+        }
     }
 
     /**
      * Lista powiatów we wskazanym województwie
      *
-     * @param string $voivodshipId
+     * @param string $provinceId ID województwa
      *
      * @return mixed
      */
-    public function getPoviats(string $voivodshipId)
+    public function getDistricts(string $provinceId)
     {
-        return $this->getResponse('PobierzListePowiatow');
+        return $this->getResponse('PobierzListePowiatow', ['Woj' => $provinceId]);
     }
 
     /**
      * Lista gmin we wskazanym powiecie
      *
-     * @param string $voivodshipId
-     * @param string $poviatId
+     * @param string $provinceId ID województwa
+     * @param string $districtId ID powiatu
      *
      * @return mixed
      */
-    public function getCommunes(string $voivodshipId, string $poviatId)
+    public function getCommunes(string $provinceId, string $districtId)
     {
-        return $this->getResponse('PobierzListeGmin');
+        return $this->getResponse('PobierzListeGmin', ['Woj' => $provinceId, 'Pow' => $districtId]);
     }
 
     /**
@@ -103,7 +121,7 @@ class Client
             if (!array_key_exists('DataStanu', $args)) {
                 $args['DataStanu'] = (new \DateTime())->format('Y-m-d');
             }
-            $res       = $this->soapClient->__soapCall($method, $args);
+            $res       = $this->soapClient->__soapCall($method, [$args]);
             $resultKey = $method . 'Result';
 
             return $res->{$resultKey};
