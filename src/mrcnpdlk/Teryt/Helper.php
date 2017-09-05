@@ -88,6 +88,10 @@ class Helper
     }
 
     /**
+     * Fixing Teryt API bug
+     *
+     * If only one item exists in response, returnet property is not a array but object type
+     *
      * @param \stdClass $oObject
      * @param string    $sPropertyName
      *

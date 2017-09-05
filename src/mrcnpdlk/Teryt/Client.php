@@ -137,6 +137,7 @@ class Client
      *
      * @return $this
      * @see \phpFastCache\CacheManager::setDefaultConfig();
+     * @see https://packagist.org/packages/phpfastcache/phpfastcache Documentation od Phpfastcache
      */
     public function setCacheInstace(ExtendedCacheItemPoolInterface $oCache = null)
     {
@@ -336,15 +337,14 @@ class Client
     /**
      * Searching District by name
      *
-     * @param string $provinceId
-     * @param string $phrase
+     * @param string      $phrase
+     * @param string|null $provinceId ID of Province. Slower search if not set
      *
      * @return TerritorialDivisionUnitData[]
      */
     public function searchDistrict(string $phrase, string $provinceId = null)
     {
-        $answer       = [];
-        $tProvinceIds = [];
+        $answer = [];
         if (is_null($provinceId)) {
             $tProvinceIds = Helper::getKeyValues($this->getProvinces(), 'provinceId', true);
         } else {
@@ -365,9 +365,9 @@ class Client
     /**
      * Searching Commune by name
      *
-     * @param string $phrase
-     * @param string $provinceId
-     * @param string $districtId
+     * @param string      $phrase
+     * @param string|null $provinceId ID of Province. Slower search if not set
+     * @param string|null $districtId ID of District in Province. Slower search if not set
      *
      * @return TerritorialDivisionUnitData[]
      */
@@ -377,8 +377,7 @@ class Client
          * @var $tProvinceIds string[]
          * @var $tDistrictIds string[]
          */
-        $answer       = [];
-        $tProvinceIds = [];
+        $answer = [];
         if (is_null($provinceId)) {
             $tProvinceIds = Helper::getKeyValues($this->getProvinces(), 'provinceId', true);
         } else {
@@ -386,7 +385,6 @@ class Client
         }
 
         foreach ($tProvinceIds as $pId) {
-            $tDistrictIds = [];
             if (is_null($districtId)) {
                 $tDistrictIds = Helper::getKeyValues($this->getDistricts($pId), 'districtId', true);
             } else {
