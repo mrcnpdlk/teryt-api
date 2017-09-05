@@ -51,6 +51,14 @@ class Client
         ];
 
     /**
+     * Client constructor.
+     */
+    protected function __construct()
+    {
+        $this->tTerytConfig = $this->tDefTerytConfig;
+    }
+
+    /**
      * @return \mrcnpdlk\Teryt\Client
      */
     public static function create()
@@ -78,15 +86,6 @@ class Client
     }
 
     /**
-     * Client constructor.
-     */
-    protected function __construct()
-    {
-        $this->tTerytConfig = $this->tDefTerytConfig;
-    }
-
-
-    /**
      * @param array $tConfig
      *
      * @return $this
@@ -105,19 +104,6 @@ class Client
             throw new Connection(sprintf('Username and password for TERYT WS1 is required'));
         }
         $this->getSoap(true);
-
-        return $this;
-    }
-
-    /**
-     * @param \phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface|null $oCache
-     *
-     * @return $this
-     * @see \phpFastCache\CacheManager::setDefaultConfig();
-     */
-    public function setCacheInstace(ExtendedCacheItemPoolInterface $oCache = null)
-    {
-        $this->oCache = $oCache;
 
         return $this;
     }
@@ -144,6 +130,19 @@ class Client
         }
 
         return $this->soapClient;
+    }
+
+    /**
+     * @param \phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface|null $oCache
+     *
+     * @return $this
+     * @see \phpFastCache\CacheManager::setDefaultConfig();
+     */
+    public function setCacheInstace(ExtendedCacheItemPoolInterface $oCache = null)
+    {
+        $this->oCache = $oCache;
+
+        return $this;
     }
 
     /**
@@ -275,6 +274,31 @@ class Client
     }
 
     /**
+     * Get District object
+     *
+     * @param string $provinceId
+     * @param string $districtId
+     *
+     * @return TerritorialDivisionUnitData
+     */
+    public function getDistrict(string $provinceId, string $districtId)
+    {
+        $self = $this;
+
+        return $this->useCache(
+            function () use ($self, $provinceId, $districtId) {
+                foreach ($self->getDistricts($provinceId) as $p) {
+                    if ($p->districtId === $districtId) {
+                        return $p;
+                    }
+                }
+                throw new NotFound(sprintf('District [id:%s] not found', $provinceId));
+            },
+            [__METHOD__, $provinceId]
+        );
+    }
+
+    /**
      * Return Districts list in Province
      *
      * @param string $provinceId Province ID
@@ -298,28 +322,63 @@ class Client
     }
 
     /**
-     * Get District object
+     * Searching Province by name
+     *
+     * @param string $phrase
+     *
+     * @return TerritorialDivisionUnitData[]
+     */
+    public function searchProvince(string $phrase)
+    {
+        $answer = [];
+        foreach ($this->getProvinces() as $p) {
+            if (strpos(mb_strtolower($p->name), mb_strtolower($phrase)) !== false) {
+                $answer[] = $p;
+            }
+        }
+
+        return $answer;
+    }
+
+    /**
+     * Searching District by name
+     *
+     * @param string $provinceId
+     * @param string $phrase
+     *
+     * @return TerritorialDivisionUnitData[]
+     */
+    public function searchDistrict(string $provinceId, string $phrase)
+    {
+        $answer = [];
+        foreach ($this->getDistricts($provinceId) as $p) {
+            if (strpos(mb_strtolower($p->name), mb_strtolower($phrase)) !== false) {
+                $answer[] = $p;
+            }
+        }
+
+        return $answer;
+    }
+
+    /**
+     * Searching Commune by name
      *
      * @param string $provinceId
      * @param string $districtId
+     * @param string $phrase
      *
-     * @return TerritorialDivisionUnitData
+     * @return TerritorialDivisionUnitData[]
      */
-    public function getDistrict(string $provinceId, string $districtId)
+    public function searchCommune(string $provinceId, string $districtId, string $phrase)
     {
-        $self = $this;
+        $answer = [];
+        foreach ($this->getCommunes($provinceId, $districtId) as $p) {
+            if (strpos(mb_strtolower($p->name), mb_strtolower($phrase)) !== false) {
+                $answer[] = $p;
+            }
+        }
 
-        return $this->useCache(
-            function () use ($self, $provinceId, $districtId) {
-                foreach ($self->getDistricts($provinceId) as $p) {
-                    if ($p->districtId === $districtId) {
-                        return $p;
-                    }
-                }
-                throw new NotFound(sprintf('District [id:%s] not found', $provinceId));
-            },
-            [__METHOD__, $provinceId]
-        );
+        return $answer;
     }
 
     /**
