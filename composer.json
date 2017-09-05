@@ -15,7 +15,7 @@
     "php": ">=7.0",
     "robrichards/wse-php": "2.0.2",
     "ext-soap": "*",
-    "ext-mcrypt": "*"
+    "phpfastcache/phpfastcache": "*"
   },
   "autoload": {
     "psr-4": {
