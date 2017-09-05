@@ -196,13 +196,19 @@ class Client
      * Cache management
      *
      * @param \Closure $closure
-     * @param string   $hashKey
+     * @param mixed    $hashKey
      * @param int|null $ttl
      *
      * @return mixed
      */
-    private function useCache(\Closure $closure, string $hashKey, int $ttl = null)
+    private function useCache(\Closure $closure, $hashKey, int $ttl = null)
     {
+        if (is_array($hashKey) || is_object($hashKey)) {
+            $hashKey = md5(json_encode($hashKey));
+        } else {
+            $hashKey = strval($hashKey);
+        }
+
         if ($this->oCache && $this->oCache->hasItem($hashKey)) {
             return $this->oCache->getItem($hashKey)->get();
         } else {
@@ -243,7 +249,7 @@ class Client
                 }
                 throw new NotFound(sprintf('Province [id:%s] not found', $provinceId));
             },
-            md5(json_encode([__METHOD__, $provinceId]))
+            [__METHOD__, $provinceId]
         );
     }
 
@@ -274,6 +280,7 @@ class Client
      * @param string $provinceId Province ID
      *
      * @return TerritorialDivisionUnitData[]
+     * @throws Exception
      */
     public function getDistricts(string $provinceId)
     {
@@ -290,6 +297,14 @@ class Client
         }
     }
 
+    /**
+     * Get District object
+     *
+     * @param string $provinceId
+     * @param string $districtId
+     *
+     * @return TerritorialDivisionUnitData
+     */
     public function getDistrict(string $provinceId, string $districtId)
     {
         $self = $this;
@@ -303,21 +318,32 @@ class Client
                 }
                 throw new NotFound(sprintf('District [id:%s] not found', $provinceId));
             },
-            md5(json_encode([__METHOD__, $provinceId]))
+            [__METHOD__, $provinceId]
         );
     }
 
     /**
-     * Lista gmin we wskazanym powiecie
+     * Return Communes in District in Province
      *
      * @param string $provinceId ID województwa
      * @param string $districtId ID powiatu
      *
-     * @return mixed
+     * @return TerritorialDivisionUnitData[]
+     * @throws Exception
      */
     public function getCommunes(string $provinceId, string $districtId)
     {
-        return $this->getResponse('PobierzListeGmin', ['Woj' => $provinceId, 'Pow' => $districtId]);
+        $answer = [];
+        $res    = $this->getResponse('PobierzListeGmin', ['Woj' => $provinceId, 'Pow' => $districtId]);
+        if (isset($res->JednostkaTerytorialna)) {
+            foreach ($res->JednostkaTerytorialna as $p) {
+                $answer[] = TerritorialDivisionUnitData::create($p);
+            };
+
+            return $answer;
+        } else {
+            throw new Exception(sprintf('%s Empty response', __METHOD__));
+        }
     }
 
     public function __debugInfo()
