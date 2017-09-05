@@ -6,8 +6,7 @@
  */
 
 /**
- * Created by PhpStorm.
- * User: Marcin
+ * Created by Marcin.
  * Date: 05.09.2017
  * Time: 20:53
  */
@@ -15,7 +14,7 @@
 namespace mrcnpdlk\Teryt\Model;
 
 
-class TerritorialDivisionUnitData
+abstract class TerritorialDivisionUnitData
 {
     /**
      * @var integer

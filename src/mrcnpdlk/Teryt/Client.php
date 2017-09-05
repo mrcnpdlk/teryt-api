@@ -12,8 +12,11 @@ namespace mrcnpdlk\Teryt;
 use mrcnpdlk\Teryt\Exception\Connection;
 use mrcnpdlk\Teryt\Exception\NotFound;
 use mrcnpdlk\Teryt\Exception\Response;
+use mrcnpdlk\Teryt\Model\CityData;
+use mrcnpdlk\Teryt\Model\CommuneData;
+use mrcnpdlk\Teryt\Model\DistrictData;
+use mrcnpdlk\Teryt\Model\ProvinceData;
 use mrcnpdlk\Teryt\Model\RegionDivisionUnitData;
-use mrcnpdlk\Teryt\Model\TerritorialDivisionUnitData;
 use phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface;
 
 /**
@@ -235,7 +238,7 @@ class Client
      *
      * @param string $provinceId
      *
-     * @return TerritorialDivisionUnitData
+     * @return ProvinceData
      */
     public function getProvince(string $provinceId)
     {
@@ -257,7 +260,7 @@ class Client
     /**
      * Provinces list
      *
-     * @return TerritorialDivisionUnitData[]
+     * @return ProvinceData[]
      * @throws \mrcnpdlk\Teryt\Exception
      */
     public function getProvinces()
@@ -265,7 +268,7 @@ class Client
         $answer = [];
         $res    = $this->getResponse('PobierzListeWojewodztw');
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
-            $answer[] = TerritorialDivisionUnitData::create($p);
+            $answer[] = ProvinceData::create($p);
         };
 
         return $answer;
@@ -278,7 +281,7 @@ class Client
      * @param string $provinceId
      * @param string $districtId
      *
-     * @return TerritorialDivisionUnitData
+     * @return DistrictData
      */
     public function getDistrict(string $provinceId, string $districtId)
     {
@@ -302,14 +305,14 @@ class Client
      *
      * @param string $provinceId Province ID
      *
-     * @return TerritorialDivisionUnitData[]
+     * @return DistrictData[]
      */
     public function getDistricts(string $provinceId)
     {
         $answer = [];
         $res    = $this->getResponse('PobierzListePowiatow', ['Woj' => $provinceId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
-            $answer[] = TerritorialDivisionUnitData::create($p);
+            $answer[] = DistrictData::create($p);
         };
 
         return $answer;
@@ -321,7 +324,7 @@ class Client
      *
      * @param string $phrase
      *
-     * @return TerritorialDivisionUnitData[]
+     * @return ProvinceData[]
      */
     public function searchProvince(string $phrase)
     {
@@ -341,7 +344,7 @@ class Client
      * @param string      $phrase
      * @param string|null $provinceId ID of Province. Slower search if not set
      *
-     * @return TerritorialDivisionUnitData[]
+     * @return DistrictData[]
      */
     public function searchDistrict(string $phrase, string $provinceId = null)
     {
@@ -370,7 +373,7 @@ class Client
      * @param string|null $provinceId ID of Province. Slower search if not set
      * @param string|null $districtId ID of District in Province. Slower search if not set
      *
-     * @return TerritorialDivisionUnitData[]
+     * @return CommuneData[]
      */
     public function searchCommune(string $phrase, string $provinceId = null, string $districtId = null)
     {
@@ -411,14 +414,14 @@ class Client
      * @param string $provinceId ID województwa
      * @param string $districtId ID powiatu
      *
-     * @return TerritorialDivisionUnitData[]
+     * @return CommuneData[]
      */
     public function getCommunes(string $provinceId, string $districtId)
     {
         $answer = [];
         $res    = $this->getResponse('PobierzListeGmin', ['Woj' => $provinceId, 'Pow' => $districtId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
-            $answer[] = TerritorialDivisionUnitData::create($p);
+            $answer[] = CommuneData::create($p);
         };
 
         return $answer;
@@ -445,6 +448,7 @@ class Client
 
         return $answer;
     }
+
     /**
      * Get list of Regions
      *
@@ -453,11 +457,57 @@ class Client
     public function getSubRegions(string $provinceId)
     {
         $answer = [];
-        $res    = $this->getResponse('PobierzListePodregionow',['Woj' => $provinceId]);
+        $res    = $this->getResponse('PobierzListePodregionow', ['Woj' => $provinceId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
             $answer[] = RegionDivisionUnitData::create($p);
         };
 
         return $answer;
+    }
+
+    /**
+     * @param int $tercId
+     *
+     * @return CommuneData
+     * @throws NotFound
+     */
+    public function getCommuneByTercId(int $tercId)
+    {
+        $sTercId = str_pad(strval($tercId), 7, '0', \STR_PAD_LEFT);
+        foreach ($this->getCommunes(substr($sTercId, 0, 2), substr($sTercId, 2, 2)) as $c) {
+            if ($c->tercId === $tercId) {
+                return $c;
+            }
+        }
+
+        throw new NotFound(sprintf('Commune [tercId:%s] not found', $tercId));
+    }
+
+    /**
+     * Getting cities in commune
+     *
+     * @param string $provinceId
+     * @param string $districtId
+     * @param string $communeId
+     * @param string $communeTypeId
+     *
+     * @return CityData[]
+     */
+    public function getCities(string $provinceId, string $districtId, string $communeId, string $communeTypeId)
+    {
+        $answer = [];
+        $res    = $this->getResponse('PobierzListeMiejscowosciWRodzajuGminy',
+            [
+                'symbolWoj'  => $provinceId,
+                'symbolPow'  => $districtId,
+                'symbolGmi'  => $communeId,
+                'symbolRodz' => $communeTypeId,
+            ]);
+        foreach (Helper::getPropertyAsArray($res, 'Miejscowosc') as $p) {
+            $answer[] = CityData::create($p);
+        };
+
+        return $answer;
+
     }
 }
