@@ -51,20 +51,28 @@ class Ulica extends AbstractResponseModel
      */
     public $cityName;
 
-    public function __construct(\stdClass $oData)
+    public function __construct(\stdClass $oData = null)
     {
-        $this->streetIdentity = $oData->Cecha;
-        $this->communeTypeId  = $oData->GmiRodzaj;
-        $this->communeId      = $oData->GmiSymbol;
-        $this->communeName    = $oData->Gmina;
-        $this->cityId         = $oData->IdentyfikatorMiejscowosci;
-        $this->streetId       = $oData->IdentyfikatorUlicy;
-        $this->streetName     = $oData->Nazwa;
-        $this->cityName      = $oData->NazwaMiejscowosci;
-        $this->districtId     = $oData->PowSymbol;
-        $this->districtName   = $oData->Powiat;
-        $this->provinceId     = $oData->WojSymbol;
-        $this->provinceName   = $oData->Wojewodztwo;
+        if ($oData) {
+            $this->streetIdentity = $oData->Cecha;
+            $this->communeTypeId  = $oData->GmiRodzaj;
+            $this->communeId      = $oData->GmiSymbol;
+            $this->communeName    = $oData->Gmina;
+            $this->cityId         = $oData->IdentyfikatorMiejscowosci;
+            $this->streetId       = $oData->IdentyfikatorUlicy;
+            $this->streetName     = $oData->Nazwa;
+            $this->cityName       = $oData->NazwaMiejscowosci;
+            $this->districtId     = $oData->PowSymbol;
+            $this->districtName   = $oData->Powiat;
+            $this->provinceId     = $oData->WojSymbol;
+            $this->provinceName   = $oData->Wojewodztwo;
+
+            try {
+                $this->statusDate = $oData->DataStanu ? (new \DateTime($oData->DataStanu))->format('Y-m-d') : null;
+            } catch (\Exception $e) {
+                $this->statusDate = null;
+            }
+        }
 
         parent::__construct();
     }

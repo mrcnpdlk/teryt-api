@@ -45,12 +45,10 @@ class JednostkaTerytorialna extends AbstractResponseModel
         $this->statusDate    = $oData->STAN_NA;
 
         try {
-            $date = $oData->STAN_NA ? (new \DateTime($oData->STAN_NA))->format('Y-m-d') : null;
+            $this->statusDate = $oData->STAN_NA ? (new \DateTime($oData->STAN_NA))->format('Y-m-d') : null;
         } catch (\Exception $e) {
-            $date = null;
+            $this->statusDate = null;
         }
-
-        $this->statusDate = $date;
 
         if ($this->provinceId && $this->districtId && $this->communeId && $this->communeTypeId) {
             $this->tercId = intval(sprintf("%s%s%s%s",

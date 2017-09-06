@@ -29,6 +29,7 @@ use mrcnpdlk\Teryt\ResponseModel\Territory\Miejscowosc;
 use mrcnpdlk\Teryt\ResponseModel\Territory\Ulica;
 use mrcnpdlk\Teryt\ResponseModel\Territory\UlicaDrzewo;
 use mrcnpdlk\Teryt\ResponseModel\Territory\WyszukanaMiejscowosc;
+use mrcnpdlk\Teryt\ResponseModel\Territory\WyszukanaUlica;
 use mrcnpdlk\Teryt\ResponseModel\Territory\ZweryfikowanyAdres;
 use mrcnpdlk\Teryt\ResponseModel\Territory\ZweryfikowanyAdresBezUlic;
 
@@ -478,6 +479,18 @@ class Api
         return $answer;
     }
 
+    /**
+     * Zwaraca listę znalezionych miejscowości we wskazanej
+     * jednostcepodziału terytorialnego
+     *
+     * @param string|null $name
+     * @param string|null $cityId
+     * @param array       $tSimc
+     * @param array       $tTerc
+     * @param string      $cityTypeName
+     *
+     * @return WyszukanaMiejscowosc[]
+     */
     public static function WyszukajMiejscowoscWRejestrze(
         string $name = null,
         string $cityId = null,
@@ -503,6 +516,47 @@ class Api
         ;
         foreach (Helper::getPropertyAsArray($res, 'WyszukanaMiejscowosc') as $p) {
             $answer[] = WyszukanaMiejscowosc::create($p);
+        };
+
+        return $answer;
+    }
+
+    /**
+     * Wyszukuje wskazaną ulicę w katalogu ULIC
+     *
+     * @param string|null $name
+     * @param string      $identityName
+     * @param string|null $streetId
+     * @param array       $tSimc
+     * @param array       $tTerc
+     *
+     * @return WyszukanaUlica[]
+     */
+    public static function WyszukajUliceWRejestrze(
+        string $name = null,
+        string $identityName = 'ul.',
+        string $streetId = null,
+        array $tSimc = [],
+        array $tTerc = []
+    ) {
+        $answer     = [];
+        $identyfiks = [];
+        foreach ($tSimc as $simc) {
+            $identyfiks[] = ['simc' => $simc];
+        }
+        foreach ($tTerc as $terc) {
+            $identyfiks[] = ['terc' => $terc];
+        }
+        $res = Client::getInstance()->request('WyszukajUliceWRejestrze',
+            [
+                'nazwa'         => $name,
+                'cecha'         => $identityName,
+                'identyfikator' => $streetId,
+                'identyfiks'    => $identyfiks,
+            ])
+        ;
+        foreach (Helper::getPropertyAsArray($res, 'WyszukanaUlica') as $p) {
+            $answer[] = WyszukanaUlica::create($p);
         };
 
         return $answer;

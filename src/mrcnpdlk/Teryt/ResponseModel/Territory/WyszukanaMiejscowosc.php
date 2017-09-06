@@ -53,7 +53,7 @@ class WyszukanaMiejscowosc extends Miejscowosc
         $this->cityParentId  = $oData->SymbolPodst;
         $this->provinceId    = $oData->Woj;
         $this->provinceName  = $oData->Wojewodztwo;
-        
+
         parent::__construct();
     }
 
