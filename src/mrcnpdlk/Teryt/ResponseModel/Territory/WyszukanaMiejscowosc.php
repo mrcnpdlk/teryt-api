@@ -54,6 +54,12 @@ class WyszukanaMiejscowosc extends Miejscowosc
         $this->provinceId    = $oData->Woj;
         $this->provinceName  = $oData->Wojewodztwo;
 
+        try {
+            $this->statusDate = $oData->DataStanu ? (new \DateTime($oData->DataStanu))->format('Y-m-d') : null;
+        } catch (\Exception $e) {
+            $this->statusDate = null;
+        }
+
         parent::__construct();
     }
 
