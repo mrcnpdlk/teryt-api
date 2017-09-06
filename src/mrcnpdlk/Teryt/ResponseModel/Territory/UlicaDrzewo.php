@@ -26,13 +26,6 @@ class UlicaDrzewo extends Ulica
      * @var string
      */
     public $cityParentId;
-
-    /**
-     * Zawiera nazwę cechy ulicy
-     *
-     * @var string
-     */
-    public $identityName;
     /**
      * Zwiera nazwę ulicy w podziale na pola z uwzględnieniem słów kluczowych
      *
@@ -52,9 +45,15 @@ class UlicaDrzewo extends Ulica
      */
     public $indexKey;
 
+    public function __construct(\stdClass $oData)
+    {
+        parent::__construct($oData);
+
+        return $oData;
+    }
 
     public static function create(\stdClass $oData)
     {
-        return $oData;
+        return new static($oData);
     }
 }

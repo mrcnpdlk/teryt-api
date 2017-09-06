@@ -45,25 +45,26 @@ class ZweryfikowanyAdresBezUlic extends AbstractResponseModel
      */
     public $cityId;
 
+    public function __construct(\stdClass $oData)
+    {
+        $this->historicalCityType = $oData->HistorycznyRodzajMiejscowosci;
+        $this->communeName        = $oData->NazwaGmi;
+        $this->cityName           = $oData->NazwaMiejscowosci;
+        $this->districtName       = $oData->NazwaPow;
+        $this->provinceName       = $oData->NazwaWoj;
+        $this->communeTypeName    = $oData->RodzajGmi;
+        $this->cityTypeName       = $oData->RodzajMiejscowosci;
+        $this->communeId          = $oData->SymbolGmi;
+        $this->cityId             = $oData->SymbolMiejscowosci;
+        $this->districtId         = $oData->SymbolPow;
+        $this->communeTypeId      = $oData->SymbolRodzajuGmi;
+        $this->provinceId         = $oData->SymbolWoj;
+
+        parent::__construct();
+    }
 
     public static function create(\stdClass $oData)
     {
-        $o                     = new self();
-        $o->historicalCityType = $oData->HistorycznyRodzajMiejscowosci;
-        $o->communeName        = $oData->NazwaGmi;
-        $o->cityName           = $oData->NazwaMiejscowosci;
-        $o->districtName       = $oData->NazwaPow;
-        $o->provinceName       = $oData->NazwaWoj;
-        $o->communeTypeName    = $oData->RodzajGmi;
-        $o->cityTypeName       = $oData->RodzajMiejscowosci;
-        $o->communeId          = $oData->SymbolGmi;
-        $o->cityId             = $oData->SymbolMiejscowosci;
-        $o->districtId         = $oData->SymbolPow;
-        $o->communeTypeId      = $oData->SymbolRodzajuGmi;
-        $o->provinceId         = $oData->SymbolWoj;
-
-        $o->expandData();
-
-        return $o;
+        return new static($oData);
     }
 }

@@ -56,6 +56,8 @@ class Helper
                     return new Connection(sprintf('Invalid Security Token'), 1, $e);
                 case 'WSDL':
                     return new Connection(sprintf('%s', $e->faultstring ?? 'Unknown', 1, $e));
+                case 'Client':
+                    return new Connection(sprintf('%s', $e->faultstring ?? 'Unknown', 1, $e));
                 default:
                     return $e;
             }

@@ -25,7 +25,7 @@ class Ulica extends AbstractResponseModel
      *
      * @var string
      */
-    public $identityId;
+    public $streetIdentity;
     /**
      * Nazwa ulicy
      *
@@ -50,4 +50,27 @@ class Ulica extends AbstractResponseModel
      * @var string
      */
     public $cityName;
+
+    public function __construct(\stdClass $oData)
+    {
+        $this->streetIdentity = $oData->Cecha;
+        $this->communeTypeId  = $oData->GmiRodzaj;
+        $this->communeId      = $oData->GmiSymbol;
+        $this->communeName    = $oData->Gmina;
+        $this->cityId         = $oData->IdentyfikatorMiejscowosci;
+        $this->streetId       = $oData->IdentyfikatorUlicy;
+        $this->streetName     = $oData->Nazwa;
+        $this->cityName      = $oData->NazwaMiejscowosci;
+        $this->districtId     = $oData->PowSymbol;
+        $this->districtName   = $oData->Powiat;
+        $this->provinceId     = $oData->WojSymbol;
+        $this->provinceName   = $oData->Wojewodztwo;
+
+        parent::__construct();
+    }
+
+    public static function create(\stdClass $oData)
+    {
+        return new static($oData);
+    }
 }

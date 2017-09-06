@@ -34,17 +34,15 @@ class JednostkaTerytorialna extends AbstractResponseModel
      */
     public $typeName;
 
-    public static function create(\stdClass $oData)
+    public function __construct(\stdClass $oData)
     {
-        $o = new static();
-
-        $o->provinceId    = $oData->WOJ;
-        $o->districtId    = $oData->POW;
-        $o->communeId     = $oData->GMI;
-        $o->communeTypeId = $oData->RODZ;
-        $o->name          = $oData->NAZWA;
-        $o->typeName      = $oData->NAZWA_DOD;
-        $o->statusDate    = $oData->STAN_NA;
+        $this->provinceId    = $oData->WOJ;
+        $this->districtId    = $oData->POW;
+        $this->communeId     = $oData->GMI;
+        $this->communeTypeId = $oData->RODZ;
+        $this->name          = $oData->NAZWA;
+        $this->typeName      = $oData->NAZWA_DOD;
+        $this->statusDate    = $oData->STAN_NA;
 
         try {
             $date = $oData->STAN_NA ? (new \DateTime($oData->STAN_NA))->format('Y-m-d') : null;
@@ -52,16 +50,21 @@ class JednostkaTerytorialna extends AbstractResponseModel
             $date = null;
         }
 
-        $o->statusDate = $date;
+        $this->statusDate = $date;
 
-        if ($o->provinceId && $o->districtId && $o->communeId && $o->communeTypeId) {
-            $o->tercId = intval(sprintf("%s%s%s%s",
-                $o->provinceId,
-                $o->districtId,
-                $o->communeId,
-                $o->communeTypeId));
+        if ($this->provinceId && $this->districtId && $this->communeId && $this->communeTypeId) {
+            $this->tercId = intval(sprintf("%s%s%s%s",
+                $this->provinceId,
+                $this->districtId,
+                $this->communeId,
+                $this->communeTypeId));
         }
 
-        return $o;
+        parent::__construct();
+    }
+
+    public static function create(\stdClass $oData)
+    {
+        return new static($oData);
     }
 }

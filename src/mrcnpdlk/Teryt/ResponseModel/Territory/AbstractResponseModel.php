@@ -82,6 +82,11 @@ abstract class AbstractResponseModel
      */
     public $tercId;
 
+    public function __construct()
+    {
+        $this->expandData();
+    }
+
     public function expandData()
     {
         if ($this->tercId) {

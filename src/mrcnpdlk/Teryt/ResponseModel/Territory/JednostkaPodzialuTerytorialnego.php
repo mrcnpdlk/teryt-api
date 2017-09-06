@@ -21,5 +21,23 @@ namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 class JednostkaPodzialuTerytorialnego extends AbstractResponseModel
 {
+    public function __construct(\stdClass $oData)
+    {
+        $this->communeName     = $oData->GmiNazwa;
+        $this->communeTypeName = $oData->GmiNazwaDodatkowa;
+        $this->communeTypeId   = $oData->GmiRodzaj;
+        $this->communeId       = $oData->GmiSymbol;
+        $this->districtId      = $oData->PowSymbol;
+        $this->districtName    = $oData->Powiat;
+        $this->provinceId      = $oData->WojSymbol;
+        $this->provinceName    = $oData->Wojewodztwo;
 
+        parent::__construct();
+    }
+
+    public static function create(\stdClass $oData)
+    {
+        return new static($oData);
+
+    }
 }

@@ -25,13 +25,29 @@ class Miejscowosc extends AbstractResponseModel
      *
      * @var string
      */
-    public $name;
+    public $cityName;
     /**
      * 7 znakowy identyfikator miejscowości
      *
      * @var string
      */
     public $cityId;
+
+    public function __construct(\stdClass $oData = null)
+    {
+        if ($oData) {
+            $this->cityName      = $oData->Nazwa;
+            $this->cityId        = $oData->Symbol;
+            $this->provinceId    = $oData->WojSymbol;
+            $this->provinceName  = $oData->Wojewodztwo;
+            $this->districtName  = $oData->Powiat;
+            $this->districtId    = strlen($oData->PowSymbol) === 4 ? substr($oData->PowSymbol, 2, 2) : $oData->PowSymbol;
+            $this->communeName   = $oData->Gmina;
+            $this->communeId     = strlen($oData->GmiSymbol) === 7 ? substr($oData->GmiSymbol, 4, 2) : $oData->GmiSymbol;
+            $this->communeTypeId = $oData->GmiRodzaj;
+        }
+        parent::__construct();
+    }
 
     /**
      * @param \stdClass $oData
@@ -41,20 +57,7 @@ class Miejscowosc extends AbstractResponseModel
      */
     public static function create(\stdClass $oData)
     {
-        $o                = new static();
-        $o->name          = $oData->Nazwa;
-        $o->cityId        = $oData->Symbol;
-        $o->provinceId    = $oData->WojSymbol;
-        $o->provinceName  = $oData->Wojewodztwo;
-        $o->districtName  = $oData->Powiat;
-        $o->districtId    = strlen($oData->PowSymbol) === 4 ? substr($oData->PowSymbol, 2, 2) : $oData->PowSymbol;
-        $o->communeName   = $oData->Gmina;
-        $o->communeId     = strlen($oData->GmiSymbol) === 7 ? substr($oData->GmiSymbol, 4, 2) : $oData->GmiSymbol;
-        $o->communeTypeId = $oData->GmiRodzaj;
-
-        $o->expandData();
-
-        return $o;
+        return new static($oData);
     }
 
 }

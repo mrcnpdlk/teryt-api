@@ -45,13 +45,27 @@ class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
      * @var string
      */
     public $streetId;
+    /**
+     * Nazwa cechy ulicy
+     *
+     * @var static
+     */
+    public $streetIdentityName;
+
+    public function __construct(\stdClass $oData)
+    {
+        parent::__construct($oData);
+        $this->streetId           = $oData->SymUl;
+        $this->streetName_1       = $oData->Nazwa_1;
+        $this->streetName_2       = $oData->Nazwa_2;
+        $this->streetName         = $oData->NazwaUlicyWPelnymBrzmieniu;
+        $this->streetIdentityName = $oData->NazwaCechy;
+    }
 
     public static function create(\stdClass $oData)
     {
-        $o = new static();
+        return new static($oData);
 
-
-        return $o;
     }
 
 }
