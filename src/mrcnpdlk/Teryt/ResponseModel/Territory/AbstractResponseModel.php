@@ -16,8 +16,10 @@
  * Date: 06.09.2017
  */
 
-namespace mrcnpdlk\Teryt\ResponseModel;
+namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
+
+use mrcnpdlk\Teryt\Model\Terc;
 
 abstract class AbstractResponseModel
 {
@@ -75,4 +77,26 @@ abstract class AbstractResponseModel
      * @var string
      */
     public $statusDate;
+    /**
+     * @var integer
+     */
+    public $tercId;
+
+    public function expandData()
+    {
+        if ($this->tercId) {
+            $oTerc               = Terc::setTercId($this->tercId);
+            $this->provinceId    = $oTerc->provinceId;
+            $this->districtId    = $oTerc->districtId;
+            $this->communeId     = $oTerc->communeId;
+            $this->communeTypeId = $oTerc->communeTypeId;
+        } else {
+            if ($this->provinceId && $this->districtId && $this->communeId && $this->communeTypeId) {
+                $oTerc        = Terc::setIds($this->provinceId, $this->districtId, $this->communeId, $this->communeTypeId);
+                $this->tercId = $oTerc->tercId;
+            }
+        }
+
+        return $this;
+    }
 }

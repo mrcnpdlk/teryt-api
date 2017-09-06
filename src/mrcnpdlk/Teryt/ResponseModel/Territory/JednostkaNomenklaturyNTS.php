@@ -16,10 +16,10 @@
  * Date: 06.09.2017
  */
 
-namespace mrcnpdlk\Teryt\ResponseModel;
+namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 
-class JednostkaTerytorialna extends AbstractResponseModel
+class JednostkaNomenklaturyNTS extends AbstractResponseModel
 {
     /**
      * Jednoznakowy symbol poziomu
@@ -51,10 +51,4 @@ class JednostkaTerytorialna extends AbstractResponseModel
      * @var string
      */
     public $typeName;
-    /**
-     * Określa datę katalogu dla wskazanego stanu w formacie YYYY-MM-DD
-     *
-     * @var string
-     */
-    public $statusDate;
 }

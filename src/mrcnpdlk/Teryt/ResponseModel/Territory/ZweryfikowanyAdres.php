@@ -16,8 +16,7 @@
  * Date: 06.09.2017
  */
 
-namespace mrcnpdlk\Teryt\ResponseModel;
-
+namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
 {
@@ -46,5 +45,13 @@ class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
      * @var string
      */
     public $streetId;
+
+    public static function create(\stdClass $oData)
+    {
+        $o = new static();
+
+
+        return $o;
+    }
 
 }

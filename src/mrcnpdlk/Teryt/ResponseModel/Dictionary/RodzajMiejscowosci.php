@@ -12,32 +12,36 @@
  */
 
 /**
- * Created by Marcin Pudełek <marcin@pudelek.org.pl>
+ * Created by Marcin.
  * Date: 06.09.2017
+ * Time: 21:56
  */
 
-namespace mrcnpdlk\Teryt\ResponseModel;
+namespace mrcnpdlk\Teryt\ResponseModel\Dictionary;
 
 
-class WyszukanaMiejscowosc extends Miejscowosc
+class RodzajMiejscowosci
 {
     /**
-     * Identyfikator miejscowości podstawowej
-     *
      * @var string
      */
-    public $cityParentId;
+    public $id;
     /**
-     * Symbol rodzaju miejscowości
-     *
      * @var string
      */
-    public $rmId;
+    public $name;
     /**
-     * Nazwa rodzaju miejscowości
-     *
      * @var string
      */
-    public $rmName;
+    public $desc;
 
+    public static function create(\stdClass $oData)
+    {
+        $o       = new static();
+        $o->id   = $oData->Symbol;
+        $o->name = $oData->Nazwa;
+        $o->desc = $oData->Opis;
+
+        return $o;
+    }
 }

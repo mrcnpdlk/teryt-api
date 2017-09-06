@@ -16,8 +16,7 @@
  * Date: 06.09.2017
  */
 
-namespace mrcnpdlk\Teryt\ResponseModel;
-
+namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 class UlicaDrzewo extends Ulica
 {
@@ -52,10 +51,10 @@ class UlicaDrzewo extends Ulica
      * @var integer
      */
     public $indexKey;
-    /**
-     * Określa datę katalogu dla wskazanego stanu w formacie YYYY-MM-DD
-     *
-     * @var string
-     */
-    public $statusDate;
+
+
+    public static function create(\stdClass $oData)
+    {
+        return $oData;
+    }
 }

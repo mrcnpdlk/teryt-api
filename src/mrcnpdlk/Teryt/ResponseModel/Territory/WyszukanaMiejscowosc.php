@@ -16,34 +16,27 @@
  * Date: 06.09.2017
  */
 
-namespace mrcnpdlk\Teryt\ResponseModel;
+namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
-
-class ZweryfikowanyAdresBezUlic extends AbstractResponseModel
+class WyszukanaMiejscowosc extends Miejscowosc
 {
     /**
-     * Nazwa miejscowości
+     * Identyfikator miejscowości podstawowej
      *
      * @var string
      */
-    public $cityName;
+    public $cityParentId;
     /**
-     * Rodzaj miejscowości
+     * Symbol rodzaju miejscowości
      *
      * @var string
      */
-    public $cityType;
+    public $rmId;
     /**
-     * Poprzedni rodzaj miejscowości
+     * Nazwa rodzaju miejscowości
      *
      * @var string
      */
-    public $historicalCityType;
-    /**
-     * 7 znakowy identyfikator miejscowości
-     *
-     * @var string
-     */
-    public $cityId;
+    public $rmName;
 
 }

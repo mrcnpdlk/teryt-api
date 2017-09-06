@@ -16,8 +16,7 @@
  * Date: 06.09.2017
  */
 
-namespace mrcnpdlk\Teryt\ResponseModel;
-
+namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 class Ulica extends AbstractResponseModel
 {

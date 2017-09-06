@@ -170,7 +170,7 @@ class Client
      */
     public function isLogged()
     {
-        return Helper::convertToBoolean($this->getResponse('CzyZalogowany'));
+        return Helper::convertToBoolean($this->request('CzyZalogowany'));
     }
 
     /**
@@ -182,7 +182,7 @@ class Client
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      */
-    public function getResponse(string $method, array $args = [])
+    public function request(string $method, array $args = [])
     {
         try {
             if (!array_key_exists('DataStanu', $args)) {
@@ -278,7 +278,7 @@ class Client
     public function getProvinces()
     {
         $answer = [];
-        $res    = $this->getResponse('PobierzListeWojewodztw');
+        $res    = $this->request('PobierzListeWojewodztw');
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
             $answer[] = ProvinceData::create($p);
         };
@@ -322,7 +322,7 @@ class Client
     public function getDistricts(string $provinceId)
     {
         $answer = [];
-        $res    = $this->getResponse('PobierzListePowiatow', ['Woj' => $provinceId]);
+        $res    = $this->request('PobierzListePowiatow', ['Woj' => $provinceId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
             $answer[] = DistrictData::create($p);
         };
@@ -431,7 +431,7 @@ class Client
     public function getCommunes(string $provinceId, string $districtId)
     {
         $answer = [];
-        $res    = $this->getResponse('PobierzListeGmin', ['Woj' => $provinceId, 'Pow' => $districtId]);
+        $res    = $this->request('PobierzListeGmin', ['Woj' => $provinceId, 'Pow' => $districtId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
             $answer[] = CommuneData::create($p);
         };
@@ -453,7 +453,7 @@ class Client
     public function getRegions()
     {
         $answer = [];
-        $res    = $this->getResponse('PobierzListeRegionow');
+        $res    = $this->request('PobierzListeRegionow');
         foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
             $answer[] = RegionDivisionUnitData::create($p);
         };
@@ -471,7 +471,7 @@ class Client
     public function getSubRegions(string $provinceId)
     {
         $answer = [];
-        $res    = $this->getResponse('PobierzListePodregionow', ['Woj' => $provinceId]);
+        $res    = $this->request('PobierzListePodregionow', ['Woj' => $provinceId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
             $answer[] = RegionDivisionUnitData::create($p);
         };
@@ -510,7 +510,7 @@ class Client
     public function getCities(string $provinceId, string $districtId, string $communeId, string $communeTypeId)
     {
         $answer = [];
-        $res    = $this->getResponse('PobierzListeMiejscowosciWRodzajuGminy',
+        $res    = $this->request('PobierzListeMiejscowosciWRodzajuGminy',
             [
                 'symbolWoj'  => $provinceId,
                 'symbolPow'  => $districtId,
@@ -556,7 +556,7 @@ class Client
             'czyWersjaAdresowa' => $asAddressVer,
 
         ];
-        $res    = $this->getResponse('PobierzListeUlicDlaMiejscowosci', $conf);
+        $res    = $this->request('PobierzListeUlicDlaMiejscowosci', $conf);
 
         /*        foreach (Helper::getPropertyAsArray($res, 'Miejscowosc') as $p) {
                     $answer[] = CityData::create($p);
@@ -573,7 +573,7 @@ class Client
      */
     public function getCity(string $cityId)
     {
-        $res = $this->getResponse('WyszukajMiejscowosc',
+        $res = $this->request('WyszukajMiejscowosc',
             ['identyfikatorMiejscowosci' => $cityId]
         );
 
@@ -595,7 +595,7 @@ class Client
      */
     public function verifyAdressForCity(string $cityId, string $streetId)
     {
-        $res = $this->getResponse('WeryfikujAdresDlaUlic',
+        $res = $this->request('WeryfikujAdresDlaUlic',
             [
                 'symbolMsc' => $cityId,
                 'SymUl'     => $streetId,
@@ -634,7 +634,7 @@ class Client
      */
     private function searchDivisionUnit(string $phrase, string $category)
     {
-        $res = $this->getResponse('WyszukajJednostkeWRejestrze',
+        $res = $this->request('WyszukajJednostkeWRejestrze',
             [
                 'Nazwa'      => $phrase,
                 'identyfiks' => null,

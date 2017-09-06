@@ -112,10 +112,22 @@ class Helper
     public static function getPropertyAsArray(\stdClass $oObject, string $sPropertyName)
     {
         if (!property_exists($oObject, $sPropertyName)) {
-            throw new Exception(sprintf('%s() Property [%s] not exist in object', __METHOD__, $sPropertyName));
+            throw new Exception\NotFound(sprintf('%s() Property [%s] not exist in object', __METHOD__, $sPropertyName));
         }
         if (!is_array($oObject->{$sPropertyName})) {
             return [$oObject->{$sPropertyName}];
+        } else {
+            return $oObject->{$sPropertyName};
+        }
+    }
+
+    public static function getPropertyAsObject(\stdClass $oObject, string $sPropertyName)
+    {
+        if (!property_exists($oObject, $sPropertyName)) {
+            throw new Exception\NotFound(sprintf('%s() Property [%s] not exist in object', __METHOD__, $sPropertyName));
+        }
+        if (!is_object($oObject->{$sPropertyName})) {
+            throw new Exception(sprintf('%s() Property [%s] is not an object type [is:%s]', __METHOD__, $sPropertyName, gettype($oObject->{$sPropertyName})));
         } else {
             return $oObject->{$sPropertyName};
         }

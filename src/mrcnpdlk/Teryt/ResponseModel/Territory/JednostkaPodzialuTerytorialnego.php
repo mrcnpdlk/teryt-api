@@ -16,22 +16,10 @@
  * Date: 06.09.2017
  */
 
-namespace mrcnpdlk\Teryt\ResponseModel;
+namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 
-class JednostkaNomenklaturyNTS extends AbstractResponseModel
+class JednostkaPodzialuTerytorialnego extends AbstractResponseModel
 {
 
-    /**
-     * Nazwa jednostki
-     *
-     * @var string
-     */
-    public $name;
-    /**
-     * Typ jednostki podziału terytorialnego
-     *
-     * @var string
-     */
-    public $typeName;
 }

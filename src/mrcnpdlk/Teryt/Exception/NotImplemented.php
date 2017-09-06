@@ -12,14 +12,17 @@
  */
 
 /**
- * Created by Marcin Pudełek <marcin@pudelek.org.pl>
+ * Created by Marcin.
  * Date: 06.09.2017
+ * Time: 22:27
  */
 
-namespace mrcnpdlk\Teryt\ResponseModel;
+namespace mrcnpdlk\Teryt\Exception;
 
 
-class WyszukanaUlica extends Ulica
+use mrcnpdlk\Teryt\Exception;
+
+class NotImplemented extends Exception
 {
 
 }
