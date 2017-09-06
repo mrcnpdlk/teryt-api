@@ -1,8 +1,14 @@
 <?php
 /**
- * Copyright (c) 2017.
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * TERYT-API
+ *
+ * Copyright (c) 2017 pudelek.org.pl
+ *
+ * For the full copyright and license information, please view source file
+ * that is bundled with this package in the file LICENSE
+ *
+ * Author Marcin Pudełek <marcin@pudelek.org.pl>
+ *
  */
 
 declare (strict_types=1);
@@ -169,7 +175,7 @@ class Client
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      */
-    private function getResponse(string $method, array $args = [])
+    public function getResponse(string $method, array $args = [])
     {
         try {
             if (!array_key_exists('DataStanu', $args)) {
@@ -182,8 +188,7 @@ class Client
                 function () use ($self, $method, $args) {
                     $res       = $self->getSoap()->__soapCall($method, [$args]);
                     $resultKey = $method . 'Result';
-
-                    if (!isset($res->{$resultKey})) {
+                    if (!property_exists($res, $resultKey)) {
                         throw new Response(sprintf('%s doesnt exist in response', $resultKey));
                     }
 
@@ -543,12 +548,55 @@ class Client
 
         ];
         $res    = $this->getResponse('PobierzListeUlicDlaMiejscowosci', $conf);
-        print_r($res);
 
         /*        foreach (Helper::getPropertyAsArray($res, 'Miejscowosc') as $p) {
                     $answer[] = CityData::create($p);
                 };*/
 
         return $answer;
+    }
+
+    /**
+     * @param string $cityId
+     *
+     * @return CityData
+     * @throws \mrcnpdlk\Teryt\Exception\NotFound
+     */
+    public function getCity(string $cityId)
+    {
+        $res = $this->getResponse('WyszukajMiejscowosc',
+            ['identyfikatorMiejscowosci' => $cityId]
+        );
+
+        if (property_exists($res, 'Miejscowosc')) {
+            return CityData::create($res->Miejscowosc);
+        } else {
+            throw new NotFound(sprintf('City [id:%s] not found', $cityId));
+        }
+    }
+
+    /**
+     * Verifing strret in city
+     *
+     * @param string $cityId   City ID
+     * @param string $streetId StreetId
+     *
+     * @return mixed
+     * @throws \mrcnpdlk\Teryt\Exception\NotFound
+     */
+    public function verifyAdressForCity(string $cityId, string $streetId)
+    {
+        $res = $this->getResponse('WeryfikujAdresDlaUlic',
+            [
+                'symbolMsc' => $cityId,
+                'SymUl'     => $streetId,
+            ]
+        );
+        if (property_exists($res, 'ZweryfikowanyAdres')) {
+            return $res->ZweryfikowanyAdres;
+        } else {
+            throw new NotFound(sprintf('Street [id:%s] not found in city [id:%s]', $streetId, $cityId));
+        }
+
     }
 }

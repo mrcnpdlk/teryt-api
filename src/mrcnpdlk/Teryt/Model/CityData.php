@@ -24,7 +24,7 @@ class CityData
      *
      * @var string
      */
-    public $id;
+    public $cityId;
     /**
      * Nazwa miejscowości
      *
@@ -39,23 +39,78 @@ class CityData
      * @var integer
      */
     public $tercId;
+    /**
+     * Dwuznakowy symbol województwa
+     *
+     * @var string
+     */
+    public $provinceId;
+    /**
+     * Dwuznakowy symbol powiatu
+     *
+     * @var string
+     */
+    public $districtId;
+    /**
+     * Dwuznakowy symbol gminy
+     *
+     * @var string
+     */
+    public $communeId;
+    /**
+     * Jednoznakowy symbol typu gminy
+     *
+     * @var string
+     */
+    public $communeTypeId;
 
+    /**
+     * @param \stdClass $oData
+     *
+     * @return \mrcnpdlk\Teryt\Model\CityData
+     */
     public static function create(\stdClass $oData)
     {
         $resData         = new static();
-        $resData->id     = $oData->Symbol ?: null;
+        $resData->cityId = $oData->Symbol ?: null;
         $resData->name   = $oData->Nazwa ?: null;
-        $resData->tercId = $oData->GmiSymbol ?: null;
+        $resData->tercId = isset($oData->GmiSymbol) && strlen($oData->GmiSymbol) === 7 ? $oData->GmiSymbol : null;
+
+        //gdy dane z innego obiektu
+        if (!$resData->tercId && $oData->PowSymbol && $oData->GmiSymbol && $oData->GmiRodzaj) {
+            $resData->tercId = sprintf('%s%s%s', $oData->PowSymbol, $oData->GmiSymbol, $oData->GmiRodzaj);
+        }
+
+        if ($resData->tercId) {
+            $t                      = Helper::translateTercId($resData->tercId);
+            $resData->provinceId    = $t['provinceId'];
+            $resData->districtId    = $t['districtId'];
+            $resData->communeId     = $t['communeId'];
+            $resData->communeTypeId = $t['communeTypeId'];
+        }
 
 
         return $resData;
     }
 
+    /**
+     * @todo poprawic dzialanie metody
+     * @return array
+     */
     public function getStreets()
     {
-        $tIds = Helper::translateTercId($this->tercId);
+        return Client::getInstance()->getStreets(
+            $this->provinceId,
+            $this->districtId,
+            $this->communeId,
+            $this->communeTypeId,
+            $this->cityId)
+            ;
+    }
 
-        return Client::getInstance()->getStreets($tIds['provinceId'], $tIds['districtId'], $tIds['communeId'], $tIds['communeTypeId'], $this->id);
+    public function checkStreet(string $streetId)
+    {
+
     }
 
 }

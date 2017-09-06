@@ -1,16 +1,20 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Marcin
- * Date: 03.09.2017
- * Time: 22:00
+ * TERYT-API
+ *
+ * Copyright (c) 2017 pudelek.org.pl
+ *
+ * For the full copyright and license information, please view source file
+ * that is bundled with this package in the file LICENSE
+ *
+ * Author Marcin Pudełek <marcin@pudelek.org.pl>
+ *
  */
 
 namespace mrcnpdlk\Teryt;
 
-
 /**
- * https://github.com/robrichards/wse-php/issues/31
+ * @see https://github.com/robrichards/wse-php/issues/31
  */
 class WSASoap
 {
