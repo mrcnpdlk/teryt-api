@@ -23,6 +23,7 @@ use mrcnpdlk\Teryt\Model\CommuneData;
 use mrcnpdlk\Teryt\Model\DistrictData;
 use mrcnpdlk\Teryt\Model\ProvinceData;
 use mrcnpdlk\Teryt\Model\RegionDivisionUnitData;
+use mrcnpdlk\Teryt\Model\StreetData;
 use phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface;
 
 /**
@@ -581,7 +582,7 @@ class Client
      * @param string $cityId   City ID
      * @param string $streetId StreetId
      *
-     * @return mixed
+     * @return StreetData
      * @throws \mrcnpdlk\Teryt\Exception\NotFound
      */
     public function verifyAdressForCity(string $cityId, string $streetId)
@@ -593,7 +594,7 @@ class Client
             ]
         );
         if (property_exists($res, 'ZweryfikowanyAdres')) {
-            return $res->ZweryfikowanyAdres;
+            return StreetData::create($res->ZweryfikowanyAdres);
         } else {
             throw new NotFound(sprintf('Street [id:%s] not found in city [id:%s]', $streetId, $cityId));
         }

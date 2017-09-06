@@ -108,9 +108,14 @@ class CityData
             ;
     }
 
-    public function checkStreet(string $streetId)
+    /**
+     * @param string $streetId
+     *
+     * @return \mrcnpdlk\Teryt\Model\StreetData
+     */
+    public function getStreet(string $streetId)
     {
-
+        return Client::getInstance()->verifyAdressForCity($this->cityId, $streetId);
     }
 
 }
