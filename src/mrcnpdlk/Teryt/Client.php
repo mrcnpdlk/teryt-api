@@ -24,6 +24,7 @@ use mrcnpdlk\Teryt\Model\DistrictData;
 use mrcnpdlk\Teryt\Model\ProvinceData;
 use mrcnpdlk\Teryt\Model\RegionDivisionUnitData;
 use mrcnpdlk\Teryt\Model\StreetData;
+use mrcnpdlk\Teryt\Model\TerritorialDivisionUnitData;
 use phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface;
 
 /**
@@ -33,6 +34,11 @@ use phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface;
  */
 class Client
 {
+    const CATEGORY_ALL          = '0';
+    const CATEGORY_PROVINCE_ALL = '1';
+    const CATEGORY_DISTRICT_ALL = '2';
+    const CATEGORY_COMMUNE_ALL  = '3';
+
     /**
      * Client instance
      *
@@ -458,7 +464,9 @@ class Client
     /**
      * Get list of Regions
      *
-     * @return RegionDivisionUnitData[]
+     * @param string $provinceId
+     *
+     * @return \mrcnpdlk\Teryt\Model\RegionDivisionUnitData[]
      */
     public function getSubRegions(string $provinceId)
     {
@@ -598,6 +606,45 @@ class Client
         } else {
             throw new NotFound(sprintf('Street [id:%s] not found in city [id:%s]', $streetId, $cityId));
         }
+    }
 
+    /**
+     * @param string $phrase
+     * @param string $category
+     * ```
+     * 0 - Wyszukiwanie wśród wszystkich rodzajów jednostek
+     * 1 - Dla województw
+     * 2 - Dla wszystkich powiatów
+     * 21 - Dla powiatów ziemskich (identyfikator powiatu 01-60)
+     * 22 - Dla miast na prawach powiatu (identyfikator powiatu 61-99)
+     * 3 - Dla gmin ogółem
+     * 31 - Dla gmin miejskich (identyfikator rodzaju gminy 1)
+     * 32 - Dla dzielnic i delegatur (identyfikator rodzaju 8 i 9)
+     * 33 - Dla gmin wiejskich (identyfikator rodzaju 2)
+     * 34 - Dla gmin miejsko-wiejskich (3)
+     * 341 - Dla miast w gminach miejsko-wiejskich(4)
+     * 342 - Dla obszarów miejskich w gminach miejsko-wiejskich(5)
+     * 35 - Dla miast ogółem (identyfikator 1 i 4)
+     * 36 - Dla terenów wiejskich (identyfikator 2 i 5)
+     * ```
+     *
+     * @return TerritorialDivisionUnitData
+     * @throws \mrcnpdlk\Teryt\Exception\NotFound
+     * @todo Poprawić
+     */
+    private function searchDivisionUnit(string $phrase, string $category)
+    {
+        $res = $this->getResponse('WyszukajJednostkeWRejestrze',
+            [
+                'Nazwa'      => $phrase,
+                'identyfiks' => null,
+                'kategoria'  => $category,
+            ]
+        );
+        if (property_exists($res, 'JednostkaPodzialuTerytorialnego')) {
+            return TerritorialDivisionUnitData::create($res->JednostkaPodzialuTerytorialnego);
+        } else {
+            throw new NotFound(sprintf('Street [id:%s] not found in city [id:%s]', $streetId, $cityId));
+        }
     }
 }
