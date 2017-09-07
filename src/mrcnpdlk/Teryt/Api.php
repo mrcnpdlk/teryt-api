@@ -95,6 +95,8 @@ class Api
     }
 
     /**
+     * Pobieranie listy powiatów dla danego województwa
+     *
      * @param string $provinceId
      *
      * @return JednostkaTerytorialna[]
