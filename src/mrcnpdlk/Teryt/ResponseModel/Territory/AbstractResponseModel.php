@@ -128,4 +128,16 @@ abstract class AbstractResponseModel
 
         return $this;
     }
+
+    /**
+     * Create class instance
+     *
+     * @param \stdClass|null $oData
+     *
+     * @return static
+     */
+    public static function create(\stdClass $oData = null)
+    {
+        return new static($oData);
+    }
 }

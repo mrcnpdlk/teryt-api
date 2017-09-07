@@ -7,6 +7,9 @@
           <mappings>
             <mapping deploy="/teryt-api" local="$PROJECT_DIR$" web="/" />
           </mappings>
+          <excludedPaths>
+            <excludedPath path="/teryt-api/doc" />
+          </excludedPaths>
         </serverdata>
       </paths>
       <paths name="Daimos.49">
@@ -16,7 +19,21 @@
           </mappings>
         </serverdata>
       </paths>
-      <paths name="vod.51">
+      <paths name="IPTV_EPG">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="NMS">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="VOD.51">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
