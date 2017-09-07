@@ -92,7 +92,7 @@ class Commune
             }
 
         } else {
-            $res = Api::WyszukajJednostkeWRejestrze(null, Api::CATEGORY_GMI_ALL, [], ['1061069']);
+            $res = Api::WyszukajJednostkeWRejestrze(null, Api::CATEGORY_GMI_ALL, [], [$tercId]);
             if (!empty($res) && count($res) === 1) {
                 $oCommune       = $res[0];
                 $this->id       = $id;
