@@ -19,8 +19,8 @@
   "prefer-stable": true,
   "require": {
     "php": ">=7.0",
-    "robrichards/wse-php": "2.0.2",
     "ext-soap": "*",
+    "robrichards/wse-php": "2.0.2",
     "phpfastcache/phpfastcache": "~6",
     "psr/log": "1.0.2"
   },
