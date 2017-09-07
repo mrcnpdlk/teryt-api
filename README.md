@@ -1,8 +1,8 @@
-#TERYT WS1 API - Polish address database
+# TERYT WS1 API - Polish address database
 
-##Basic usage
+## Basic usage
 
-###Cache
+### Cache
 It is recommended to use [phpfastcache/phpfastcache](https://github.com/PHPSocialNetwork/phpfastcache) bundle to improve efficiency.
 `phpfastcache/phpfastcache` supports a lot of endpoints, i.e. `Files`, `Sqlite`, `Redis` and many other. 
 More information about using cache and configuration it you can find in this [Wiki](https://github.com/PHPSocialNetwork/phpfastcache/wiki). 
@@ -33,7 +33,7 @@ use phpFastCache\CacheManager;
 
 ```
 
-###Log
+### Log
 
 Library also supports logging bundle based on `Psr\Log\LoggerInterface`, i.e. very popular
 [monolog/monolog](https://github.com/Seldaek/monolog).
@@ -45,7 +45,7 @@ $oInstanceLogger->pushHandler(new \Monolog\Handler\ErrorLogHandler());
 
 ```
 
-###Teryt Authentication
+### Teryt Authentication
 Service TERYT WS1 shares API based on `SOAP Protocol`. More information about service you can find on 
 this [site](http://eteryt.stat.gov.pl/eTeryt/rejestr_teryt/udostepnianie_danych/baza_teryt/usluga_sieciowa_interfejsy_api/jakkorzystac.aspx)
 There are two ways to connect to the server:
@@ -60,8 +60,8 @@ use mrcnpdlk\Teryt\Client;
 
 Client::create()
       ->setTerytConfig([
-          'username' => $login,
-          'password' => $pass,
+          'username' => 'secret_login',
+          'password' => 'secret_password',
       ])
       ->setCacheInstance($oInstanceCacheRedis)
       ->setLogger($oInstanceLogger)
@@ -74,6 +74,7 @@ var_dump(\mrcnpdlk\Teryt\Api::PobierzSlownikCechULIC());
 var_dump(\mrcnpdlk\Teryt\Api::WyszukajMiejscowosc('skiernie',null));
 ```
 
+## Defined methods
 Almost all methods from official documentation have been mapped and defined.
 
 Full list below:
