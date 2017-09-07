@@ -83,7 +83,7 @@ class Client
     public static function getInstance()
     {
         if (!static::$_instance) {
-            throw new Exception(sprintf('First use Client::create() method to instanciate class'));
+            throw new Exception(sprintf('First use Client::create() method to instancate class'));
         }
 
         return static::$_instance;
@@ -150,7 +150,7 @@ class Client
      * @see \phpFastCache\CacheManager::setDefaultConfig();
      * @see https://packagist.org/packages/phpfastcache/phpfastcache Documentation od Phpfastcache
      */
-    public function setCacheInstace(ExtendedCacheItemPoolInterface $oCache = null)
+    public function setCacheInstance(ExtendedCacheItemPoolInterface $oCache = null)
     {
         $this->oCache = $oCache;
 
