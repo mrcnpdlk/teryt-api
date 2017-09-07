@@ -155,7 +155,7 @@ class Api
      * @return UlicaDrzewo[]
      * @todo Metoda nie działa poprawnie
      */
-    public static function PobierzListeUlicDlaMiejscowosci(int $tercId, string $cityId, bool $asAddres = true)
+    public static function PobierzListeUlicDlaMiejscowosci(int $tercId, string $cityId, bool $asAddres = false)
     {
         $answer = [];
         $oTerc  = Terc::setTercId($tercId);
