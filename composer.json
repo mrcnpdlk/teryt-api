@@ -1,9 +1,10 @@
 {
-  "name": "marcin/teryt-api",
+  "name": "mrcnpdlk/teryt-api",
   "description": "Teryt WS1 Api",
   "keywords": [
     "teryt",
-    "address"
+    "address",
+    "soap"
   ],
   "type": "library",
   "license": "MIT",
