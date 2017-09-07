@@ -468,16 +468,33 @@ class Api
      * @param string $cityName
      * @param string $cityId
      *
-     * @throws NotImplemented
+     * @return Miejscowosc[]
      */
     public static function WyszukajMiejscowoscWJPT(
         string $provinceName,
         string $districtName,
         string $communeName,
         string $cityName,
-        string $cityId
+        string $cityId = null
     ) {
-        throw new NotImplemented(sprintf('%s() Method not implemented', __METHOD__));
+        $answer = [];
+        /**
+         * @var \stdClass|null $res
+         */
+        $res = Client::getInstance()->request('WyszukajMiejscowoscWJPT',
+            [
+                'nazwaWoj'                  => $provinceName,
+                'nazwaPow'                  => $districtName,
+                'nazwaGmi'                  => $communeName,
+                'nazwaMiejscowosci'         => $cityName,
+                'identyfikatorMiejscowosci' => $cityId,
+            ])
+        ;
+        foreach (Helper::getPropertyAsArray($res, 'Miejscowosc') as $p) {
+            $answer[] = Miejscowosc::create($p);
+        };
+
+        return $answer;
     }
 
     /**

@@ -100,7 +100,7 @@ Full list below:
 |`WeryfikujAdresDlaUlicAdresowy()`|:ok_hand:||
 |`WyszukajJPT()`|:warning:|empty response|
 |`WyszukajMiejscowosc()`|:ok_hand:||
-|`WyszukajMiejscowoscWJPT()`|:no_entry_sign:||
+|`WyszukajMiejscowoscWJPT()`|:ok_hand:||
 |`WyszukajUlice()`|:ok_hand:||
 |`WyszukajJednostkeWRejestrze()`|:ok_hand:||
 |`WyszukajMiejscowoscWRejestrze()`|:ok_hand:||
