@@ -129,27 +129,10 @@ class Helper
             throw new Exception\NotFound(sprintf('%s() Property [%s] not exist in object', __METHOD__, $sPropertyName));
         }
         if (!is_object($oObject->{$sPropertyName})) {
-            throw new Exception(sprintf('%s() Property [%s] is not an object type [is:%s]', __METHOD__, $sPropertyName, gettype($oObject->{$sPropertyName})));
+            throw new Exception(sprintf('%s() Property [%s] is not an object type [is:%s]', __METHOD__, $sPropertyName,
+                gettype($oObject->{$sPropertyName})));
         } else {
             return $oObject->{$sPropertyName};
         }
     }
-
-    /**
-     * @param int $tercId
-     *
-     * @return array
-     */
-    public static function translateTercId(int $tercId)
-    {
-        $sTercId = str_pad(strval($tercId), 7, '0', \STR_PAD_LEFT);
-
-        return [
-            'provinceId'    => substr($sTercId, 0, 2),
-            'districtId'    => substr($sTercId, 2, 2),
-            'communeId'     => substr($sTercId, 4, 2),
-            'communeTypeId' => substr($sTercId, 6, 1),
-        ];
-    }
-
 }

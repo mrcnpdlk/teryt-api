@@ -39,19 +39,6 @@ class WSASoap
         $this->locateHeader();
     }
 
-    public function addAction($action)
-    {
-        /* Add the WSA Action */
-        $header     = $this->locateHeader();
-        $nodeAction = $this->soapDoc->createElementNS(static::WSANS, self::WSAPFX . ':Action', $action);
-        $header->appendChild($nodeAction);
-    }
-
-    public function getDoc()
-    {
-        return $this->soapDoc;
-    }
-
     private function locateHeader()
     {
         if ($this->header == null) {
@@ -65,5 +52,18 @@ class WSASoap
         }
 
         return $this->header;
+    }
+
+    public function addAction($action)
+    {
+        /* Add the WSA Action */
+        $header     = $this->locateHeader();
+        $nodeAction = $this->soapDoc->createElementNS(static::WSANS, self::WSAPFX . ':Action', $action);
+        $header->appendChild($nodeAction);
+    }
+
+    public function getDoc()
+    {
+        return $this->soapDoc;
     }
 }
