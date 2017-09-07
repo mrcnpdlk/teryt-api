@@ -18,6 +18,11 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
+/**
+ * Class Ulica
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Territory
+ */
 class Ulica extends AbstractResponseModel
 {
     /**
@@ -51,6 +56,11 @@ class Ulica extends AbstractResponseModel
      */
     public $cityName;
 
+    /**
+     * Ulica constructor.
+     *
+     * @param \stdClass|null $oData Obiekt zwrócony z TerytWS1
+     */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
@@ -75,10 +85,5 @@ class Ulica extends AbstractResponseModel
         }
 
         parent::__construct();
-    }
-
-    public static function create(\stdClass $oData)
-    {
-        return new static($oData);
     }
 }

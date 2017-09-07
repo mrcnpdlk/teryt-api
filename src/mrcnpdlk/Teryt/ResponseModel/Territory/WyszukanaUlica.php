@@ -18,17 +18,31 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
+/**
+ * Class WyszukanaUlica
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Territory
+ */
 class WyszukanaUlica extends Ulica
 {
     /**
+     * Nazwa uliczy cz. 1
+     *
      * @var string
      */
     public $streetName_1;
     /**
+     * Nazwa ulicy cz. 2
+     *
      * @var string
      */
     public $streetName_2;
 
+    /**
+     * WyszukanaUlica constructor.
+     *
+     * @param \stdClass|null $oData Obiekt zwrócony z TerytWS1
+     */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
@@ -54,12 +68,6 @@ class WyszukanaUlica extends Ulica
             }
         }
 
-
         parent::__construct();
-    }
-
-    public static function create(\stdClass $oData)
-    {
-        return new static($oData);
     }
 }

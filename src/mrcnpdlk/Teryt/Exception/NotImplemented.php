@@ -22,6 +22,11 @@ namespace mrcnpdlk\Teryt\Exception;
 
 use mrcnpdlk\Teryt\Exception;
 
+/**
+ * Class NotImplemented
+ *
+ * @package mrcnpdlk\Teryt\Exception
+ */
 class NotImplemented extends Exception
 {
 

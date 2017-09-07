@@ -22,6 +22,11 @@ namespace mrcnpdlk\Teryt\Model;
 use mrcnpdlk\Teryt\Api;
 use mrcnpdlk\Teryt\Exception\NotFound;
 
+/**
+ * Class District
+ *
+ * @package mrcnpdlk\Teryt\Model
+ */
 class District
 {
     /**
@@ -44,10 +49,19 @@ class District
      */
     public $typeName;
     /**
+     * Obiekt z informacjami o wojewodztwie
+     *
      * @var \mrcnpdlk\Teryt\Model\Province
      */
     public $province;
 
+    /**
+     * District constructor.
+     *
+     * @param string $id 4-znakowy symbol powiatu
+     *
+     * @throws NotFound
+     */
     public function __construct(string $id)
     {
         $provinceId = substr($id, 0, 2);
@@ -65,6 +79,13 @@ class District
         $this->province = Province::find($provinceId);
     }
 
+    /**
+     * Pobranie instancji klasy District
+     *
+     * @param string $id
+     *
+     * @return static
+     */
     public static function find(string $id)
     {
         return new static($id);

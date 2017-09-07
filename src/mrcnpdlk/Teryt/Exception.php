@@ -13,7 +13,11 @@
 
 namespace mrcnpdlk\Teryt;
 
-
+/**
+ * Class Exception
+ *
+ * @package mrcnpdlk\Teryt
+ */
 class Exception extends \Exception
 {
 

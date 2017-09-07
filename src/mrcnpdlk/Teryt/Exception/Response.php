@@ -21,6 +21,11 @@ namespace mrcnpdlk\Teryt\Exception;
 
 use mrcnpdlk\Teryt\Exception;
 
+/**
+ * Class Response
+ *
+ * @package mrcnpdlk\Teryt\Exception
+ */
 class Response extends Exception
 {
 

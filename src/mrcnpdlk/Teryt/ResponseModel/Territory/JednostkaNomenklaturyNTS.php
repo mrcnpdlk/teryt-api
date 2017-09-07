@@ -18,7 +18,11 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
-
+/**
+ * Class JednostkaNomenklaturyNTS
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Territory
+ */
 class JednostkaNomenklaturyNTS extends AbstractResponseModel
 {
     /**

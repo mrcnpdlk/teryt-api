@@ -21,6 +21,11 @@ namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 use mrcnpdlk\Teryt\Model\Terc;
 
+/**
+ * Class AbstractResponseModel
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Territory
+ */
 abstract class AbstractResponseModel
 {
     /**
@@ -78,15 +83,27 @@ abstract class AbstractResponseModel
      */
     public $statusDate;
     /**
+     * Identyfikator gminy wraz z RODZ
+     *
      * @var integer
      */
     public $tercId;
 
-    public function __construct()
+    /**
+     * AbstractResponseModel constructor.
+     *
+     * @param \stdClass|null $oData
+     */
+    public function __construct(\stdClass $oData = null)
     {
         $this->expandData();
     }
 
+    /**
+     * Dociągnięcie informacji na pozostałe pola obiektu
+     *
+     * @return $this
+     */
     public function expandData()
     {
         if ($this->tercId) {

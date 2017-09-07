@@ -22,29 +22,53 @@ namespace mrcnpdlk\Teryt\Model;
 
 use mrcnpdlk\Teryt\Exception;
 
+/**
+ * Class Terc
+ *
+ * @package mrcnpdlk\Teryt\Model
+ */
 class Terc
 {
     /**
+     * Dwuznakowy id wojewodztwa
+     *
      * @var string
      */
     public $provinceId;
     /**
+     * Dwuznakowy id powiatu
+     *
      * @var string
      */
     public $districtId;
     /**
+     * dwuznakowy id gminy
+     *
      * @var string
      */
     public $communeId;
     /**
+     * Jednoznakowy id rodzaju gminy
+     *
      * @var string
      */
     public $communeTypeId;
     /**
+     * Identyfikator gminy wraz z RODZ
+     *
      * @var int
      */
     public $tercId;
 
+    /**
+     * Ustawienie tercId
+     * Pozostałe pola są generowanie w locie
+     *
+     * @param int|null $tercId
+     *
+     * @return static
+     * @throws Exception
+     */
     public static function setTercId(int $tercId = null)
     {
         $o = new static();
@@ -63,6 +87,17 @@ class Terc
         return $o;
     }
 
+    /**
+     * Ustawienie idk-ów
+     * tercId jest generowany w locie
+     *
+     * @param string $provinceId
+     * @param string $districtId
+     * @param string $communeId
+     * @param string $communeTypeId
+     *
+     * @return static
+     */
     public static function setIds(string $provinceId, string $districtId, string $communeId, string $communeTypeId)
     {
         $o                = new static();

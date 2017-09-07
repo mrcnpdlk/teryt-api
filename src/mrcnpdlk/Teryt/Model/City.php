@@ -22,6 +22,11 @@ namespace mrcnpdlk\Teryt\Model;
 use mrcnpdlk\Teryt\Api;
 use mrcnpdlk\Teryt\Exception\NotFound;
 
+/**
+ * Class City
+ *
+ * @package mrcnpdlk\Teryt\Model
+ */
 class City
 {
     /**
@@ -55,10 +60,19 @@ class City
      */
     public $name;
     /**
+     * Obiekt z danymi o gminie w której znajduje się miasto/miejscowość
+     *
      * @var \mrcnpdlk\Teryt\Model\Commune
      */
     public $commune;
 
+    /**
+     * City constructor.
+     *
+     * @param string $id 7-znakowy symbol miejscowosci
+     *
+     * @throws NotFound
+     */
     public function __construct(string $id)
     {
         $res = Api::WyszukajMiejscowoscWRejestrze(null, $id);
@@ -78,6 +92,13 @@ class City
 
     }
 
+    /**
+     * Pobranie instancji klasy City
+     *
+     * @param string $id
+     *
+     * @return static
+     */
     public static function find(string $id)
     {
         return new static($id);

@@ -18,6 +18,11 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
+/**
+ * Class WyszukanaMiejscowosc
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Territory
+ */
 class WyszukanaMiejscowosc extends Miejscowosc
 {
     /**
@@ -39,6 +44,11 @@ class WyszukanaMiejscowosc extends Miejscowosc
      */
     public $rmName;
 
+    /**
+     * WyszukanaMiejscowosc constructor.
+     *
+     * @param \stdClass $oData Obiekt zwrócony z TerytWS1
+     */
     public function __construct(\stdClass $oData)
     {
         $this->communeId     = $oData->Gmi;
@@ -61,11 +71,6 @@ class WyszukanaMiejscowosc extends Miejscowosc
         }
 
         parent::__construct();
-    }
-
-    public static function create(\stdClass $oData)
-    {
-        return new static($oData);
     }
 
 }

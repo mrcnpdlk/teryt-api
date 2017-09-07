@@ -18,6 +18,11 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
+/**
+ * Class UlicaDrzewo
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Territory
+ */
 class UlicaDrzewo extends Ulica
 {
     /**
@@ -45,15 +50,15 @@ class UlicaDrzewo extends Ulica
      */
     public $indexKey;
 
+    /**
+     * UlicaDrzewo constructor.
+     *
+     * @param \stdClass $oData Obiekt zwrócony z TerytWS1
+     */
     public function __construct(\stdClass $oData)
     {
         parent::__construct($oData);
 
         return $oData;
-    }
-
-    public static function create(\stdClass $oData)
-    {
-        return new static($oData);
     }
 }

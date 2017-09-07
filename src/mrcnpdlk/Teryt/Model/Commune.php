@@ -23,6 +23,11 @@ use mrcnpdlk\Teryt\Api;
 use mrcnpdlk\Teryt\Exception\InvalidArgument;
 use mrcnpdlk\Teryt\Exception\NotFound;
 
+/**
+ * Class Commune
+ *
+ * @package mrcnpdlk\Teryt\Model
+ */
 class Commune
 {
     /**
@@ -57,10 +62,20 @@ class Commune
      */
     public $typeName;
     /**
+     * Obiekt z danymi o powiecie w którym znajduje się gmina
+     *
      * @var \mrcnpdlk\Teryt\Model\District
      */
     public $district;
 
+    /**
+     * Commune constructor.
+     *
+     * @param string $id 6 lub 7-znakowy symbol gminy
+     *
+     * @throws InvalidArgument
+     * @throws NotFound
+     */
     public function __construct(string $id)
     {
         switch (strlen($id)) {
@@ -111,6 +126,13 @@ class Commune
         $this->district = District::find(sprintf('%s%s', $provinceId, $districtId));
     }
 
+    /**
+     * Zwrócenie instancji klasy Commune
+     *
+     * @param string $id
+     *
+     * @return static
+     */
     public static function find(string $id)
     {
         return new static($id);

@@ -21,6 +21,11 @@ namespace mrcnpdlk\Teryt\Exception;
 
 use mrcnpdlk\Teryt\Exception;
 
+/**
+ * Class InvalidArgument
+ *
+ * @package mrcnpdlk\Teryt\Exception
+ */
 class InvalidArgument extends Exception
 {
 

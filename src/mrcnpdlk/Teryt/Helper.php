@@ -16,9 +16,16 @@ namespace mrcnpdlk\Teryt;
 
 use mrcnpdlk\Teryt\Exception\Connection;
 
+/**
+ * Class Helper
+ *
+ * @package mrcnpdlk\Teryt
+ */
 class Helper
 {
     /**
+     * Converting value to boolean
+     *
      * @param $exclude
      *
      * @return boolean
@@ -44,6 +51,8 @@ class Helper
     }
 
     /**
+     * Catching and managment of exceptions
+     *
      * @param \Exception $e
      *
      * @return \mrcnpdlk\Teryt\Exception|\mrcnpdlk\Teryt\Exception\Connection|\Exception
@@ -103,7 +112,7 @@ class Helper
     /**
      * Fixing Teryt API bug
      *
-     * If only one item exists in response, returnet property is not a array but object type
+     * If only one item exists in response, returned property is not a array but object type
      *
      * @param \stdClass $oObject
      * @param string    $sPropertyName
@@ -123,6 +132,17 @@ class Helper
         }
     }
 
+    /**
+     * Fixing Teryt API bug
+     *
+     * If only one item exists in response, returned property is not a array but object type
+     * @param \stdClass $oObject
+     * @param string    $sPropertyName
+     *
+     * @return mixed
+     * @throws Exception
+     * @throws Exception\NotFound
+     */
     public static function getPropertyAsObject(\stdClass $oObject, string $sPropertyName)
     {
         if (!property_exists($oObject, $sPropertyName)) {

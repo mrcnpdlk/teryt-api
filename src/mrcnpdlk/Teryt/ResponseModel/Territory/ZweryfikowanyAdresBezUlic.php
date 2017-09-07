@@ -18,6 +18,11 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
+/**
+ * Class ZweryfikowanyAdresBezUlic
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Territory
+ */
 class ZweryfikowanyAdresBezUlic extends AbstractResponseModel
 {
     /**
@@ -45,6 +50,11 @@ class ZweryfikowanyAdresBezUlic extends AbstractResponseModel
      */
     public $cityId;
 
+    /**
+     * ZweryfikowanyAdresBezUlic constructor.
+     *
+     * @param \stdClass $oData Obiekt zwrócony z TerytWS1
+     */
     public function __construct(\stdClass $oData)
     {
         $this->historicalCityType = $oData->HistorycznyRodzajMiejscowosci;
@@ -61,10 +71,5 @@ class ZweryfikowanyAdresBezUlic extends AbstractResponseModel
         $this->provinceId         = $oData->SymbolWoj;
 
         parent::__construct();
-    }
-
-    public static function create(\stdClass $oData)
-    {
-        return new static($oData);
     }
 }

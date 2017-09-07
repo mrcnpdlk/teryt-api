@@ -18,9 +18,18 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
-
+/**
+ * Class JednostkaPodzialuTerytorialnego
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Territory
+ */
 class JednostkaPodzialuTerytorialnego extends AbstractResponseModel
 {
+    /**
+     * JednostkaPodzialuTerytorialnego constructor.
+     *
+     * @param \stdClass $oData Obiekt zwrócony z TerytWS1
+     */
     public function __construct(\stdClass $oData)
     {
         $this->communeName     = $oData->GmiNazwa;
@@ -33,11 +42,5 @@ class JednostkaPodzialuTerytorialnego extends AbstractResponseModel
         $this->provinceName    = $oData->Wojewodztwo;
 
         parent::__construct();
-    }
-
-    public static function create(\stdClass $oData)
-    {
-        return new static($oData);
-
     }
 }

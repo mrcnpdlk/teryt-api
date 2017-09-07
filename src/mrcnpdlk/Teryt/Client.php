@@ -33,18 +33,26 @@ class Client
      */
     protected static $_instance;
     /**
+     * SoapClient handler
+     *
      * @var \mrcnpdlk\Teryt\TerytSoapClient
      */
     private $soapClient;
     /**
+     * Cache handler
+     *
      * @var \phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface
      */
     private $oCache;
     /**
+     * Teryt auth configuration
+     *
      * @var array
      */
     private $tTerytConfig = [];
     /**
+     * Default Teryt auth configuration
+     *
      * @var array
      */
     private $tDefTerytConfig
@@ -63,6 +71,8 @@ class Client
     }
 
     /**
+     * Create class instance if not exists
+     *
      * @return \mrcnpdlk\Teryt\Client
      */
     public static function create()
@@ -90,6 +100,8 @@ class Client
     }
 
     /**
+     * Set Teryt configuration parameters
+     *
      * @param array $tConfig
      *
      * @return $this
@@ -113,6 +125,8 @@ class Client
     }
 
     /**
+     * Get SoapClient
+     *
      * @param bool $bReinit
      *
      * @return \mrcnpdlk\Teryt\TerytSoapClient
@@ -136,6 +150,13 @@ class Client
         return $this->soapClient;
     }
 
+    /**
+     * Set Logger handler
+     *
+     * @param \Psr\Log\LoggerInterface|null $oLogger
+     *
+     * @return $this
+     */
     public function setLogger(\Psr\Log\LoggerInterface $oLogger = null)
     {
         Logger::create($oLogger);
@@ -144,6 +165,8 @@ class Client
     }
 
     /**
+     * Set Cache handler
+     *
      * @param \phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface|null $oCache
      *
      * @return $this
@@ -158,11 +181,12 @@ class Client
     }
 
     /**
-     * @param string $method
-     * @param array  $args
+     * Making request to Teryt WS1 API
+     *
+     * @param string $method Methid name
+     * @param array  $args   Parameters
      *
      * @return mixed
-     * @throws \Throwable
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @todo dodac logowanie IN/OUT oraz rozpoznawanie w cache ustawien seriwsu czy prod/test
@@ -175,7 +199,8 @@ class Client
             }
             $hashKey = md5(json_encode([__METHOD__, $method, $args]));
             $self    = $this;
-            Logger::debug($method,$args);
+            Logger::debug($method, $args);
+
             return $this->useCache(
                 function () use ($self, $method, $args) {
                     $res       = $self->getSoap()->__soapCall($method, [$args]);
@@ -194,11 +219,11 @@ class Client
     }
 
     /**
-     * Cache management
+     * Caching things
      *
-     * @param \Closure $closure
-     * @param mixed    $hashKey
-     * @param int|null $ttl
+     * @param \Closure $closure Function callinh wheen cache is empty or not valid
+     * @param mixed    $hashKey Cach key of item
+     * @param int|null $ttl     Time to live for item
      *
      * @return mixed
      */

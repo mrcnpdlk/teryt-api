@@ -19,22 +19,39 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Dictionary;
 
-
+/**
+ * Class RodzajMiejscowosci
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Dictionary
+ */
 class RodzajMiejscowosci
 {
     /**
+     * Identyfikator typu miejscowości
+     *
      * @var string
      */
     public $id;
     /**
+     * Nazwa typu
+     *
      * @var string
      */
     public $name;
     /**
+     * Opis
+     *
      * @var string
      */
     public $desc;
 
+    /**
+     * Utworzenie instancji klasy RodzajMiejscowosci
+     *
+     * @param \stdClass $oData Obiekt zwrócony z TerytWS1
+     *
+     * @return static
+     */
     public static function create(\stdClass $oData)
     {
         $o       = new static();

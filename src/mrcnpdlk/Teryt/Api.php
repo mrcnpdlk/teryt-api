@@ -42,9 +42,8 @@ class Api
 {
 
     /**
-     * @var string CATEGORY_ALL
+     * @var string Wyszukiwanie wśród wszystkich rodzajów jednostek
      */
-
     const CATEGORY_ALL         = '0'; // Wyszukiwanie wśród wszystkich rodzajów jednostek
     const CATEGORY_WOJ_ALL     = '1'; // Dla województw
     const CATEGORY_POW_ALL     = '2'; // Dla wszystkich powiatów
@@ -81,6 +80,8 @@ class Api
     }
 
     /**
+     * Lista województw
+     *
      * @return JednostkaTerytorialna[]
      */
     public static function PobierzListeWojewodztw()
@@ -113,6 +114,8 @@ class Api
     }
 
     /**
+     * Lista gmin we wskazanym powiecie
+     *
      * @param string $provinceId
      * @param string $districtId
      *
@@ -130,6 +133,8 @@ class Api
     }
 
     /**
+     * Lista powiatów i gmin we wskazanym województwie
+     *
      * @param string $provinceId
      *
      * @return JednostkaTerytorialna[]
@@ -386,6 +391,8 @@ class Api
     }
 
     /**
+     * Zwraca listę znalezionych jednostek w katalagu TERC
+     *
      * @param string $name
      *
      * @return mixed
@@ -470,15 +477,15 @@ class Api
      * Zwraca listę znalezionych jednostek w katalagu TERC
      *
      * @param string|null $name     zawiera nazwę wyszukiwanej jednostki
+     * @param string|null $category określa kategorię wyszukiwanych jednostek
      * @param string[]    $tSimc    lista identyfikatorów SIMC (cityId)
      * @param string[]    $tTerc    lista identyfikatorów TERC (tercId)
-     * @param string      $category określa kategorię wyszukiwanych jednostek
      *
      * @return JednostkaPodzialuTerytorialnego[]
      */
     public static function WyszukajJednostkeWRejestrze(
         string $name = null,
-        string $category = Api::CATEGORY_ALL,
+        string $category = null,
         array $tSimc = [],
         array $tTerc = []
     ) {
@@ -493,7 +500,7 @@ class Api
         $res = Client::getInstance()->request('WyszukajJednostkeWRejestrze',
             [
                 'nazwa'      => $name,
-                'kategoria'  => $category,
+                'kategoria'  => $category ?? Api::CATEGORY_ALL,
                 'identyfiks' => $identyfiks,
             ])
         ;

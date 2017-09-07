@@ -22,6 +22,11 @@ namespace mrcnpdlk\Teryt\Model;
 use mrcnpdlk\Teryt\Api;
 use mrcnpdlk\Teryt\Exception;
 
+/**
+ * Class Province
+ *
+ * @package mrcnpdlk\Teryt\Model
+ */
 class Province
 {
     /**
@@ -37,6 +42,13 @@ class Province
      */
     public $name;
 
+    /**
+     * Province constructor.
+     *
+     * @param string $id Dwuznakowy symbol województwa
+     *
+     * @throws Exception\NotFound
+     */
     public function __construct(string $id)
     {
         foreach (Api::PobierzListeWojewodztw() as $w) {
@@ -50,6 +62,13 @@ class Province
         }
     }
 
+    /**
+     * Utworzenie instancko klasy Province
+     *
+     * @param string $id Dwuznakowy symbol województwa
+     *
+     * @return Province
+     */
     public static function find(string $id)
     {
         return new static($id);

@@ -18,6 +18,11 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
+/**
+ * Class Miejscowosc
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Territory
+ */
 class Miejscowosc extends AbstractResponseModel
 {
     /**
@@ -33,6 +38,13 @@ class Miejscowosc extends AbstractResponseModel
      */
     public $cityId;
 
+    /**
+     * Miejscowosc constructor.
+     *
+     * @param \stdClass|null $oData Obiekt zwrócony z TerytWS1
+     *
+     * @todo Błąd w dokumentacji, zwracana niezgodna ilosc znaków dla PowSymbol i GmiSymbol. Narazie połatałem
+     */
     public function __construct(\stdClass $oData = null)
     {
         if ($oData) {
@@ -49,15 +61,5 @@ class Miejscowosc extends AbstractResponseModel
         parent::__construct();
     }
 
-    /**
-     * @param \stdClass $oData
-     *
-     * @return static
-     * @todo Błąd w dokumentacji, zwracana niezgodna ilosc znaków dla PowSymbol i GmiSymbol. Narazie połatałem
-     */
-    public static function create(\stdClass $oData)
-    {
-        return new static($oData);
-    }
 
 }

@@ -18,6 +18,11 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
+/**
+ * Class ZweryfikowanyAdres
+ *
+ * @package mrcnpdlk\Teryt\ResponseModel\Territory
+ */
 class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
 {
     /**
@@ -52,6 +57,11 @@ class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
      */
     public $streetIdentityName;
 
+    /**
+     * ZweryfikowanyAdres constructor.
+     *
+     * @param \stdClass $oData Obiekt zwrócony z TerytWS1
+     */
     public function __construct(\stdClass $oData)
     {
         parent::__construct($oData);
@@ -60,12 +70,6 @@ class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
         $this->streetName_2       = $oData->Nazwa_2;
         $this->streetName         = $oData->NazwaUlicyWPelnymBrzmieniu;
         $this->streetIdentityName = $oData->NazwaCechy;
-    }
-
-    public static function create(\stdClass $oData)
-    {
-        return new static($oData);
-
     }
 
 }
