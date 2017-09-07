@@ -102,6 +102,13 @@ abstract class AbstractResponseModel
             }
         }
 
+        //clearing data
+        foreach (get_object_vars($this) as $prop => $value) {
+            if ($value === '') {
+                $this->{$prop} = null;
+            }
+        }
+
         return $this;
     }
 }

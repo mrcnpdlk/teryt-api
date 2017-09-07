@@ -26,11 +26,6 @@ use phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface;
  */
 class Client
 {
-    const CATEGORY_ALL          = '0';
-    const CATEGORY_PROVINCE_ALL = '1';
-    const CATEGORY_DISTRICT_ALL = '2';
-    const CATEGORY_COMMUNE_ALL  = '3';
-
     /**
      * Client instance
      *

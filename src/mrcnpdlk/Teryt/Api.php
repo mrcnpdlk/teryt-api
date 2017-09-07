@@ -476,9 +476,9 @@ class Api
      */
     public static function WyszukajJednostkeWRejestrze(
         string $name = null,
+        string $category = Api::CATEGORY_ALL,
         array $tSimc = [],
-        array $tTerc = [],
-        string $category = Api::CATEGORY_ALL
+        array $tTerc = []
     ) {
         $answer     = [];
         $identyfiks = [];
