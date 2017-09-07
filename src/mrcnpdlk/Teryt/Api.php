@@ -566,11 +566,11 @@ class Api
      * Zwaraca listę znalezionych miejscowości we wskazanej
      * jednostcepodziału terytorialnego
      *
-     * @param string|null $name
-     * @param string|null $cityId
-     * @param array       $tSimc
-     * @param array       $tTerc
-     * @param string      $cityTypeName
+     * @param string|null $name         Nazwa miejscowości
+     * @param string|null $cityId       ID miejscowości
+     * @param array       $tSimc        Lista cityId w których szukamy
+     * @param array       $tTerc        Lista tercId w których szukamy
+     * @param string      $cityTypeName Predefinowany typ wyszukiwania ('000','001','002')
      *
      * @return WyszukanaMiejscowosc[]
      */
@@ -607,11 +607,11 @@ class Api
     /**
      * Wyszukuje wskazaną ulicę w katalogu ULIC
      *
-     * @param string|null $name
-     * @param string      $identityName
-     * @param string|null $streetId
-     * @param array       $tSimc
-     * @param array       $tTerc
+     * @param string|null $name         Nazwa ulicy
+     * @param string      $identityName Nazwa cechy, wymagane
+     * @param string|null $streetId     ID ulicy
+     * @param array       $tSimc        Lista cityId w których szukamy
+     * @param array       $tTerc        Lista tercId w których szukamy
      *
      * @return WyszukanaUlica[]
      */
