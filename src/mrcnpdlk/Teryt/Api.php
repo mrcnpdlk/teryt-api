@@ -316,13 +316,13 @@ class Api
      * Weryfikuje istnienie wskazanego obiektu w bazie TERYT do poziomu
      * miejscowości. Weryfikacja odbywa się za pomoca nazw
      *
-     * @param string      $provinceName
-     * @param string      $districtName
-     * @param string      $communeName
-     * @param string      $cityName
-     * @param string|null $cityTypeName
+     * @param string      $provinceName Nazwa województwa
+     * @param string      $districtName Nazwa powiatu
+     * @param string      $communeName  Nazwa gminy
+     * @param string      $cityName     Nazwa miejscowości
+     * @param string|null $cityTypeName Nazwa typu miejscowości
      *
-     * @throws NotImplemented
+     * @return ZweryfikowanyAdresBezUlic[]
      */
     public static function WeryfikujAdresWmiejscowosci(
         string $provinceName,
@@ -331,7 +331,21 @@ class Api
         string $cityName,
         string $cityTypeName = null
     ) {
-        throw new NotImplemented(sprintf('%s() Method not implemented', __METHOD__));
+        $answer = [];
+        $res    = Client::getInstance()->request('WeryfikujAdresWmiejscowosci',
+            [
+                'Wojewodztwo' => $provinceName,
+                'Powiat'      => $districtName,
+                'Gmina'       => $communeName,
+                'Miejscowosc' => $cityName,
+                'Rodzaj'      => $cityTypeName,
+            ])
+        ;
+        foreach (Helper::getPropertyAsArray($res, 'ZweryfikowanyAdresBezUlic') as $p) {
+            $answer[] = ZweryfikowanyAdresBezUlic::create($p);
+        };
+
+        return $answer;
     }
 
     /**

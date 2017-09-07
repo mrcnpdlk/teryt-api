@@ -94,7 +94,7 @@ Full list below:
 |`PobierzSlownikCechULIC()`|:ok_hand:||
 |`WeryfikujAdresDlaMiejscowosci()`|:ok_hand:||
 |`WeryfikujAdresDlaMiejscowosciAdresowy()`|:ok_hand:||
-|`WeryfikujAdresWmiejscowosci()`|:no_entry_sign:||
+|`WeryfikujAdresWmiejscowosci()`|:ok_hand:||
 |`WeryfikujAdresWmiejscowosciAdresowy()`|:no_entry_sign:||
 |`WeryfikujAdresDlaUlic()`|:ok_hand:||
 |`WeryfikujAdresDlaUlicAdresowy()`|:ok_hand:||
