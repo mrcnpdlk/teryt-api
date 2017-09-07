@@ -28,7 +28,8 @@
     "phpunit/phpunit": "~6.3",
     "mockery/mockery": "~0",
     "monolog/monolog": "^1.23",
-    "phpdocumentor/phpdocumentor": "2.*"
+    "phpdocumentor/phpdocumentor": "2.*",
+    "cvuorinen/phpdoc-markdown-public":"*"
   },
   "suggest": {
     "monolog/monolog": "^1.23"

@@ -31,7 +31,7 @@
         <target>doc</target>
     </transformer>
     <transformations>
-        <template name="responsive-twig" />
+        <template name="vendor/cvuorinen/phpdoc-markdown-public/data/templates/markdown-public" />
     </transformations>
     <files>
         <directory>src/mrcnpdlk</directory>
