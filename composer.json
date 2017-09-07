@@ -1,12 +1,17 @@
 {
   "name": "marcin/teryt-api",
-  "description": "Teryt API",
+  "description": "Teryt WS1 Api",
+  "keywords": [
+    "teryt",
+    "address"
+  ],
   "type": "library",
-  "license": "GNU",
+  "license": "MIT",
   "authors": [
     {
       "name": "Marcin Pudełek",
-      "email": "mpudelek@widzew.net"
+      "email": "marcin@pudelek.org.pl",
+      "role": "Developer"
     }
   ],
   "minimum-stability": "stable",
@@ -21,6 +26,9 @@
   "require-dev": {
     "phpunit/phpunit": "~6.3",
     "mockery/mockery": "~0",
+    "monolog/monolog": "^1.23"
+  },
+  "suggest": {
     "monolog/monolog": "^1.23"
   },
   "autoload": {
