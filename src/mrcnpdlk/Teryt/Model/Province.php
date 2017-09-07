@@ -54,4 +54,41 @@ class Province
     {
         return new static($id);
     }
+
+    /**
+     * Pełnokontekstowe wyszukiwanie powiatów w województwie
+     *
+     * @param string|null $phrase Szukana fraza, gdy NULL zwraca wszystkie powiaty w województwie
+     *
+     * @return \mrcnpdlk\Teryt\Model\District[]
+     * @throws \Exception
+     */
+    public function searchDistricts(string $phrase = null)
+    {
+        try {
+            $answer = [];
+            if ($phrase) {
+                $tList = Api::WyszukajJednostkeWRejestrze($phrase, Api::CATEGORY_POW_ALL);
+                foreach ($tList as $p) {
+                    if ($p->provinceId === $this->id) {
+                        $answer[] = District::find($p->provinceId . $p->districtId);
+                    }
+                }
+            } else {
+                $tList = Api::PobierzListePowiatow($this->id);
+                foreach ($tList as $p) {
+                    $answer[] = District::find($p->provinceId . $p->districtId);
+                }
+            }
+
+            return $answer;
+
+        } catch (Exception\NotFound $e) {
+            return [];
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
 }
+
+
