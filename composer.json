@@ -17,6 +17,10 @@
     "ext-soap": "*",
     "phpfastcache/phpfastcache": "~6"
   },
+  "require-dev": {
+    "phpunit/phpunit": "~6.3",
+    "mockery/mockery": "~0"
+  },
   "autoload": {
     "psr-4": {
       "mrcnpdlk\\Teryt\\": "src/mrcnpdlk/Teryt/"
