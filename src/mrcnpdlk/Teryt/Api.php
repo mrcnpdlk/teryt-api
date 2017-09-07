@@ -316,6 +316,9 @@ class Api
      * Weryfikuje istnienie wskazanego obiektu w bazie TERYT do poziomu
      * miejscowości. Weryfikacja odbywa się za pomoca nazw
      *
+     * Nazwa miejscowości nie musibyć pełna - nastąpi wtedy wyszkiwanie pełnokontekstowe
+     * w wtórym zostanie zwrócona tablica wyników
+     *
      * @param string      $provinceName Nazwa województwa
      * @param string      $districtName Nazwa powiatu
      * @param string      $communeName  Nazwa gminy
@@ -352,13 +355,16 @@ class Api
      * Weryfikuje istnienie wskazanego obiektu w bazie TERYT w wersji adresowej do poziomu
      * miejscowości. Weryfikacja odbywa się za pomoca nazw
      *
-     * @param string      $provinceName
-     * @param string      $districtName
-     * @param string      $communeName
-     * @param string      $cityName
-     * @param string|null $cityTypeName
+     * Nazwa miejscowości nie musibyć pełna - nastąpi wtedy wyszkiwanie pełnokontekstowe
+     * w wtórym zostanie zwrócona tablica wyników
      *
-     * @throws NotImplemented
+     * @param string      $provinceName Nazwa województwa
+     * @param string      $districtName Nazwa powiatu
+     * @param string      $communeName  Nazwa gminy
+     * @param string      $cityName     Nazwa miejscowości
+     * @param string|null $cityTypeName Nazwa typu miejscowości
+     *
+     * @return ZweryfikowanyAdresBezUlic[]
      */
     public static function WeryfikujAdresWmiejscowosciAdresowy(
         string $provinceName,
@@ -367,7 +373,21 @@ class Api
         string $cityName,
         string $cityTypeName = null
     ) {
-        throw new NotImplemented(sprintf('%s() Method not implemented', __METHOD__));
+        $answer = [];
+        $res    = Client::getInstance()->request('WeryfikujAdresWmiejscowosciAdresowy',
+            [
+                'Wojewodztwo' => $provinceName,
+                'Powiat'      => $districtName,
+                'Gmina'       => $communeName,
+                'Miejscowosc' => $cityName,
+                'Rodzaj'      => $cityTypeName,
+            ])
+        ;
+        foreach (Helper::getPropertyAsArray($res, 'ZweryfikowanyAdresBezUlic') as $p) {
+            $answer[] = ZweryfikowanyAdresBezUlic::create($p);
+        };
+
+        return $answer;
     }
 
     /**
@@ -410,11 +430,11 @@ class Api
      * @param string $name
      *
      * @return mixed
-     * @todo Zweryfikować działanie metody
+     * @todo Metoda zwraca 0 wyników
      */
     public static function WyszukajJPT(string $name)
     {
-        $res = Client::getInstance()->request('WyszukajJPT', ['nazwa' => $name]);
+        $res = Client::getInstance()->request('WyszukajJPT', ['Nazwa' => $name]);
 
         return $res;
     }

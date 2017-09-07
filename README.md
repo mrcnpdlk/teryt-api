@@ -95,10 +95,10 @@ Full list below:
 |`WeryfikujAdresDlaMiejscowosci()`|:ok_hand:||
 |`WeryfikujAdresDlaMiejscowosciAdresowy()`|:ok_hand:||
 |`WeryfikujAdresWmiejscowosci()`|:ok_hand:||
-|`WeryfikujAdresWmiejscowosciAdresowy()`|:no_entry_sign:||
+|`WeryfikujAdresWmiejscowosciAdresowy()`|:ok_hand:||
 |`WeryfikujAdresDlaUlic()`|:ok_hand:||
 |`WeryfikujAdresDlaUlicAdresowy()`|:ok_hand:||
-|`WyszukajJPT()`|:warning:||
+|`WyszukajJPT()`|:warning:|empty response|
 |`WyszukajMiejscowosc()`|:ok_hand:||
 |`WyszukajMiejscowoscWJPT()`|:no_entry_sign:||
 |`WyszukajUlice()`|:ok_hand:||
