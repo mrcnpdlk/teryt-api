@@ -45,18 +45,20 @@ class Terc
      */
     public $tercId;
 
-    public static function setTercId(int $tercId)
+    public static function setTercId(int $tercId = null)
     {
-        $o         = new static();
-        $o->tercId = $tercId;
-        $sTercId   = str_pad(strval($tercId), 7, '0', \STR_PAD_LEFT);
-        if (strlen($sTercId) > 7) {
-            throw new Exception(sprintf('TercId [%s] malformed', $sTercId));
+        $o = new static();
+        if ($tercId) {
+            $o->tercId = $tercId;
+            $sTercId   = str_pad(strval($tercId), 7, '0', \STR_PAD_LEFT);
+            if (strlen($sTercId) > 7) {
+                throw new Exception(sprintf('TercId [%s] malformed', $sTercId));
+            }
+            $o->provinceId    = substr($sTercId, 0, 2);
+            $o->districtId    = substr($sTercId, 2, 2);
+            $o->communeId     = substr($sTercId, 4, 2);
+            $o->communeTypeId = substr($sTercId, 6, 1);
         }
-        $o->provinceId    = substr($sTercId, 0, 2);
-        $o->districtId    = substr($sTercId, 2, 2);
-        $o->communeId     = substr($sTercId, 4, 2);
-        $o->communeTypeId = substr($sTercId, 6, 1);
 
         return $o;
     }
