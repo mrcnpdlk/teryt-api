@@ -136,6 +136,13 @@ class Client
         return $this->soapClient;
     }
 
+    public function setLogger(\Psr\Log\LoggerInterface $oLogger = null)
+    {
+        Logger::create($oLogger);
+
+        return $this;
+    }
+
     /**
      * @param \phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface|null $oCache
      *
@@ -158,6 +165,7 @@ class Client
      * @throws \Throwable
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
+     * @todo dodac logowanie IN/OUT oraz rozpoznawanie w cache ustawien seriwsu czy prod/test
      */
     public function request(string $method, array $args = [])
     {
@@ -167,7 +175,7 @@ class Client
             }
             $hashKey = md5(json_encode([__METHOD__, $method, $args]));
             $self    = $this;
-
+            Logger::debug($method,$args);
             return $this->useCache(
                 function () use ($self, $method, $args) {
                     $res       = $self->getSoap()->__soapCall($method, [$args]);
