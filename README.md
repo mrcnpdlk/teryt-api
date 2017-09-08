@@ -1,3 +1,6 @@
+[![Total Downloads](http://img.shields.io/packagist/dt/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api) [![Dependency Status](https://www.versioneye.com/php/mrcnpdlk/teryt-api/badge.svg)](https://www.versioneye.com/php/mrcnpdlk/teryt-api) [![Latest Stable Version](http://img.shields.io/packagist/v/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api) [![License](https://img.shields.io/packagist/l/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api)    
+[![Code Climate](https://codeclimate.com/github/mrcnpdlk/teryt-api/badges/gpa.svg)](https://codeclimate.com/github/PHPSocialNetwork/phpfastcache) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/PHPSocialNetwork/phpfastcache/badges/quality-score.png?b=final)](https://scrutinizer-ci.com/g/PHPSocialNetwork/phpfastcache/?branch=final) [![Build Status](https://travis-ci.org/mrcnpdlk/teryt-api.svg?branch=final)](https://travis-ci.org/mrcnpdlk/teryt-api)
+
 # TERYT WS1 API - Polish address database
 
 ## Instalation
