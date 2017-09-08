@@ -49,7 +49,11 @@ Library also supports logging packages based on [PSR-3](http://www.php-fig.org/p
 ```php
 
 $oInstanceLogger = new \Monolog\Logger('name_of_my_logger');
-$oInstanceLogger->pushHandler(new \Monolog\Handler\ErrorLogHandler());
+$oInstanceLogger->pushHandler(new \Monolog\Handler\ErrorLogHandler(
+        \Monolog\Handler\ErrorLogHandler::OPERATING_SYSTEM,
+        \Psr\Log\LogLevel::DEBUG
+    )
+);
 
 ```
 

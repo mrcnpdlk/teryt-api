@@ -44,6 +44,12 @@ class Client
      */
     private $oCache;
     /**
+     * Logger handler
+     *
+     * @var \Psr\Log\LoggerInterface
+     */
+    private $oLogger;
+    /**
      * Teryt auth configuration
      *
      * @var array
@@ -158,7 +164,7 @@ class Client
      */
     public function setLoggerInstance(\Psr\Log\LoggerInterface $oLogger = null)
     {
-        Logger::create($oLogger);
+        $this->oLogger = $oLogger ?: new \Psr\Log\NullLogger();
 
         return $this;
     }
@@ -197,7 +203,7 @@ class Client
             }
             $hashKey = md5(json_encode([__METHOD__, $method, $args]));
             $self    = $this;
-            Logger::debug($method, $args);
+            $this->oLogger->debug($method, $args);
 
             return $this->useCache(
                 function () use ($self, $method, $args) {
