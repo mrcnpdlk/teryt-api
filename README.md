@@ -1,13 +1,20 @@
+
 [![Total Downloads](http://img.shields.io/packagist/dt/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api) 
-[![Dependency Status](https://www.versioneye.com/user/projects/59b2679a368b08003d0e8455/badge.svg)](https://www.versioneye.com/user/projects/59b2679a368b08003d0e8455?child=summary) 
 [![Latest Stable Version](http://img.shields.io/packagist/v/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api) 
 [![License](https://img.shields.io/packagist/l/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api)    
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mrcnpdlk/teryt-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/teryt-api/?branch=master) 
 [![Build Status](https://travis-ci.org/mrcnpdlk/teryt-api.svg?branch=master)](https://travis-ci.org/mrcnpdlk/teryt-api)
 
+[![Dependency Status](https://www.versioneye.com/user/projects/59b2679a368b08003d0e8455/badge.svg)](https://www.versioneye.com/user/projects/59b2679a368b08003d0e8455?child=summary) 
+
+[![Latest Stable Version](https://poser.pugx.org/mrcnpdlk/teryt-api/v/stable)](https://packagist.org/packages/mrcnpdlk/teryt-api)
+[![Latest Unstable Version](https://poser.pugx.org/mrcnpdlk/teryt-api/v/unstable.png)](https://packagist.org/packages/mrcnpdlk/teryt-api)
+[![Monthly Downloads](https://poser.pugx.org/mrcnpdlk/teryt-api/d/monthly)](https://packagist.org/packages/mrcnpdlk/teryt-api)
+[![Daily Downloads](https://poser.pugx.org/mrcnpdlk/teryt-api/d/daily)](https://packagist.org/packages/mrcnpdlk/teryt-api)
 
 [![Code Climate](https://codeclimate.com/github/mrcnpdlk/teryt-api/badges/gpa.svg)](https://codeclimate.com/github/mrcnpdlk/teryt-api) 
 [![Issue Count](https://codeclimate.com/github/mrcnpdlk/teryt-api/badges/issue_count.svg)](https://codeclimate.com/github/mrcnpdlk/teryt-api)
+
 
 # TERYT WS1 API - Polish address database
 
