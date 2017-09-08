@@ -1,41 +1,49 @@
 # TERYT WS1 API - Polish address database
 
+## Instalation
+
+Install the latest version with
+```bash
+composer require mrcnpdlk/teryt-api
+```
+
 ## Basic usage
 
 ### Cache
-It is recommended to use [phpfastcache/phpfastcache](https://github.com/PHPSocialNetwork/phpfastcache) bundle to improve efficiency.
+Library suport Cache bundles based on [PSR-16](http://www.php-fig.org/psr/psr-16/) standard.
+
+For below example was used [phpfastcache/phpfastcache](https://github.com/PHPSocialNetwork/phpfastcache).
 `phpfastcache/phpfastcache` supports a lot of endpoints, i.e. `Files`, `Sqlite`, `Redis` and many other. 
 More information about using cache and configuration it you can find in this [Wiki](https://github.com/PHPSocialNetwork/phpfastcache/wiki). 
 
 ```php
-use phpFastCache\CacheManager;
 
     /**
      * Cache in system files
      */
-    $oInstanceCacheFiles = CacheManager::Files(
+    $oInstanceCacheFiles = new \phpFastCache\Helper\Psr16Adapter(
+        'files',
         [
             'defaultTtl' => 3600 * 24, // 24h
             'path'       => sys_get_temp_dir(),
-        ]
-    );
+        ]);
     /**
-     * Cache Redis
+     * Cache in Redis
      */
-    $oInstanceCacheRedis = CacheManager::Redis(
+    $oInstanceCacheRedis = new \phpFastCache\Helper\Psr16Adapter(
+        'redis',
         [
             "host"                => null, // default localhost
             "port"                => null, // default 6379
             'defaultTtl'          => 3600 * 24, // 24h
             'ignoreSymfonyNotice' => true,
-        ]
-    );
+        ]);
 
 ```
 
 ### Log
 
-Library also supports logging bundle based on `Psr\Log\LoggerInterface`, i.e. very popular
+Library also supports logging packages based on [PSR-3](http://www.php-fig.org/psr/psr-3/) standard, i.e. very popular
 [monolog/monolog](https://github.com/Seldaek/monolog).
 
 ```php

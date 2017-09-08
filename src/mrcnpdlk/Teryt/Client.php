@@ -17,7 +17,6 @@ namespace mrcnpdlk\Teryt;
 
 use mrcnpdlk\Teryt\Exception\Connection;
 use mrcnpdlk\Teryt\Exception\Response;
-use phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface;
 
 /**
  * Class Client
@@ -41,7 +40,7 @@ class Client
     /**
      * Cache handler
      *
-     * @var \phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface
+     * @var \Psr\SimpleCache\CacheInterface
      */
     private $oCache;
     /**
@@ -151,13 +150,13 @@ class Client
     }
 
     /**
-     * Set Logger handler
+     * Set Logger handler (PSR-3)
      *
      * @param \Psr\Log\LoggerInterface|null $oLogger
      *
      * @return $this
      */
-    public function setLogger(\Psr\Log\LoggerInterface $oLogger = null)
+    public function setLoggerInstance(\Psr\Log\LoggerInterface $oLogger = null)
     {
         Logger::create($oLogger);
 
@@ -165,15 +164,14 @@ class Client
     }
 
     /**
-     * Set Cache handler
+     * Set Cache handler (PSR-16)
      *
-     * @param \phpFastCache\Core\Pool\ExtendedCacheItemPoolInterface|null $oCache
+     * @param \Psr\SimpleCache\CacheInterface|null $oCache
      *
-     * @return $this
-     * @see \phpFastCache\CacheManager::setDefaultConfig();
-     * @see https://packagist.org/packages/phpfastcache/phpfastcache Documentation od Phpfastcache
+     * @return \mrcnpdlk\Teryt\Client
+     * @see https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-16-simple-cache.md PSR-16
      */
-    public function setCacheInstance(ExtendedCacheItemPoolInterface $oCache = null)
+    public function setCacheInstance(\Psr\SimpleCache\CacheInterface $oCache = null)
     {
         $this->oCache = $oCache;
 
@@ -221,8 +219,8 @@ class Client
     /**
      * Caching things
      *
-     * @param \Closure $closure Function callinh wheen cache is empty or not valid
-     * @param mixed    $hashKey Cach key of item
+     * @param \Closure $closure Function calling wheen cache is empty or not valid
+     * @param mixed    $hashKey Cache key of item
      * @param int|null $ttl     Time to live for item
      *
      * @return mixed
@@ -235,23 +233,17 @@ class Client
             $hashKey = strval($hashKey);
         }
 
-        if ($this->oCache && $this->oCache->hasItem($hashKey)) {
-            return $this->oCache->getItem($hashKey)->get();
+        if ($this->oCache) {
+            if ($this->oCache->has($hashKey)) {
+                $answer = $this->oCache->get($hashKey);
+            } else {
+                $answer = $closure();
+            }
         } else {
             $answer = $closure();
-
-            if ($this->oCache) {
-                $CachedString = $this->oCache
-                    ->getItem($hashKey)
-                    ->set($answer)
-                ;
-                if ($ttl) {
-                    $CachedString->expiresAfter($ttl);
-                }
-                $this->oCache->save($CachedString); // Save the cache item just like you do with doctrine and entities
-            }
-
-            return $answer;
+            $this->oCache->set($hashKey, $answer, $ttl);
         }
+
+        return $answer;
     }
 }
