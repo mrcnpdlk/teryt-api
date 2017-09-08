@@ -23,7 +23,7 @@ class Test extends TestCase
 {
     public function testFirst()
     {
-
+        $this->assertTrue(true === true);
     }
 
 }
