@@ -1,0 +1,13 @@
+engines:
+  phpmd:
+    enabled: true
+  fixme:
+    enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - php:
+ratings:
+  paths:
+  - src/**
