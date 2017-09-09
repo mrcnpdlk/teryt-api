@@ -660,4 +660,22 @@ class Api
         return $answer;
     }
 
+    /**
+     * Lista województw regionie
+     *
+     * @param string $regionId jednoznakowy symbol regionu
+     *
+     * @return JednostkaNomenklaturyNTS[]
+     */
+    public static function PobierzListeWojewodztwWRegionie(string $regionId)
+    {
+        $answer = [];
+        $res    = Client::getInstance()->request('PobierzListeWojewodztwWRegionie', ['Reg' => $regionId]);
+        foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
+            $answer[] = new JednostkaNomenklaturyNTS($p);
+        };
+
+        return $answer;
+    }
+
 }

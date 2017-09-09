@@ -74,5 +74,7 @@ class JednostkaNomenklaturyNTS extends AbstractResponseModel
         } catch (\Exception $e) {
             $this->statusDate = null;
         }
+
+        $this->expandData();
     }
 }

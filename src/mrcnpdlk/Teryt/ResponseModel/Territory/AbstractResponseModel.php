@@ -119,6 +119,18 @@ abstract class AbstractResponseModel
             }
         }
 
+        $this->clearData();
+
+        return $this;
+    }
+
+    /**
+     * Clearing empty value
+     *
+     * @return $this
+     */
+    public function clearData()
+    {
         //clearing data
         foreach (get_object_vars($this) as $prop => $value) {
             if ($value === '') {
