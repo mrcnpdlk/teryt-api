@@ -17,10 +17,7 @@
  * Time: 14:42
  */
 
-namespace Teryt;
-
-
-use mrcnpdlk\Teryt\TestCase;
+namespace mrcnpdlk\Teryt;
 
 class ConnectionTest extends TestCase
 {

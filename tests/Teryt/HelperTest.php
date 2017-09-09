@@ -19,8 +19,6 @@
 
 namespace mrcnpdlk\Teryt;
 
-use PHPUnit\Framework\TestCase;
-
 class HelperTest extends TestCase
 {
     public function testConvertToBoolean()

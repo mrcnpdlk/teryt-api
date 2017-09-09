@@ -21,8 +21,6 @@ namespace mrcnpdlk\Teryt;
 
 use mrcnpdlk\Teryt\Model\Terc;
 
-use PHPUnit\Framework\TestCase;
-
 class TercTest extends TestCase
 {
     public function testTerc()
