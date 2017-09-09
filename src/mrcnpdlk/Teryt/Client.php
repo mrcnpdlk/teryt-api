@@ -75,36 +75,9 @@ class Client
      */
     protected function __construct()
     {
-        $this->tTerytConfig = $this->tDefTerytConfig;
-    }
-
-    /**
-     * Create class instance if not exists
-     *
-     * @return \mrcnpdlk\Teryt\Client
-     */
-    public static function create()
-    {
-        if (!static::$classInstance) {
-            static::$classInstance = new static;
-        }
-
-        return static::$classInstance;
-    }
-
-    /**
-     * Get class instance
-     *
-     * @return \mrcnpdlk\Teryt\Client Instancja klasy
-     * @throws \mrcnpdlk\Teryt\Exception
-     */
-    public static function getInstance()
-    {
-        if (!static::$classInstance) {
-            throw new Exception(sprintf('First use Client::create() method to instancate class'));
-        }
-
-        return static::$classInstance;
+        $this->setTerytConfig();
+        $this->setLoggerInstance();
+        $this->setCacheInstance();
     }
 
     /**
@@ -136,15 +109,21 @@ class Client
      * Reinit Soap Client
      *
      * @return $this
+     * @throws Connection
+     * @throws Exception
      */
     private function reinitSoap()
     {
-        $this->soapClient = new TerytSoapClient($this->tTerytConfig['url'], [
-            'soap_version' => SOAP_1_1,
-            'exceptions'   => true,
-            'cache_wsdl'   => WSDL_CACHE_BOTH,
-        ]);
-        $this->soapClient->addUserToken($this->tTerytConfig['username'], $this->tTerytConfig['password']);
+        try {
+            $this->soapClient = new TerytSoapClient($this->tTerytConfig['url'], [
+                'soap_version' => SOAP_1_1,
+                'exceptions'   => true,
+                'cache_wsdl'   => WSDL_CACHE_BOTH,
+            ]);
+            $this->soapClient->addUserToken($this->tTerytConfig['username'], $this->tTerytConfig['password']);
+        } catch (\Exception $e) {
+            throw Helper::handleException($e);
+        }
 
         return $this;
     }
@@ -176,6 +155,35 @@ class Client
         $this->oCache = $oCache;
 
         return $this;
+    }
+
+    /**
+     * Create class instance if not exists
+     *
+     * @return \mrcnpdlk\Teryt\Client
+     */
+    public static function create()
+    {
+        if (!static::$classInstance) {
+            static::$classInstance = new static;
+        }
+
+        return static::$classInstance;
+    }
+
+    /**
+     * Get class instance
+     *
+     * @return \mrcnpdlk\Teryt\Client Instancja klasy
+     * @throws \mrcnpdlk\Teryt\Exception
+     */
+    public static function getInstance()
+    {
+        if (!static::$classInstance) {
+            throw new Exception(sprintf('First use Client::create() method to instancate class'));
+        }
+
+        return static::$classInstance;
     }
 
     /**
@@ -238,10 +246,10 @@ class Client
                 $answer = $this->oCache->get($hashKey);
             } else {
                 $answer = $closure();
+                $this->oCache->set($hashKey, $answer, $ttl);
             }
         } else {
             $answer = $closure();
-            $this->oCache->set($hashKey, $answer, $ttl);
         }
 
         return $answer;
@@ -264,5 +272,20 @@ class Client
         }
 
         return $this->soapClient;
+    }
+
+    /**
+     * Get logger instance
+     *
+     * @return LoggerInterface
+     */
+    public function getLogger()
+    {
+        return $this->oLogger;
+    }
+
+    public function __debugInfo()
+    {
+        return ['Top secret'];
     }
 }

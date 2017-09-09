@@ -55,7 +55,7 @@ class Helper
      *
      * @param \Exception $e
      *
-     * @return \mrcnpdlk\Teryt\Exception|\mrcnpdlk\Teryt\Exception\Connection|\Exception
+     * @return \Exception|Exception|Connection
      */
     public static function handleException(\Exception $e)
     {
@@ -64,11 +64,11 @@ class Helper
                 case 'a:InvalidSecurityToken':
                     return new Connection(sprintf('Invalid Security Token'), 1, $e);
                 case 'WSDL':
-                    return new Connection(sprintf('%s', $e->faultstring ?? 'Unknown', 1, $e));
+                    return new Connection(sprintf('%s', $e->faultstring ?? 'Unknown'), 2, $e);
                 case 'Client':
-                    return new Connection(sprintf('%s', $e->faultstring ?? 'Unknown', 1, $e));
+                    return new Connection(sprintf('%s', $e->faultstring ?? 'Unknown'), 3, $e);
                 default:
-                    return $e;
+                    return new Connection(sprintf('%s',  'Unknown'), 99, $e);
             }
         } else {
             if ($e instanceof Exception) {
