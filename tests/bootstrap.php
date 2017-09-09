@@ -12,18 +12,10 @@
  */
 
 /**
- * Created by Marcin Pudełek <marcin@pudelek.org.pl>
- * Date: 07.09.2017
- * Time: 08:54
+ * Created by Marcin.
+ * Date: 09.09.2017
+ * Time: 14:37
  */
 
-use PHPUnit\Framework\TestCase;
-
-class Test extends TestCase
-{
-    public function testFirst()
-    {
-        $this->assertTrue(true === true);
-    }
-
-}
+require_once __DIR__ . "/../vendor/autoload.php";
+require_once __DIR__."/TestCase.php";
