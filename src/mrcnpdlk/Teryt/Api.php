@@ -663,7 +663,7 @@ class Api
     /**
      * Lista województw regionie
      *
-     * @param string $regionId jednoznakowy symbol regionu
+     * @param string $regionId Jednoznakowy symbol regionu
      *
      * @return JednostkaNomenklaturyNTS[]
      */
@@ -671,6 +671,24 @@ class Api
     {
         $answer = [];
         $res    = Client::getInstance()->request('PobierzListeWojewodztwWRegionie', ['Reg' => $regionId]);
+        foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
+            $answer[] = new JednostkaNomenklaturyNTS($p);
+        };
+
+        return $answer;
+    }
+
+    /**
+     * Lista podregionów w województwie
+     *
+     * @param string $provinceId Dwuznakowy symbol województwa
+     *
+     * @return JednostkaNomenklaturyNTS[]
+     */
+    public static function PobierzListePodregionow(string $provinceId)
+    {
+        $answer = [];
+        $res    = Client::getInstance()->request('PobierzListePodregionow', ['Woj' => $provinceId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
             $answer[] = new JednostkaNomenklaturyNTS($p);
         };

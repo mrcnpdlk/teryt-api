@@ -137,7 +137,7 @@ Full list below:
 |`WyszukajUliceWRejestrze()`|:ok_hand:||
 |`PobierzListeRegionow()`|:ok_hand:||
 |`PobierzListeWojewodztwWRegionie()`|:ok_hand:||
-|`PobierzListePodregionow()`|:no_entry_sign:||
+|`PobierzListePodregionow()`|:ok_hand:||
 |`PobierzListePowiatowWPodregionie()`|:no_entry_sign:||
 |`PobierzListeGminPowiecie()`|:no_entry_sign:||
 |`PobierzKatalogTERCAdr()`|:no_entry_sign:||
