@@ -36,13 +36,13 @@ class JednostkaNomenklaturyNTS extends AbstractResponseModel
      *
      * @var string
      */
-    public $region;
+    public $regionId;
     /**
      * Dwuznakowy symbol podregionu
      *
      * @var string
      */
-    public $subregion;
+    public $subregionId;
     /**
      * Nazwa jednostki
      *
@@ -55,4 +55,24 @@ class JednostkaNomenklaturyNTS extends AbstractResponseModel
      * @var string
      */
     public $typeName;
+
+    public function __construct(\stdClass $oData = null)
+    {
+        parent::__construct($oData);
+        $this->communeId     = $oData->GMI;
+        $this->name          = $oData->NAZWA;
+        $this->typeName      = $oData->NAZWA_DOD;
+        $this->subregionId   = $oData->PODREG;
+        $this->districtId    = $oData->POW;
+        $this->level         = $oData->POZIOM;
+        $this->regionId      = $oData->REGION;
+        $this->communeTypeId = $oData->RODZ;
+        $this->provinceId    = $oData->WOJ;
+
+        try {
+            $this->statusDate = $oData->STAN_NA ? (new \DateTime($oData->STAN_NA))->format('Y-m-d') : null;
+        } catch (\Exception $e) {
+            $this->statusDate = null;
+        }
+    }
 }

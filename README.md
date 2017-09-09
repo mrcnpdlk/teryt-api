@@ -135,7 +135,7 @@ Full list below:
 |`WyszukajJednostkeWRejestrze()`|:ok_hand:||
 |`WyszukajMiejscowoscWRejestrze()`|:ok_hand:||
 |`WyszukajUliceWRejestrze()`|:ok_hand:||
-|`PobierzListeRegionow()`|:no_entry_sign:||
+|`PobierzListeRegionow()`|:ok_hand:||
 |`PobierzListeWojewodztwWRegionie()`|:no_entry_sign:||
 |`PobierzListePodregionow()`|:no_entry_sign:||
 |`PobierzListePowiatowWPodregionie()`|:no_entry_sign:||

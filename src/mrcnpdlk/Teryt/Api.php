@@ -21,6 +21,7 @@ namespace mrcnpdlk\Teryt;
 
 use mrcnpdlk\Teryt\Model\Terc;
 use mrcnpdlk\Teryt\ResponseModel\Dictionary\RodzajMiejscowosci;
+use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaNomenklaturyNTS;
 use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaPodzialuTerytorialnego;
 use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaTerytorialna;
 use mrcnpdlk\Teryt\ResponseModel\Territory\Miejscowosc;
@@ -643,5 +644,20 @@ class Api
         return $answer;
     }
 
+    /**
+     * Lista regionów
+     *
+     * @return JednostkaNomenklaturyNTS[]
+     */
+    public static function PobierzListeRegionow()
+    {
+        $answer = [];
+        $res    = Client::getInstance()->request('PobierzListeRegionow');
+        foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
+            $answer[] = new JednostkaNomenklaturyNTS($p);
+        };
+
+        return $answer;
+    }
 
 }
