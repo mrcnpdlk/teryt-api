@@ -169,8 +169,8 @@ class Api
                 'Gmi'               => $oTerc->communeId,
                 'Rodz'              => $oTerc->communeTypeId,
                 'msc'               => $cityId,
-                'czyWersjaUrzedowa' => !$asAddres,
-                'czyWersjaAdresowa' => $asAddres,
+                'czyWersjaUrzedowa' => !$asAddress,
+                'czyWersjaAdresowa' => $asAddress,
             ]
         )
         ;
