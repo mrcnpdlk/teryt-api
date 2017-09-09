@@ -19,8 +19,6 @@
 
 namespace mrcnpdlk\Teryt;
 
-
-use mrcnpdlk\Teryt\Exception\NotImplemented;
 use mrcnpdlk\Teryt\Model\Terc;
 use mrcnpdlk\Teryt\ResponseModel\Dictionary\RodzajMiejscowosci;
 use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaPodzialuTerytorialnego;

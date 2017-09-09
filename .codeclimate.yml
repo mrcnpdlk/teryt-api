@@ -1,6 +1,11 @@
 engines:
   phpmd:
     enabled: true
+    checks:
+      Design/TooManyPublicMethods:
+        enabled: false
+      Naming/ShortVariable:
+        enabled: false
   fixme:
     enabled: true
   duplication:

@@ -17,6 +17,9 @@ namespace mrcnpdlk\Teryt;
 
 use mrcnpdlk\Teryt\Exception\Connection;
 use mrcnpdlk\Teryt\Exception\Response;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Class Client
@@ -40,13 +43,13 @@ class Client
     /**
      * Cache handler
      *
-     * @var \Psr\SimpleCache\CacheInterface
+     * @var CacheInterface
      */
     private $oCache;
     /**
      * Logger handler
      *
-     * @var \Psr\Log\LoggerInterface
+     * @var LoggerInterface
      */
     private $oLogger;
     /**
@@ -119,7 +122,7 @@ class Client
         }
         $this->tTerytConfig['url']      = $tConfig['url'] ?? 'https://uslugaterytws1.stat.gov.pl/wsdl/terytws1.wsdl';
         $this->tTerytConfig['username'] = $tConfig['username'] ?? null;
-        $this->tTerytConfig['password'] = $tConfig['password'] ?? null;;
+        $this->tTerytConfig['password'] = $tConfig['password'] ?? null;
 
         if (!$this->tTerytConfig['username'] || !$this->tTerytConfig['password']) {
             throw new Connection(sprintf('Username and password for TERYT WS1 is required'));
@@ -158,13 +161,13 @@ class Client
     /**
      * Set Logger handler (PSR-3)
      *
-     * @param \Psr\Log\LoggerInterface|null $oLogger
+     * @param LoggerInterface|null $oLogger
      *
      * @return $this
      */
-    public function setLoggerInstance(\Psr\Log\LoggerInterface $oLogger = null)
+    public function setLoggerInstance(LoggerInterface $oLogger = null)
     {
-        $this->oLogger = $oLogger ?: new \Psr\Log\NullLogger();
+        $this->oLogger = $oLogger ?: new NullLogger();
 
         return $this;
     }
@@ -172,12 +175,12 @@ class Client
     /**
      * Set Cache handler (PSR-16)
      *
-     * @param \Psr\SimpleCache\CacheInterface|null $oCache
+     * @param CacheInterface|null $oCache
      *
      * @return \mrcnpdlk\Teryt\Client
      * @see https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-16-simple-cache.md PSR-16
      */
-    public function setCacheInstance(\Psr\SimpleCache\CacheInterface $oCache = null)
+    public function setCacheInstance(CacheInterface $oCache = null)
     {
         $this->oCache = $oCache;
 
