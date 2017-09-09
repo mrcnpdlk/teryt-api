@@ -138,7 +138,7 @@ Full list below:
 |`PobierzListeRegionow()`|:ok_hand:||
 |`PobierzListeWojewodztwWRegionie()`|:ok_hand:||
 |`PobierzListePodregionow()`|:ok_hand:||
-|`PobierzListePowiatowWPodregionie()`|:no_entry_sign:||
+|`PobierzListePowiatowWPodregionie()`|:ok_hand:||
 |`PobierzListeGminPowiecie()`|:no_entry_sign:||
 |`PobierzKatalogTERCAdr()`|:no_entry_sign:||
 |`PobierzKatalogTERC()`|:no_entry_sign:||

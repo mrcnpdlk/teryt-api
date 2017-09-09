@@ -696,4 +696,22 @@ class Api
         return $answer;
     }
 
+    /**
+     * Lista powiatów w podregionie
+     *
+     * @param string $subregionId
+     *
+     * @return JednostkaNomenklaturyNTS[]
+     */
+    public static function PobierzListePowiatowWPodregionie(string $subregionId)
+    {
+        $answer = [];
+        $res    = Client::getInstance()->request('PobierzListePowiatowWPodregionie', ['Podreg' => $subregionId]);
+        foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
+            $answer[] = new JednostkaNomenklaturyNTS($p);
+        };
+
+        return $answer;
+    }
+
 }
