@@ -33,7 +33,7 @@ class ConnectionTest extends TestCase
     /**
      * @expectedException \mrcnpdlk\Teryt\Exception\Connection
      */
-    public function testEmptyLoginPassword()
+    public function testInvalidAuth()
     {
         \mrcnpdlk\Teryt\Client::getInstance()
                               ->setTerytConfig(['url' => 'http://foo.bar'])

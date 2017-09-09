@@ -20,6 +20,7 @@
 namespace mrcnpdlk\Teryt;
 
 
+use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaTerytorialna;
 use Psr\Log\NullLogger;
 
 class ClientTest extends TestCase
@@ -27,15 +28,24 @@ class ClientTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        \mrcnpdlk\Teryt\Client::getInstance();
     }
 
     public function testEmptyLogger()
     {
         $this->assertInstanceOf(NullLogger::class, Client::getInstance()->getLogger());
     }
+
     public function testEmptyCache()
     {
         $this->assertInstanceOf(NullLogger::class, Client::getInstance()->getLogger());
     }
+
+    public function testGetProvinces()
+    {
+        $tList = Api::PobierzListeWojewodztw();
+        $this->assertNotEmpty($tList);
+        $this->assertInstanceOf(JednostkaTerytorialna::class, $tList[0]);
+
+    }
+
 }
