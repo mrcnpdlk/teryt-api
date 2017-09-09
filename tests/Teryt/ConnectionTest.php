@@ -26,7 +26,7 @@ class ConnectionTest extends TestCase
 {
     public function testConnect()
     {
-        $client = \mrcnpdlk\Teryt\Client::create();
+        $client = \mrcnpdlk\Teryt\Client::getInstance();
         $this->assertEquals(true, \mrcnpdlk\Teryt\Api::CzyZalogowany());
     }
 
@@ -35,7 +35,7 @@ class ConnectionTest extends TestCase
      */
     public function testEmptyLoginPassword()
     {
-        \mrcnpdlk\Teryt\Client::create()
+        \mrcnpdlk\Teryt\Client::getInstance()
                               ->setTerytConfig(['url' => 'http://foo.bar'])
         ;
     }

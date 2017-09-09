@@ -107,15 +107,15 @@ abstract class AbstractResponseModel
     public function expandData()
     {
         if ($this->tercId) {
-            $oTerc               = Terc::setTercId($this->tercId);
-            $this->provinceId    = $oTerc->provinceId;
-            $this->districtId    = $oTerc->districtId;
-            $this->communeId     = $oTerc->communeId;
-            $this->communeTypeId = $oTerc->communeTypeId;
+            $oTerc               = new Terc($this->tercId);
+            $this->provinceId    = $oTerc->getProvinceId();
+            $this->districtId    = $oTerc->getDistrictId();
+            $this->communeId     = $oTerc->getCommuneId();
+            $this->communeTypeId = $oTerc->getCommuneTypeId();
         } else {
             if ($this->provinceId && $this->districtId && $this->communeId && $this->communeTypeId) {
-                $oTerc        = Terc::setIds($this->provinceId, $this->districtId, $this->communeId, $this->communeTypeId);
-                $this->tercId = $oTerc->tercId;
+                $oTerc        = (new Terc())->setIds($this->provinceId, $this->districtId, $this->communeId, $this->communeTypeId);
+                $this->tercId = $oTerc->getTercId();
             }
         }
 
@@ -127,17 +127,5 @@ abstract class AbstractResponseModel
         }
 
         return $this;
-    }
-
-    /**
-     * Create class instance
-     *
-     * @param \stdClass|null $oData
-     *
-     * @return static
-     */
-    public static function create(\stdClass $oData = null)
-    {
-        return new static($oData);
     }
 }

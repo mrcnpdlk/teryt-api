@@ -158,21 +158,7 @@ class Client
     }
 
     /**
-     * Create class instance if not exists
-     *
-     * @return \mrcnpdlk\Teryt\Client
-     */
-    public static function create()
-    {
-        if (!static::$classInstance) {
-            static::$classInstance = new static;
-        }
-
-        return static::$classInstance;
-    }
-
-    /**
-     * Get class instance
+     * Get Client class instance
      *
      * @return \mrcnpdlk\Teryt\Client Instancja klasy
      * @throws \mrcnpdlk\Teryt\Exception
@@ -180,7 +166,7 @@ class Client
     public static function getInstance()
     {
         if (!static::$classInstance) {
-            throw new Exception(sprintf('First use Client::create() method to instancate class'));
+            static::$classInstance = new static;
         }
 
         return static::$classInstance;

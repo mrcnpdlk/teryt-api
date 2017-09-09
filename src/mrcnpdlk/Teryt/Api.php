@@ -87,7 +87,7 @@ class Api
         $answer = [];
         $res    = Client::getInstance()->request('PobierzListeWojewodztw');
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
-            $answer[] = JednostkaTerytorialna::create($p);
+            $answer[] = new JednostkaTerytorialna($p);
         };
 
         return $answer;
@@ -105,7 +105,7 @@ class Api
         $answer = [];
         $res    = Client::getInstance()->request('PobierzListePowiatow', ['Woj' => $provinceId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
-            $answer[] = JednostkaTerytorialna::create($p);
+            $answer[] = new JednostkaTerytorialna($p);
         };
 
         return $answer;
@@ -124,7 +124,7 @@ class Api
         $answer = [];
         $res    = Client::getInstance()->request('PobierzListeGmin', ['Woj' => $provinceId, 'Pow' => $districtId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
-            $answer[] = JednostkaTerytorialna::create($p);
+            $answer[] = new JednostkaTerytorialna($p);
         };
 
         return $answer;
@@ -142,7 +142,7 @@ class Api
         $answer = [];
         $res    = Client::getInstance()->request('PobierzGminyiPowDlaWoj', ['Woj' => $provinceId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
-            $answer[] = JednostkaTerytorialna::create($p);
+            $answer[] = new JednostkaTerytorialna($p);
         };
 
         return $answer;
@@ -161,13 +161,13 @@ class Api
     public static function PobierzListeUlicDlaMiejscowosci(int $tercId, string $cityId, bool $asAddress = false)
     {
         $answer = [];
-        $oTerc  = Terc::setTercId($tercId);
+        $oTerc  = new Terc($tercId);
         $res    = Client::getInstance()->request('PobierzListeUlicDlaMiejscowosci',
             [
-                'Woj'               => $oTerc->provinceId,
-                'Pow'               => $oTerc->districtId,
-                'Gmi'               => $oTerc->communeId,
-                'Rodz'              => $oTerc->communeTypeId,
+                'Woj'               => $oTerc->getProvinceId(),
+                'Pow'               => $oTerc->getDistrictId(),
+                'Gmi'               => $oTerc->getCommuneId(),
+                'Rodz'              => $oTerc->getCommuneTypeId(),
                 'msc'               => $cityId,
                 'czyWersjaUrzedowa' => !$asAddress,
                 'czyWersjaAdresowa' => $asAddress,
@@ -176,7 +176,7 @@ class Api
         ;
 
         foreach (Helper::getPropertyAsArray($res, 'UlicaDrzewo') as $p) {
-            $answer[] = UlicaDrzewo::create($p);
+            $answer[] = new UlicaDrzewo($p);
         };
 
         return $answer;
@@ -204,7 +204,7 @@ class Api
             ])
         ;
         foreach (Helper::getPropertyAsArray($res, 'Miejscowosc') as $p) {
-            $answer[] = Miejscowosc::create($p);
+            $answer[] = new Miejscowosc($p);
         };
 
         return $answer;
@@ -222,17 +222,17 @@ class Api
     public static function PobierzListeMiejscowosciWRodzajuGminy(int $tercId)
     {
         $answer = [];
-        $oTerc  = Terc::setTercId($tercId);
+        $oTerc  = new Terc($tercId);
         $res    = Client::getInstance()->request('PobierzListeMiejscowosciWRodzajuGminy',
             [
-                'symbolWoj'  => $oTerc->provinceId,
-                'symbolPow'  => $oTerc->districtId,
-                'symbolGmi'  => $oTerc->communeId,
-                'symbolRodz' => $oTerc->communeTypeId,
+                'symbolWoj'  => $oTerc->getProvinceId(),
+                'symbolPow'  => $oTerc->getDistrictId(),
+                'symbolGmi'  => $oTerc->getCommuneId(),
+                'symbolRodz' => $oTerc->getCommuneTypeId(),
             ])
         ;
         foreach (Helper::getPropertyAsArray($res, 'Miejscowosc') as $p) {
-            $answer[] = Miejscowosc::create($p);
+            $answer[] = new Miejscowosc($p);
         };
 
         return $answer;
@@ -260,7 +260,7 @@ class Api
         $answer = [];
         $res    = Client::getInstance()->request('PobierzSlownikRodzajowSIMC');
         foreach (Helper::getPropertyAsArray($res, 'RodzajMiejscowosci') as $p) {
-            $answer[] = RodzajMiejscowosci::create($p);
+            $answer[] = new RodzajMiejscowosci($p);
         };
 
         return $answer;
@@ -291,7 +291,7 @@ class Api
         $res   = Client::getInstance()->request('WeryfikujAdresDlaMiejscowosci', ['symbolMsc' => $cityId]);
         $oData = Helper::getPropertyAsObject($res, 'ZweryfikowanyAdresBezUlic');
 
-        return ZweryfikowanyAdresBezUlic::create($oData);
+        return new ZweryfikowanyAdresBezUlic($oData);
     }
 
     /**
@@ -307,7 +307,7 @@ class Api
         $res   = Client::getInstance()->request('WeryfikujAdresDlaMiejscowosciAdresowy', ['symbolMsc' => $cityId]);
         $oData = Helper::getPropertyAsObject($res, 'ZweryfikowanyAdresBezUlic');
 
-        return ZweryfikowanyAdresBezUlic::create($oData);
+        return new ZweryfikowanyAdresBezUlic($oData);
     }
 
     /**
@@ -343,7 +343,7 @@ class Api
             ])
         ;
         foreach (Helper::getPropertyAsArray($res, 'ZweryfikowanyAdresBezUlic') as $p) {
-            $answer[] = ZweryfikowanyAdresBezUlic::create($p);
+            $answer[] = new ZweryfikowanyAdresBezUlic($p);
         };
 
         return $answer;
@@ -382,7 +382,7 @@ class Api
             ])
         ;
         foreach (Helper::getPropertyAsArray($res, 'ZweryfikowanyAdresBezUlic') as $p) {
-            $answer[] = ZweryfikowanyAdresBezUlic::create($p);
+            $answer[] = new ZweryfikowanyAdresBezUlic($p);
         };
 
         return $answer;
@@ -402,7 +402,7 @@ class Api
         $res   = Client::getInstance()->request('WeryfikujAdresDlaUlic', ['symbolMsc' => $cityId, 'SymUl' => $streetId]);
         $oData = Helper::getPropertyAsObject($res, 'ZweryfikowanyAdres');
 
-        return ZweryfikowanyAdres::create($oData);
+        return new ZweryfikowanyAdres($oData);
     }
 
     /**
@@ -419,7 +419,7 @@ class Api
         $res   = Client::getInstance()->request('WeryfikujAdresDlaUlicAdresowy', ['symbolMsc' => $cityId, 'SymUl' => $streetId]);
         $oData = Helper::getPropertyAsObject($res, 'ZweryfikowanyAdres');
 
-        return ZweryfikowanyAdres::create($oData);
+        return new ZweryfikowanyAdres($oData);
     }
 
     /**
@@ -450,7 +450,7 @@ class Api
         $answer = [];
         $res    = Client::getInstance()->request('WyszukajMiejscowosc', ['nazwaMiejscowosci' => $cityName, 'identyfikatorMiejscowosci' => $cityId]);
         foreach (Helper::getPropertyAsArray($res, 'Miejscowosc') as $p) {
-            $answer[] = Miejscowosc::create($p);
+            $answer[] = new Miejscowosc($p);
         };
 
         return $answer;
@@ -489,7 +489,7 @@ class Api
             ])
         ;
         foreach (Helper::getPropertyAsArray($res, 'Miejscowosc') as $p) {
-            $answer[] = Miejscowosc::create($p);
+            $answer[] = new Miejscowosc($p);
         };
 
         return $answer;
@@ -516,7 +516,7 @@ class Api
             ])
         ;
         foreach (Helper::getPropertyAsArray($res, 'Ulica') as $p) {
-            $answer[] = Ulica::create($p);
+            $answer[] = new Ulica($p);
         };
 
         return $answer;
@@ -554,7 +554,7 @@ class Api
             ])
         ;
         foreach (Helper::getPropertyAsArray($res, 'JednostkaPodzialuTerytorialnego') as $p) {
-            $answer[] = JednostkaPodzialuTerytorialnego::create($p);
+            $answer[] = new JednostkaPodzialuTerytorialnego($p);
         };
 
         return $answer;
@@ -596,7 +596,7 @@ class Api
             ])
         ;
         foreach (Helper::getPropertyAsArray($res, 'WyszukanaMiejscowosc') as $p) {
-            $answer[] = WyszukanaMiejscowosc::create($p);
+            $answer[] = new WyszukanaMiejscowosc($p);
         };
 
         return $answer;
@@ -637,7 +637,7 @@ class Api
             ])
         ;
         foreach (Helper::getPropertyAsArray($res, 'WyszukanaUlica') as $p) {
-            $answer[] = WyszukanaUlica::create($p);
+            $answer[] = new WyszukanaUlica($p);
         };
 
         return $answer;

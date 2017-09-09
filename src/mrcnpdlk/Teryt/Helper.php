@@ -32,23 +32,21 @@ class Helper
      */
     public static function convertToBoolean($exclude)
     {
-        if (is_numeric($exclude) && ($exclude == 0 || $exclude == 1)) {
-            settype($exclude, 'boolean');
+        if (is_bool($exclude)) {
+            return $exclude;
         } else {
-            if (
-                $exclude === true
-                || $exclude === false
-                || strtolower(trim($exclude)) === 'true'
-                || strtolower(trim($exclude)) === 'false'
-            ) {
-                settype($exclude, 'boolean');
+            if (is_numeric($exclude)) {
+                return $exclude === 1;
             } else {
-                $exclude = false;
+                if (is_string($exclude)) {
+                    return strtolower(trim($exclude)) === 'true';
+                } else {
+                    return false;
+                }
             }
         }
-
-        return $exclude;
     }
+
 
     /**
      * Catching and managment of exceptions
@@ -68,7 +66,7 @@ class Helper
                 case 'Client':
                     return new Connection(sprintf('%s', $e->faultstring ?? 'Unknown'), 3, $e);
                 default:
-                    return new Connection(sprintf('%s',  'Unknown'), 99, $e);
+                    return new Connection(sprintf('%s', 'Unknown'), 99, $e);
             }
         } else {
             if ($e instanceof Exception) {
@@ -136,6 +134,7 @@ class Helper
      * Fixing Teryt API bug
      *
      * If only one item exists in response, returned property is not a array but object type
+     *
      * @param \stdClass $oObject
      * @param string    $sPropertyName
      *

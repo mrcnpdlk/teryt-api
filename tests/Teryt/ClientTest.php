@@ -27,7 +27,7 @@ class ClientTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        \mrcnpdlk\Teryt\Client::create();
+        \mrcnpdlk\Teryt\Client::getInstance();
     }
 
     public function testEmptyLogger()

@@ -34,57 +34,40 @@ class Terc
      *
      * @var string
      */
-    public $provinceId;
+    private $provinceId;
     /**
      * Dwuznakowy id powiatu
      *
      * @var string
      */
-    public $districtId;
+    private $districtId;
     /**
      * dwuznakowy id gminy
      *
      * @var string
      */
-    public $communeId;
+    private $communeId;
     /**
      * Jednoznakowy id rodzaju gminy
      *
      * @var string
      */
-    public $communeTypeId;
+    private $communeTypeId;
     /**
      * Identyfikator gminy wraz z RODZ
      *
      * @var int
      */
-    public $tercId;
+    private $tercId;
 
     /**
-     * Ustawienie tercId
-     * Pozostałe pola są generowanie w locie
+     * Terc constructor.
      *
      * @param int|null $tercId
-     *
-     * @return static
-     * @throws Exception
      */
-    public static function setTercId(int $tercId = null)
+    public function __construct(int $tercId = null)
     {
-        $o = new static();
-        if ($tercId) {
-            $o->tercId = $tercId;
-            $sTercId   = str_pad(strval($tercId), 7, '0', \STR_PAD_LEFT);
-            if (strlen($sTercId) > 7) {
-                throw new Exception(sprintf('TercId [%s] malformed', $sTercId));
-            }
-            $o->provinceId    = substr($sTercId, 0, 2);
-            $o->districtId    = substr($sTercId, 2, 2);
-            $o->communeId     = substr($sTercId, 4, 2);
-            $o->communeTypeId = substr($sTercId, 6, 1);
-        }
-
-        return $o;
+        $this->setTercId($tercId);
     }
 
     /**
@@ -98,15 +81,84 @@ class Terc
      *
      * @return static
      */
-    public static function setIds(string $provinceId, string $districtId, string $communeId, string $communeTypeId)
+    public function setIds(string $provinceId, string $districtId, string $communeId, string $communeTypeId)
     {
-        $o                = new static();
-        $o->provinceId    = $provinceId;
-        $o->districtId    = $districtId;
-        $o->communeId     = $communeId;
-        $o->communeTypeId = $communeTypeId;
-        $o->tercId        = intval(sprintf('%s%s%s%s', $provinceId, $districtId, $communeId, $communeTypeId));
+        $this->provinceId = str_pad($provinceId, 2, '0', \STR_PAD_LEFT);
+        $this->districtId = str_pad($districtId, 2, '0', \STR_PAD_LEFT);;
+        $this->communeId = str_pad($communeId, 2, '0', \STR_PAD_LEFT);;
+        $this->communeTypeId = $communeTypeId;
+        $this->tercId        = intval(sprintf('%s%s%s%s',
+            $this->provinceId,
+            $this->districtId,
+            $this->communeId,
+            $this->communeTypeId));
 
-        return $o;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProvinceId()
+    {
+        return $this->provinceId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDistrictId()
+    {
+        return $this->districtId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommuneId()
+    {
+        return $this->communeId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommuneTypeId()
+    {
+        return $this->communeTypeId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getTercId()
+    {
+        return $this->tercId;
+    }
+
+    /**
+     * Ustawienie tercId
+     * Pozostałe pola są generowanie w locie
+     *
+     * @param int|null $tercId
+     *
+     * @return static
+     * @throws Exception
+     */
+    public function setTercId(int $tercId = null)
+    {
+        if ($tercId) {
+            $this->tercId = $tercId;
+            $sTercId      = str_pad(strval($tercId), 7, '0', \STR_PAD_LEFT);
+            if (strlen($sTercId) > 7) {
+                throw new Exception(sprintf('TercId [%s] malformed', $sTercId));
+            }
+            $this->provinceId    = substr($sTercId, 0, 2);
+            $this->districtId    = substr($sTercId, 2, 2);
+            $this->communeId     = substr($sTercId, 4, 2);
+            $this->communeTypeId = substr($sTercId, 6, 1);
+        }
+
+        return $this;
     }
 }

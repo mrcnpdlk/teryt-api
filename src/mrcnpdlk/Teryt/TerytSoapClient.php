@@ -47,11 +47,11 @@ class TerytSoapClient extends \SoapClient
      * @param string $location
      * @param string $action
      * @param int    $version
-     * @param int    $one_way
+     * @param int    $oneWay
      *
      * @return string
      */
-    public function __doRequest($request, $location, $action, $version, $one_way = 0)
+    public function __doRequest($request, $location, $action, $version, $oneWay = 0)
     {
         $doc = new \DOMDocument('1.0');
         $doc->loadXML($request);
@@ -63,6 +63,6 @@ class TerytSoapClient extends \SoapClient
         $wsse->addUserToken($this->username, $this->password, $this->digest);
         $request = $wsse->saveXML();
 
-        return parent::__doRequest($request, $location, $action, $version, $one_way);
+        return parent::__doRequest($request, $location, $action, $version, $oneWay);
     }
 }

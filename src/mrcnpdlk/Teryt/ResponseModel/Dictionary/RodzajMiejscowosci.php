@@ -46,19 +46,14 @@ class RodzajMiejscowosci
     public $desc;
 
     /**
-     * Utworzenie instancji klasy RodzajMiejscowosci
+     * RodzajMiejscowosci constructor.
      *
      * @param \stdClass $oData Obiekt zwrócony z TerytWS1
-     *
-     * @return static
      */
-    public static function create(\stdClass $oData)
+    public function __construct(\stdClass $oData)
     {
-        $o       = new static();
-        $o->id   = $oData->Symbol;
-        $o->name = $oData->Nazwa;
-        $o->desc = $oData->Opis;
-
-        return $o;
+        $this->id   = $oData->Symbol;
+        $this->name = $oData->Nazwa;
+        $this->desc = $oData->Opis;
     }
 }
