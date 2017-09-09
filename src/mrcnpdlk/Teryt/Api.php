@@ -153,12 +153,12 @@ class Api
      *
      * @param int    $tercId
      * @param string $cityId
-     * @param bool   $asAddres
+     * @param bool   $asAddress
      *
      * @return UlicaDrzewo[]
      * @todo Metoda nie działa poprawnie
      */
-    public static function PobierzListeUlicDlaMiejscowosci(int $tercId, string $cityId, bool $asAddres = false)
+    public static function PobierzListeUlicDlaMiejscowosci(int $tercId, string $cityId, bool $asAddress = false)
     {
         $answer = [];
         $oTerc  = Terc::setTercId($tercId);
