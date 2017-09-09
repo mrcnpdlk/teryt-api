@@ -33,7 +33,7 @@ class Client
      *
      * @var \mrcnpdlk\Teryt\Client
      */
-    protected static $_instance;
+    protected static $classInstance;
     /**
      * SoapClient handler
      *
@@ -85,11 +85,11 @@ class Client
      */
     public static function create()
     {
-        if (!static::$_instance) {
-            static::$_instance = new static;
+        if (!static::$classInstance) {
+            static::$classInstance = new static;
         }
 
-        return static::$_instance;
+        return static::$classInstance;
     }
 
     /**
@@ -100,11 +100,11 @@ class Client
      */
     public static function getInstance()
     {
-        if (!static::$_instance) {
+        if (!static::$classInstance) {
             throw new Exception(sprintf('First use Client::create() method to instancate class'));
         }
 
-        return static::$_instance;
+        return static::$classInstance;
     }
 
     /**
@@ -127,35 +127,26 @@ class Client
         if (!$this->tTerytConfig['username'] || !$this->tTerytConfig['password']) {
             throw new Connection(sprintf('Username and password for TERYT WS1 is required'));
         }
-        $this->getSoap(true);
+        $this->reinitSoap();
 
         return $this;
     }
 
     /**
-     * Get SoapClient
+     * Reinit Soap Client
      *
-     * @param bool $bReinit
-     *
-     * @return \mrcnpdlk\Teryt\TerytSoapClient
+     * @return $this
      */
-    private function getSoap(bool $bReinit = false)
+    private function reinitSoap()
     {
-        try {
-            if (!$this->soapClient || $bReinit) {
-                $this->soapClient = new TerytSoapClient($this->tTerytConfig['url'], [
-                    'soap_version' => SOAP_1_1,
-                    'exceptions'   => true,
-                    'cache_wsdl'   => WSDL_CACHE_BOTH,
-                ]);
-                $this->soapClient->addUserToken($this->tTerytConfig['username'], $this->tTerytConfig['password']);
-            }
+        $this->soapClient = new TerytSoapClient($this->tTerytConfig['url'], [
+            'soap_version' => SOAP_1_1,
+            'exceptions'   => true,
+            'cache_wsdl'   => WSDL_CACHE_BOTH,
+        ]);
+        $this->soapClient->addUserToken($this->tTerytConfig['username'], $this->tTerytConfig['password']);
 
-        } catch (\Exception $e) {
-            Helper::handleException($e);
-        }
-
-        return $this->soapClient;
+        return $this;
     }
 
     /**
@@ -254,5 +245,24 @@ class Client
         }
 
         return $answer;
+    }
+
+    /**
+     * Get SoapClient
+     *
+     * @return \mrcnpdlk\Teryt\TerytSoapClient
+     */
+    private function getSoap()
+    {
+        try {
+            if (!$this->soapClient) {
+                $this->reinitSoap();
+            }
+
+        } catch (\Exception $e) {
+            Helper::handleException($e);
+        }
+
+        return $this->soapClient;
     }
 }

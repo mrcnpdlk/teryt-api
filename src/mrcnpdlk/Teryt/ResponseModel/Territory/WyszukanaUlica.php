@@ -30,13 +30,13 @@ class WyszukanaUlica extends Ulica
      *
      * @var string
      */
-    public $streetName_1;
+    public $streetName1;
     /**
      * Nazwa ulicy cz. 2
      *
      * @var string
      */
-    public $streetName_2;
+    public $streetName2;
 
     /**
      * WyszukanaUlica constructor.
@@ -51,8 +51,8 @@ class WyszukanaUlica extends Ulica
             $this->communeName    = $oData->Gmina;
             $this->cityName       = $oData->Miejscowosc;
             $this->streetName     = $oData->Nazwa;
-            $this->streetName_1   = $oData->Nazwa1;
-            $this->streetName_2   = $oData->Nazwa2;
+            $this->streetName1    = $oData->Nazwa1;
+            $this->streetName2    = $oData->Nazwa2;
             $this->districtId     = $oData->Pow;
             $this->districtName   = $oData->Powiat;
             $this->communeTypeId  = $oData->RodzajGminy;

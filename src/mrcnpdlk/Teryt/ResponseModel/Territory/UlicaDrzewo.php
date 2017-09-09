@@ -36,13 +36,13 @@ class UlicaDrzewo extends Ulica
      *
      * @var string
      */
-    public $streetName_1;
+    public $streetName1;
     /**
      * Zwiera nazwę ulicy w podziale na pola z uwzględnieniem słów kluczowych
      *
      * @var string
      */
-    public $streetName_2;
+    public $streetName2;
     /**
      * wyznacza miejsce podziału pełnej nazwy ulicy na nazwa1 i nazwa2
      *

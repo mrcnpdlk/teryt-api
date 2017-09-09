@@ -37,13 +37,13 @@ class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
      *
      * @var string
      */
-    public $streetName_1;
+    public $streetName1;
     /**
      * Pozostała część nazwy ulicy
      *
      * @var string
      */
-    public $streetName_2;
+    public $streetName2;
     /**
      * Identyfikator ulicy
      *
@@ -66,8 +66,8 @@ class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
     {
         parent::__construct($oData);
         $this->streetId           = $oData->SymUl;
-        $this->streetName_1       = $oData->Nazwa_1;
-        $this->streetName_2       = $oData->Nazwa_2;
+        $this->streetName1        = $oData->Nazwa_1;
+        $this->streetName2        = $oData->Nazwa_2;
         $this->streetName         = $oData->NazwaUlicyWPelnymBrzmieniu;
         $this->streetIdentityName = $oData->NazwaCechy;
     }
