@@ -75,7 +75,7 @@ class City
      */
     public function __construct(string $id)
     {
-        $res = Api::WyszukajMiejscowoscWRejestrze(null, $id);
+        $res = Api\Search::WyszukajMiejscowoscWRejestrze(null, $id);
         if (!empty($res) && count($res) === 1) {
             $oCity          = $res[0];
             $this->id       = $id;

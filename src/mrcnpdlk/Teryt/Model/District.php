@@ -66,7 +66,7 @@ class District
     {
         $provinceId = substr($id, 0, 2);
         $districtId = substr($id, 2, 2);
-        foreach (Api::PobierzListePowiatow($provinceId) as $i) {
+        foreach (Api\TERC::PobierzListePowiatow($provinceId) as $i) {
             if ($i->districtId === $districtId) {
                 $this->id       = $id;
                 $this->name     = $i->name;

@@ -22,7 +22,11 @@ namespace mrcnpdlk\Teryt\Api;
 
 use mrcnpdlk\Teryt\Client;
 use mrcnpdlk\Teryt\Helper;
+use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaPodzialuTerytorialnego;
+use mrcnpdlk\Teryt\ResponseModel\Territory\Miejscowosc;
+use mrcnpdlk\Teryt\ResponseModel\Territory\Ulica;
 use mrcnpdlk\Teryt\ResponseModel\Territory\WyszukanaMiejscowosc;
+use mrcnpdlk\Teryt\ResponseModel\Territory\WyszukanaUlica;
 
 class Search
 {

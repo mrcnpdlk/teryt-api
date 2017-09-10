@@ -22,6 +22,7 @@ namespace mrcnpdlk\Teryt\Api;
 
 use mrcnpdlk\Teryt\Client;
 use mrcnpdlk\Teryt\Helper;
+use mrcnpdlk\Teryt\ResponseModel\Dictionary\RodzajMiejscowosci;
 
 class Dictionary
 {

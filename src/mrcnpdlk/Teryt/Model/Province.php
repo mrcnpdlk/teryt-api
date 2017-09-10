@@ -51,7 +51,7 @@ class Province
      */
     public function __construct(string $id)
     {
-        foreach (Api::PobierzListeWojewodztw() as $w) {
+        foreach (Api\TERC::PobierzListeWojewodztw() as $w) {
             if ($w->provinceId === $id) {
                 $this->id   = $w->provinceId;
                 $this->name = $w->name;
@@ -87,14 +87,14 @@ class Province
         try {
             $answer = [];
             if ($phrase) {
-                $tList = Api::WyszukajJednostkeWRejestrze($phrase, Api::CATEGORY_POW_ALL);
+                $tList = Api\Search::WyszukajJednostkeWRejestrze($phrase, Api::CATEGORY_POW_ALL);
                 foreach ($tList as $p) {
                     if ($p->provinceId === $this->id) {
                         $answer[] = District::find($p->provinceId . $p->districtId);
                     }
                 }
             } else {
-                $tList = Api::PobierzListePowiatow($this->id);
+                $tList = Api\TERC::PobierzListePowiatow($this->id);
                 foreach ($tList as $p) {
                     $answer[] = District::find($p->provinceId . $p->districtId);
                 }

@@ -19,18 +19,6 @@
 
 namespace mrcnpdlk\Teryt;
 
-use mrcnpdlk\Teryt\Model\Terc;
-use mrcnpdlk\Teryt\ResponseModel\Dictionary\RodzajMiejscowosci;
-use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaNomenklaturyNTS;
-use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaPodzialuTerytorialnego;
-use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaTerytorialna;
-use mrcnpdlk\Teryt\ResponseModel\Territory\Miejscowosc;
-use mrcnpdlk\Teryt\ResponseModel\Territory\Ulica;
-use mrcnpdlk\Teryt\ResponseModel\Territory\UlicaDrzewo;
-use mrcnpdlk\Teryt\ResponseModel\Territory\WyszukanaMiejscowosc;
-use mrcnpdlk\Teryt\ResponseModel\Territory\WyszukanaUlica;
-use mrcnpdlk\Teryt\ResponseModel\Territory\ZweryfikowanyAdres;
-use mrcnpdlk\Teryt\ResponseModel\Territory\ZweryfikowanyAdresBezUlic;
 
 /**
  * Class Api

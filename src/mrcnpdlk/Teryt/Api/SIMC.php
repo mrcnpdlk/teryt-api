@@ -20,6 +20,7 @@
 namespace mrcnpdlk\Teryt\Api;
 
 
+use mrcnpdlk\Teryt\Client;
 use mrcnpdlk\Teryt\Helper;
 use mrcnpdlk\Teryt\Model\Terc;
 use mrcnpdlk\Teryt\ResponseModel\Territory\Miejscowosc;

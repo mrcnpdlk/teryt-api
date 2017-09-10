@@ -96,7 +96,7 @@ class Commune
                 break;
         }
         if (!$tercId) {
-            foreach (Api::PobierzListeGmin($provinceId, $districtId) as $i) {
+            foreach (Api\TERC::PobierzListeGmin($provinceId, $districtId) as $i) {
                 if ($i->districtId === $districtId) {
                     $this->id       = $id;
                     $this->name     = $i->name;
@@ -107,7 +107,7 @@ class Commune
             }
 
         } else {
-            $res = Api::WyszukajJednostkeWRejestrze(null, Api::CATEGORY_GMI_ALL, [], [$tercId]);
+            $res = Api\Search::WyszukajJednostkeWRejestrze(null, Api::CATEGORY_GMI_ALL, [], [$tercId]);
             if (!empty($res) && count($res) === 1) {
                 $oCommune       = $res[0];
                 $this->id       = $id;
