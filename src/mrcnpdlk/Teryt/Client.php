@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -177,25 +177,25 @@ class Client
     /**
      * Making request to Teryt WS1 API
      *
-     * @param string $method Methid name
-     * @param array  $args   Parameters
+     * @param string  $method  Methid name
+     * @param array   $args    Parameters
+     * @param boolean $addDate Add DataSTanu to request
      *
      * @return mixed
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
-     * @todo dodac logowanie IN/OUT oraz rozpoznawanie w cache ustawien seriwsu czy prod/test
      */
-    public function request(string $method, array $args = [])
+    public function request(string $method, array $args = [], bool $addDate = true)
     {
         try {
-            if (!array_key_exists('DataStanu', $args)) {
+            if (!array_key_exists('DataStanu', $args) && $addDate) {
                 $args['DataStanu'] = (new \DateTime())->format('Y-m-d');
             }
             $hashKey = md5(json_encode([__METHOD__, $method, $args]));
             $self    = $this;
-            $this->oLogger->debug($method, $args);
+            $this->oLogger->debug(sprintf('REQ: %s, hash: %s', $method, $hashKey), $args);
 
-            return $this->useCache(
+            $resp = $this->useCache(
                 function () use ($self, $method, $args) {
                     $res       = $self->getSoap()->__soapCall($method, [$args]);
                     $resultKey = $method . 'Result';
@@ -206,6 +206,10 @@ class Client
                     return $res->{$resultKey};
                 },
                 $hashKey);
+
+            $this->oLogger->debug(sprintf('RESP: %s, type is %s', $method, gettype($resp)));
+
+            return $resp;
 
         } catch (\Exception $e) {
             throw Helper::handleException($e);
@@ -221,22 +225,19 @@ class Client
      *
      * @return mixed
      */
-    private function useCache(\Closure $closure, $hashKey, int $ttl = null)
+    private function useCache(\Closure $closure, string $hashKey, int $ttl = null)
     {
-        if (is_array($hashKey) || is_object($hashKey)) {
-            $hashKey = md5(json_encode($hashKey));
-        } else {
-            $hashKey = strval($hashKey);
-        }
-
         if ($this->oCache) {
             if ($this->oCache->has($hashKey)) {
                 $answer = $this->oCache->get($hashKey);
+                $this->oLogger->debug(sprintf('CACHE [%s]: geting from cache', $hashKey));
             } else {
                 $answer = $closure();
                 $this->oCache->set($hashKey, $answer, $ttl);
+                $this->oLogger->debug(sprintf('CACHE [%s]: old, reset', $hashKey));
             }
         } else {
+            $this->oLogger->debug(sprintf('CACHE [%s]: no implemented', $hashKey));
             $answer = $closure();
         }
 

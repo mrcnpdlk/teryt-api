@@ -188,14 +188,14 @@ Full list below:
 
 | Method | Status | Description|
 | ------ | ------ |------ |
-|`PobierzZmianyTercUrzedowy()`|:no_entry_sign:||
-|`PobierzZmianyTercAdresowy()`|:no_entry_sign:||
-|`PobierzZmianyNTS()`|:no_entry_sign:||
-|`PobierzZmianySimcUrzedowy()`|:no_entry_sign:||
-|`PobierzZmianySimcAdresowy()`|:no_entry_sign:||
-|`PobierzZmianySimcStatystyczny()`|:no_entry_sign:||
-|`PobierzZmianyUlicUrzedowy()`|:no_entry_sign:||
-|`PobierzZmianyUlicAdresowy()`|:no_entry_sign:||
+|`PobierzZmianyTercUrzedowy()`|:ok_hand:||
+|`PobierzZmianyTercAdresowy()`|:ok_hand:||
+|`PobierzZmianyNTS()`|:ok_hand:||
+|`PobierzZmianySimcUrzedowy()`|:ok_hand:||
+|`PobierzZmianySimcAdresowy()`|:ok_hand:||
+|`PobierzZmianySimcStatystyczny()`|:ok_hand:||
+|`PobierzZmianyUlicUrzedowy()`|:ok_hand:||
+|`PobierzZmianyUlicAdresowy()`|:ok_hand:||
 
 ### Verification
 `\mrcnpdlk\Teryt\Api\Verification`

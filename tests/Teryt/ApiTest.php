@@ -27,8 +27,19 @@ class ApiTest extends TestCase
     {
         $oFile = Api\Catalog::PobierzKatalogWMRODZ();
 
-        $this->assertInstanceOf(\SplFileObject::class,$oFile);
-        $this->assertEquals(true,file_exists($oFile->getPath()));
-        $this->assertEquals(true,is_readable($oFile->getPath()));
+        $this->assertInstanceOf(\SplFileObject::class, $oFile);
+        $this->assertEquals(true, file_exists($oFile->getPath()));
+        $this->assertEquals(true, is_readable($oFile->getPath()));
+    }
+
+    public function testChange()
+    {
+        $fromDate = new \DateTime();
+        $toDate   = new \DateTime();
+        $oFile    = Api\Change::PobierzZmianyTercAdresowy($fromDate->modify('-14 day'), $toDate);
+
+        $this->assertInstanceOf(\SplFileObject::class, $oFile);
+        $this->assertEquals(true, file_exists($oFile->getPath()));
+        $this->assertEquals(true, is_readable($oFile->getPath()));
     }
 }
