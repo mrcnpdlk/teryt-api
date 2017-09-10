@@ -16,7 +16,6 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/59b2679a368b08003d0e8455/badge.svg)](https://www.versioneye.com/user/projects/59b2679a368b08003d0e8455?child=summary) 
 
 
-sss
 # TERYT WS1 API - Polish address database
 
 ## Installation
