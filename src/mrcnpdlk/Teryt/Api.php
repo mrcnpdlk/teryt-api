@@ -77,4 +77,68 @@ class Api
 
         return $res;
     }
+
+    /**
+     * Data początkowa bieżącego stanu katalogu TERC
+     *
+     * @return null|string Data w formacie YYY-MM-DD
+     */
+    public static function PobierzDateAktualnegoKatTerc()
+    {
+        $res = Client::getInstance()->request('PobierzDateAktualnegoKatTerc');
+
+        try {
+            return (new \DateTime($res))->format('Y-m-d');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Data początkowa bieżącego stanu katalogu NTS
+     *
+     * @return null|string Data w formacie YYY-MM-DD
+     */
+    public static function PobierzDateAktualnegoKatNTS()
+    {
+        $res = Client::getInstance()->request('PobierzDateAktualnegoKatNTS');
+
+        try {
+            return (new \DateTime($res))->format('Y-m-d');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Data początkowa bieżącego stanu katalogu SIMC
+     *
+     * @return null|string Data w formacie YYY-MM-DD
+     */
+    public static function PobierzDateAktualnegoKatSimc()
+    {
+        $res = Client::getInstance()->request('PobierzDateAktualnegoKatSimc');
+
+        try {
+            return (new \DateTime($res))->format('Y-m-d');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    /**
+     * Data początkowa bieżącego stanu katalogu ULIC
+     *
+     * @return null|string Data w formacie YYY-MM-DD
+     */
+    public static function PobierzDateAktualnegoKatUlic()
+    {
+        $res = Client::getInstance()->request('PobierzDateAktualnegoKatUlic');
+
+        try {
+            return (new \DateTime($res))->format('Y-m-d');
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
 }

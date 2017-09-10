@@ -116,10 +116,10 @@ Full list below:
 | Method | Status | Description|
 | ------ | ------ |------ |
 |`CzyZalogowany()`|:ok_hand:||
-|`PobierzDateAktualnegoKatTerc()`|:no_entry_sign:||
-|`PobierzDateAktualnegoKatNTS()`|:no_entry_sign:||
-|`PobierzDateAktualnegoKatSimc()`|:no_entry_sign:||
-|`PobierzDateAktualnegoKatUlic()`|:no_entry_sign:||
+|`PobierzDateAktualnegoKatTerc()`|:ok_hand:||
+|`PobierzDateAktualnegoKatNTS()`|:ok_hand:||
+|`PobierzDateAktualnegoKatSimc()`|:ok_hand:||
+|`PobierzDateAktualnegoKatUlic()`|:ok_hand:||
 
 ### Catalog TERC
 `\mrcnpdlk\Teryt\Api\TERC`
