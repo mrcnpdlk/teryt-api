@@ -160,6 +160,9 @@ class Helper
     /**
      * Save file on disk
      *
+     * @param string $sPath   Destination path
+     * @param string $content File content
+     *
      * @return \SplFileObject
      */
     public static function saveFile(string $sPath, string $content)
