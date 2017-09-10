@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -171,5 +171,89 @@ class Verification
         $oData = Helper::getPropertyAsObject($res, 'ZweryfikowanyAdres');
 
         return new ZweryfikowanyAdres($oData);
+    }
+
+    /**
+     * Weryfikuje istnienie wskazanego obiektu w bazie TERYT do poziomu ulic.
+     * Weryfikacja odbywa się za pomoca nazw
+     *
+     * @param string      $provinceName
+     * @param string      $districtName
+     * @param string      $communeName
+     * @param string      $cityName
+     * @param string|null $cityTypeName
+     * @param string      $streetName
+     *
+     * @return ZweryfikowanyAdres[]
+     */
+    public static function WeryfikujNazwaAdresUlic(
+        string $provinceName,
+        string $districtName,
+        string $communeName,
+        string $cityName,
+        string $cityTypeName = null,
+        string $streetName
+    ) {
+        $answer = [];
+        $res    = Client::getInstance()->request('WeryfikujNazwaAdresUlic',
+            [
+                'nazwaWoj'         => $provinceName,
+                'nazwaPow'         => $districtName,
+                'nazwaGmi'         => $communeName,
+                'nazwaMiejscowosc' => $cityName,
+                'rodzajMiejsc'     => $cityTypeName,
+                'nazwaUlicy'       => $streetName,
+            ])
+        ;
+
+        $tData = Helper::getPropertyAsArray($res, 'ZweryfikowanyAdres');
+
+        foreach ($tData as $datum) {
+            $answer[] = new ZweryfikowanyAdres($datum);
+        }
+
+        return $answer;
+    }
+
+    /**
+     * Weryfikuje istnienie wskazanego obiektu w bazie TERYT do poziomu ulic w wersji adresowej rejestru.
+     * Weryfikacja odbywa się za pomoca nazw
+     *
+     * @param string      $provinceName
+     * @param string      $districtName
+     * @param string      $communeName
+     * @param string      $cityName
+     * @param string|null $cityTypeName
+     * @param string      $streetName
+     *
+     * @return ZweryfikowanyAdres[]
+     */
+    public static function WeryfikujNazwaAdresUlicAdresowy(
+        string $provinceName,
+        string $districtName,
+        string $communeName,
+        string $cityName,
+        string $cityTypeName = null,
+        string $streetName
+    ) {
+        $answer = [];
+        $res    = Client::getInstance()->request('WeryfikujNazwaAdresUlicAdresowy',
+            [
+                'nazwaWoj'         => $provinceName,
+                'nazwaPow'         => $districtName,
+                'nazwaGmi'         => $communeName,
+                'nazwaMiejscowosc' => $cityName,
+                'rodzajMiejsc'     => $cityTypeName,
+                'nazwaUlicy'       => $streetName,
+            ])
+        ;
+
+        $tData = Helper::getPropertyAsArray($res, 'ZweryfikowanyAdres');
+
+        foreach ($tData as $datum) {
+            $answer[] = new ZweryfikowanyAdres($datum);
+        }
+
+        return $answer;
     }
 }

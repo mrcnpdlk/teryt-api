@@ -208,8 +208,8 @@ Full list below:
 |`WeryfikujAdresWmiejscowosciAdresowy()`|:ok_hand:||
 |`WeryfikujAdresDlaUlic()`|:ok_hand:||
 |`WeryfikujAdresDlaUlicAdresowy()`|:ok_hand:||
-|`WeryfikujNazwaAdresUlic()`|:no_entry_sign:||
-|`WeryfikujNazwaAdresUlicAdresowy()`|:no_entry_sign:||
+|`WeryfikujNazwaAdresUlic()`|:warning:|empty response|
+|`WeryfikujNazwaAdresUlicAdresowy()`|:ok_hand:||
 
 ### Search
 `\mrcnpdlk\Teryt\Api\Search`
