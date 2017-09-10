@@ -109,37 +109,68 @@ Almost all methods from official documentation have been mapped and defined.
 
 Full list below:
 
+### General
+`\mrcnpdlk\Teryt\Api`
+
 | Method | Status | Description|
 | ------ | ------ |------ |
 |`CzyZalogowany()`|:ok_hand:||
+|`PobierzDateAktualnegoKatTerc()`|:no_entry_sign:||
+|`PobierzDateAktualnegoKatNTS()`|:no_entry_sign:||
+|`PobierzDateAktualnegoKatSimc()`|:no_entry_sign:||
+|`PobierzDateAktualnegoKatUlic()`|:no_entry_sign:||
+
+### Catalog TERC
+`\mrcnpdlk\Teryt\Api\TERC`
+
+| Method | Status | Description|
+| ------ | ------ |------ |
 |`PobierzListeWojewodztw()`|:ok_hand:||
 |`PobierzListePowiatow()`|:ok_hand:||
 |`PobierzListeGmin()`|:ok_hand:||
 |`PobierzGminyiPowDlaWoj()`|:ok_hand:||
-|`PobierzListeUlicDlaMiejscowosci()`|:warning:||
-|`PobierzListeMiejscowosciWGminie()`|:warning:||
-|`PobierzListeMiejscowosciWRodzajuGminy()`|:ok_hand:||
-|`PobierzSlownikRodzajowJednostek()`|:ok_hand:||
-|`PobierzSlownikRodzajowSIMC()`|:ok_hand:||
-|`PobierzSlownikCechULIC()`|:ok_hand:||
-|`WeryfikujAdresDlaMiejscowosci()`|:ok_hand:||
-|`WeryfikujAdresDlaMiejscowosciAdresowy()`|:ok_hand:||
-|`WeryfikujAdresWmiejscowosci()`|:ok_hand:||
-|`WeryfikujAdresWmiejscowosciAdresowy()`|:ok_hand:||
-|`WeryfikujAdresDlaUlic()`|:ok_hand:||
-|`WeryfikujAdresDlaUlicAdresowy()`|:ok_hand:||
-|`WyszukajJPT()`|:warning:|empty response|
-|`WyszukajMiejscowosc()`|:ok_hand:||
-|`WyszukajMiejscowoscWJPT()`|:ok_hand:||
-|`WyszukajUlice()`|:ok_hand:||
-|`WyszukajJednostkeWRejestrze()`|:ok_hand:||
-|`WyszukajMiejscowoscWRejestrze()`|:ok_hand:||
-|`WyszukajUliceWRejestrze()`|:ok_hand:||
+
+### Catalog NTS
+`\mrcnpdlk\Teryt\Api\NTS`
+
+| Method | Status | Description|
+| ------ | ------ |------ |
 |`PobierzListeRegionow()`|:ok_hand:||
 |`PobierzListeWojewodztwWRegionie()`|:ok_hand:||
 |`PobierzListePodregionow()`|:ok_hand:||
 |`PobierzListePowiatowWPodregionie()`|:ok_hand:||
-|`PobierzListeGminPowiecie()`|:no_entry_sign:||
+|`PobierzListeGminPowiecie()`|:ok_hand:||
+
+### Catalog ULIC
+`\mrcnpdlk\Teryt\Api\ULIC`
+
+| Method | Status | Description|
+| ------ | ------ |------ |
+|`PobierzListeUlicDlaMiejscowosci()`|:warning:||
+
+### Catalog SIMC
+`\mrcnpdlk\Teryt\Api\SIMC`
+
+| Method | Status | Description|
+| ------ | ------ |------ |
+|`PobierzListeMiejscowosciWGminie()`|:warning:||
+|`PobierzListeMiejscowosciWRodzajuGminy()`|:ok_hand:||
+
+### Dictionary
+`\mrcnpdlk\Teryt\Api\Dictionary`
+
+
+| Method | Status | Description|
+| ------ | ------ |------ |
+|`PobierzSlownikRodzajowJednostek()`|:ok_hand:||
+|`PobierzSlownikRodzajowSIMC()`|:ok_hand:||
+|`PobierzSlownikCechULIC()`|:ok_hand:||
+
+### Catalog
+`\mrcnpdlk\Teryt\Api\Catalog`
+
+| Method | Status | Description|
+| ------ | ------ |------ |
 |`PobierzKatalogTERCAdr()`|:no_entry_sign:||
 |`PobierzKatalogTERC()`|:no_entry_sign:||
 |`PobierzKatalogNTS()`|:no_entry_sign:||
@@ -150,6 +181,12 @@ Full list below:
 |`PobierzKatalogULICAdr()`|:no_entry_sign:||
 |`PobierzKatalogULICBezDzielnic()`|:no_entry_sign:||
 |`PobierzKatalogWMRODZ()`|:no_entry_sign:||
+
+### Changes
+`\mrcnpdlk\Teryt\Api\Change`
+
+| Method | Status | Description|
+| ------ | ------ |------ |
 |`PobierzZmianyTercUrzedowy()`|:no_entry_sign:||
 |`PobierzZmianyTercAdresowy()`|:no_entry_sign:||
 |`PobierzZmianyNTS()`|:no_entry_sign:||
@@ -158,9 +195,31 @@ Full list below:
 |`PobierzZmianySimcStatystyczny()`|:no_entry_sign:||
 |`PobierzZmianyUlicUrzedowy()`|:no_entry_sign:||
 |`PobierzZmianyUlicAdresowy()`|:no_entry_sign:||
+
+### Verification
+`\mrcnpdlk\Teryt\Api\Verification`
+
+| Method | Status | Description|
+| ------ | ------ |------ |
+|`WeryfikujAdresDlaMiejscowosci()`|:ok_hand:||
+|`WeryfikujAdresDlaMiejscowosciAdresowy()`|:ok_hand:||
+|`WeryfikujAdresWmiejscowosci()`|:ok_hand:||
+|`WeryfikujAdresWmiejscowosciAdresowy()`|:ok_hand:||
+|`WeryfikujAdresDlaUlic()`|:ok_hand:||
+|`WeryfikujAdresDlaUlicAdresowy()`|:ok_hand:||
 |`WeryfikujNazwaAdresUlic()`|:no_entry_sign:||
 |`WeryfikujNazwaAdresUlicAdresowy()`|:no_entry_sign:||
-|`PobierzDateAktualnegoKatTerc()`|:no_entry_sign:||
-|`PobierzDateAktualnegoKatNTS()`|:no_entry_sign:||
-|`PobierzDateAktualnegoKatSimc()`|:no_entry_sign:||
-|`PobierzDateAktualnegoKatUlic()`|:no_entry_sign:||
+
+### Search
+`\mrcnpdlk\Teryt\Api\Search`
+
+| Method | Status | Description|
+| ------ | ------ |------ |
+|`WyszukajJPT()`|:warning:|empty response|
+|`WyszukajMiejscowosc()`|:ok_hand:||
+|`WyszukajMiejscowoscWJPT()`|:ok_hand:||
+|`WyszukajUlice()`|:ok_hand:||
+|`WyszukajJednostkeWRejestrze()`|:ok_hand:||
+|`WyszukajMiejscowoscWRejestrze()`|:ok_hand:||
+|`WyszukajUliceWRejestrze()`|:ok_hand:||
+

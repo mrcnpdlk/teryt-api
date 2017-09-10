@@ -42,7 +42,7 @@ class ClientTest extends TestCase
 
     public function testGetProvinces()
     {
-        $tList = Api::PobierzListeWojewodztw();
+        $tList = Api\TERC::PobierzListeWojewodztw();
         $this->assertNotEmpty($tList);
         $this->assertInstanceOf(JednostkaTerytorialna::class, $tList[0]);
 
