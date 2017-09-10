@@ -1,8 +1,8 @@
 
-[![Latest Stable Version](https://poser.pugx.org/mrcnpdlk/teryt-api/v/stable)](https://packagist.org/packages/mrcnpdlk/teryt-api)
+[![Latest Stable Version](https://img.shields.io/github/release/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api)
 [![Latest Unstable Version](https://poser.pugx.org/mrcnpdlk/teryt-api/v/unstable.png)](https://packagist.org/packages/mrcnpdlk/teryt-api)
-[![Monthly Downloads](https://poser.pugx.org/mrcnpdlk/teryt-api/d/monthly)](https://packagist.org/packages/mrcnpdlk/teryt-api)
-[![Daily Downloads](https://poser.pugx.org/mrcnpdlk/teryt-api/d/daily)](https://packagist.org/packages/mrcnpdlk/teryt-api)
+[![Total Downloads](https://img.shields.io/packagist/dt/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api)
+[![Monthly Downloads](https://img.shields.io/packagist/dm/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api)
 [![License](https://img.shields.io/packagist/l/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api)    
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mrcnpdlk/teryt-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/teryt-api/?branch=master) 
