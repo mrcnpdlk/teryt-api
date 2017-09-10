@@ -172,16 +172,16 @@ Full list below:
 
 | Method | Status | Description|
 | ------ | ------ |------ |
-|`PobierzKatalogTERCAdr()`|:no_entry_sign:||
-|`PobierzKatalogTERC()`|:no_entry_sign:||
-|`PobierzKatalogNTS()`|:no_entry_sign:||
-|`PobierzKatalogSIMCAdr()`|:no_entry_sign:||
-|`PobierzKatalogSIMC()`|:no_entry_sign:||
-|`PobierzKatalogSIMCStat()`|:no_entry_sign:||
-|`PobierzKatalogULIC()`|:no_entry_sign:||
-|`PobierzKatalogULICAdr()`|:no_entry_sign:||
-|`PobierzKatalogULICBezDzielnic()`|:no_entry_sign:||
-|`PobierzKatalogWMRODZ()`|:no_entry_sign:||
+|`PobierzKatalogTERCAdr()`|:ok_hand:||
+|`PobierzKatalogTERC()`|:ok_hand:||
+|`PobierzKatalogNTS()`|:ok_hand:||
+|`PobierzKatalogSIMCAdr()`|:ok_hand:||
+|`PobierzKatalogSIMC()`|:ok_hand:||
+|`PobierzKatalogSIMCStat()`|:ok_hand:||
+|`PobierzKatalogULIC()`|:ok_hand:||
+|`PobierzKatalogULICAdr()`|:ok_hand:||
+|`PobierzKatalogULICBezDzielnic()`|:ok_hand:||
+|`PobierzKatalogWMRODZ()`|:ok_hand:||
 
 ### Changes
 `\mrcnpdlk\Teryt\Api\Change`
