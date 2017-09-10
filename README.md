@@ -6,7 +6,8 @@
 [![License](https://img.shields.io/packagist/l/mrcnpdlk/teryt-api.svg)](https://packagist.org/packages/mrcnpdlk/teryt-api)    
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/mrcnpdlk/teryt-api/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/teryt-api/?branch=master) 
-[![Build Status](https://travis-ci.org/mrcnpdlk/teryt-api.svg?branch=master)](https://travis-ci.org/mrcnpdlk/teryt-api)
+[![Build Status](https://scrutinizer-ci.com/g/mrcnpdlk/teryt-api/badges/build.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/teryt-api/build-status/master)
+[![Code Coverage](https://scrutinizer-ci.com/g/mrcnpdlk/teryt-api/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/mrcnpdlk/teryt-api/?branch=master)
 
 [![Code Climate](https://codeclimate.com/github/mrcnpdlk/teryt-api/badges/gpa.svg)](https://codeclimate.com/github/mrcnpdlk/teryt-api) 
 [![Issue Count](https://codeclimate.com/github/mrcnpdlk/teryt-api/badges/issue_count.svg)](https://codeclimate.com/github/mrcnpdlk/teryt-api)
