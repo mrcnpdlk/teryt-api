@@ -4,10 +4,12 @@
  *
  * Copyright (c) 2017 pudelek.org.pl
  *
+ * @license MIT License (MIT)
+ *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * Author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -83,9 +85,9 @@ class Terc
      */
     public function setIds(string $provinceId, string $districtId, string $communeId, string $communeTypeId)
     {
-        $this->provinceId = str_pad($provinceId, 2, '0', \STR_PAD_LEFT);
-        $this->districtId = str_pad($districtId, 2, '0', \STR_PAD_LEFT);;
-        $this->communeId = str_pad($communeId, 2, '0', \STR_PAD_LEFT);;
+        $this->provinceId    = str_pad($provinceId, 2, '0', \STR_PAD_LEFT);
+        $this->districtId    = str_pad($districtId, 2, '0', \STR_PAD_LEFT);
+        $this->communeId     = str_pad($communeId, 2, '0', \STR_PAD_LEFT);
         $this->communeTypeId = $communeTypeId;
         $this->tercId        = intval(sprintf('%s%s%s%s',
             $this->provinceId,
