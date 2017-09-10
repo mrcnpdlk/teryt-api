@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -155,5 +155,20 @@ class Helper
         } else {
             return $oObject->{$sPropertyName};
         }
+    }
+
+    /**
+     * Save file on disk
+     *
+     * @return \SplFileObject
+     */
+    public static function saveFile(string $sPath, string $content)
+    {
+        if (!file_exists($sPath) || (md5_file($sPath) !== md5($content))) {
+            $oFile = new \SplFileObject($sPath, 'w+');
+            $oFile->fwrite($content);
+        }
+
+        return new \SplFileObject($sPath);
     }
 }

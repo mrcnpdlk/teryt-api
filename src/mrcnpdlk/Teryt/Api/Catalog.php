@@ -23,6 +23,7 @@ namespace mrcnpdlk\Teryt\Api;
 
 
 use mrcnpdlk\Teryt\Client;
+use mrcnpdlk\Teryt\Helper;
 
 class Catalog
 {
@@ -37,22 +38,7 @@ class Catalog
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
-        return static::saveFile($sPath, $content);
-    }
-
-    /**
-     * Save file on disk
-     *
-     * @return \SplFileObject
-     */
-    private static function saveFile(string $sPath, string $content)
-    {
-        if (!file_exists($sPath) || (md5_file($sPath) !== md5($content))) {
-            $oFile = new \SplFileObject($sPath, 'w+');
-            $oFile->fwrite($content);
-        }
-
-        return new \SplFileObject($sPath);
+        return Helper::saveFile($sPath, $content);
     }
 
     /**
@@ -66,7 +52,7 @@ class Catalog
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
-        return static::saveFile($sPath, $content);
+        return Helper::saveFile($sPath, $content);
     }
 
     /**
@@ -80,7 +66,7 @@ class Catalog
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
-        return static::saveFile($sPath, $content);
+        return Helper::saveFile($sPath, $content);
     }
 
     /**
@@ -94,7 +80,7 @@ class Catalog
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
-        return static::saveFile($sPath, $content);
+        return Helper::saveFile($sPath, $content);
     }
 
     /**
@@ -108,7 +94,7 @@ class Catalog
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
-        return static::saveFile($sPath, $content);
+        return Helper::saveFile($sPath, $content);
     }
 
     /**
@@ -122,7 +108,7 @@ class Catalog
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
-        return static::saveFile($sPath, $content);
+        return Helper::saveFile($sPath, $content);
     }
 
     /**
@@ -136,7 +122,7 @@ class Catalog
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
-        return static::saveFile($sPath, $content);
+        return Helper::saveFile($sPath, $content);
     }
 
     /**
@@ -150,7 +136,7 @@ class Catalog
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
-        return static::saveFile($sPath, $content);
+        return Helper::saveFile($sPath, $content);
     }
 
     /**
@@ -164,7 +150,7 @@ class Catalog
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
-        return static::saveFile($sPath, $content);
+        return Helper::saveFile($sPath, $content);
     }
 
     /**
@@ -178,6 +164,6 @@ class Catalog
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
-        return static::saveFile($sPath, $content);
+        return Helper::saveFile($sPath, $content);
     }
 }
