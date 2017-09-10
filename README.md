@@ -16,10 +16,10 @@
 [![Dependency Status](https://www.versioneye.com/user/projects/59b2679a368b08003d0e8455/badge.svg)](https://www.versioneye.com/user/projects/59b2679a368b08003d0e8455?child=summary) 
 
 
-
+sss
 # TERYT WS1 API - Polish address database
 
-## Instalation
+## Installation
 
 Install the latest version with [composer](https://packagist.org/packages/mrcnpdlk/teryt-api)
 ```bash
@@ -29,7 +29,7 @@ composer require mrcnpdlk/teryt-api
 ## Basic usage
 
 ### Cache
-Library suport Cache bundles based on [PSR-16](http://www.php-fig.org/psr/psr-16/) standard.
+Library supports Cache bundles based on [PSR-16](http://www.php-fig.org/psr/psr-16/) standard.
 
 For below example was used [phpfastcache/phpfastcache](https://github.com/PHPSocialNetwork/phpfastcache).
 `phpfastcache/phpfastcache` supports a lot of endpoints, i.e. `Files`, `Sqlite`, `Redis` and many other. 
@@ -80,11 +80,11 @@ $oInstanceLogger->pushHandler(new \Monolog\Handler\ErrorLogHandler(
 Service TERYT WS1 shares API based on `SOAP Protocol`. More information about service you can find on 
 this [site](http://eteryt.stat.gov.pl/eTeryt/rejestr_teryt/udostepnianie_danych/baza_teryt/usluga_sieciowa_interfejsy_api/jakkorzystac.aspx)
 There are two ways to connect to the server:
- - `production database` - you need login/passwor
+ - `production database` - you need login/password
  - `testing database` - default authentication with default login/password pair
 
 First of all we need configure connection calling `setTerytConfig()` method and 
-optionaly set cache and log instrances
+optionally set cache and log instances
 
 ```php
 use mrcnpdlk\Teryt\Client;
