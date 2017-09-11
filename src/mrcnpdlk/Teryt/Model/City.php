@@ -71,11 +71,12 @@ class City extends EntityAbstract
     /**
      * @param string $id
      *
+     * @return $this
      * @throws NotFound
      */
     public function find(string $id)
     {
-        $res = $this->oNativeApi->WyszukajMiejscowoscWRejestrze(null, $id);
+        $res = $this->getNativeApi()->WyszukajMiejscowoscWRejestrze(null, $id);
         if (!empty($res) && count($res) === 1) {
             $oCity          = $res[0];
             $this->id       = $id;
@@ -83,7 +84,7 @@ class City extends EntityAbstract
             $this->name     = $oCity->cityName;
             $this->rmId     = $oCity->rmId;
             $this->rmName   = $oCity->rmName;
-            $this->commune  = (new Commune($this->oNativeApi))->find($oCity->tercId);
+            $this->commune  = (new Commune($this->getNativeApi()))->find($oCity->tercId);
         }
 
         if (!$this->id) {

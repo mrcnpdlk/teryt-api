@@ -49,11 +49,12 @@ class Province extends EntityAbstract
      *
      * @param string $id Dwuznakowy symbol województwa
      *
+     * @return $this
      * @throws Exception\NotFound
      */
     public function find(string $id)
     {
-        foreach ($this->oNativeApi->PobierzListeWojewodztw() as $w) {
+        foreach ($this->getNativeApi()->PobierzListeWojewodztw() as $w) {
             if ($w->provinceId === $id) {
                 $this->id   = $w->provinceId;
                 $this->name = $w->name;
@@ -80,16 +81,16 @@ class Province extends EntityAbstract
         try {
             $answer = [];
             if ($phrase) {
-                $tList = $this->oNativeApi->WyszukajJednostkeWRejestrze($phrase, NativeApi::CATEGORY_POW_ALL);
+                $tList = $this->getNativeApi()->WyszukajJednostkeWRejestrze($phrase, NativeApi::CATEGORY_POW_ALL);
                 foreach ($tList as $p) {
                     if ($p->provinceId === $this->id) {
-                        $answer[] = (new District($this->oNativeApi))->find($p->provinceId . $p->districtId);
+                        $answer[] = (new District($this->getNativeApi()))->find($p->provinceId . $p->districtId);
                     }
                 }
             } else {
-                $tList = $this->oNativeApi->PobierzListePowiatow($this->id);
+                $tList = $this->getNativeApi()->PobierzListePowiatow($this->id);
                 foreach ($tList as $p) {
-                    $answer[] = (new District($this->oNativeApi))->find($p->provinceId . $p->districtId);
+                    $answer[] = (new District($this->getNativeApi()))->find($p->provinceId . $p->districtId);
                 }
             }
 

@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -21,7 +21,6 @@
 namespace mrcnpdlk\Teryt\Model;
 
 
-use mrcnpdlk\Teryt\Api;
 use mrcnpdlk\Teryt\Exception\NotFound;
 
 /**
@@ -62,13 +61,14 @@ class District extends EntityAbstract
      *
      * @param string $id 4-znakowy symbol powiatu
      *
+     * @return $this
      * @throws NotFound
      */
     public function find(string $id)
     {
         $provinceId = substr($id, 0, 2);
         $districtId = substr($id, 2, 2);
-        foreach ($this->oNativeApi->PobierzListePowiatow($provinceId) as $i) {
+        foreach ($this->getNativeApi()->PobierzListePowiatow($provinceId) as $i) {
             if ($i->districtId === $districtId) {
                 $this->id       = $id;
                 $this->name     = $i->name;
@@ -78,7 +78,7 @@ class District extends EntityAbstract
         if (!$this->id) {
             throw new NotFound(sprintf('District [id:%s] not exists', $id));
         }
-        $this->province = (new Province($this->oNativeApi))->find($provinceId);
+        $this->province = (new Province($this->getNativeApi()))->find($provinceId);
 
         return $this;
     }

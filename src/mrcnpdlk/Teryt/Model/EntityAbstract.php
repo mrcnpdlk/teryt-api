@@ -29,10 +29,15 @@ class EntityAbstract
     /**
      * @var NativeApi
      */
-    protected $oNativeApi;
+    private $oNativeApi;
 
     public function __construct(NativeApi $oNativeApi)
     {
         $this->oNativeApi = $oNativeApi;
+    }
+
+    protected function getNativeApi()
+    {
+        return $this->oNativeApi;
     }
 }
