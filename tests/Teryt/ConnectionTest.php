@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -25,8 +25,9 @@ class ConnectionTest extends TestCase
 {
     public function testConnect()
     {
-        $client = \mrcnpdlk\Teryt\Client::getInstance();
-        $this->assertEquals(true, \mrcnpdlk\Teryt\Api::CzyZalogowany());
+        $oClient    = new \mrcnpdlk\Teryt\Client();
+        $oNativeApi = new NativeApi($oClient);
+        $this->assertEquals(true, $oNativeApi->CzyZalogowany());
     }
 
     /**
@@ -34,8 +35,7 @@ class ConnectionTest extends TestCase
      */
     public function testInvalidAuth()
     {
-        \mrcnpdlk\Teryt\Client::getInstance()
-                              ->setTerytConfig(['url' => 'http://foo.bar'])
-        ;
+        $oClient = new \mrcnpdlk\Teryt\Client();
+        $oClient->setConfig(['url' => 'http://foo.bar']);
     }
 }

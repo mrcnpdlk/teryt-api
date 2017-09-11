@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -34,17 +34,21 @@ class ClientTest extends TestCase
 
     public function testEmptyLogger()
     {
-        $this->assertInstanceOf(NullLogger::class, Client::getInstance()->getLogger());
+        $oClient = new \mrcnpdlk\Teryt\Client();
+        $this->assertInstanceOf(NullLogger::class, $oClient->getLogger());
     }
 
     public function testEmptyCache()
     {
-        $this->assertInstanceOf(NullLogger::class, Client::getInstance()->getLogger());
+        $oClient = new \mrcnpdlk\Teryt\Client();
+        $this->assertInstanceOf(NullLogger::class, $oClient->getLogger());
     }
 
     public function testGetProvinces()
     {
-        $tList = Api\TERC::PobierzListeWojewodztw();
+        $oClient    = new \mrcnpdlk\Teryt\Client();
+        $oNativeApi = new NativeApi($oClient);
+        $tList      = $oNativeApi->PobierzListeWojewodztw();
         $this->assertNotEmpty($tList);
         $this->assertInstanceOf(JednostkaTerytorialna::class, $tList[0]);
 

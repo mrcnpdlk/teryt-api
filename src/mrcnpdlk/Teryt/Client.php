@@ -31,12 +31,6 @@ use Psr\SimpleCache\CacheInterface;
 class Client
 {
     /**
-     * Client instance
-     *
-     * @var \mrcnpdlk\Teryt\Client
-     */
-    protected static $classInstance;
-    /**
      * SoapClient handler
      *
      * @var \mrcnpdlk\Teryt\TerytSoapClient
@@ -75,9 +69,9 @@ class Client
     /**
      * Client constructor.
      */
-    protected function __construct()
+    public function __construct()
     {
-        $this->setTerytConfig();
+        $this->setConfig();
         $this->setLoggerInstance();
         $this->setCacheInstance();
     }
@@ -90,7 +84,7 @@ class Client
      * @return $this
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      */
-    public function setTerytConfig(array $tConfig = [])
+    public function setConfig(array $tConfig = [])
     {
         if (empty($tConfig)) {
             $tConfig = $this->tDefTerytConfig;
@@ -157,21 +151,6 @@ class Client
         $this->oCache = $oCache;
 
         return $this;
-    }
-
-    /**
-     * Get Client class instance
-     *
-     * @return \mrcnpdlk\Teryt\Client Instancja klasy
-     * @throws \mrcnpdlk\Teryt\Exception
-     */
-    public static function getInstance()
-    {
-        if (!static::$classInstance) {
-            static::$classInstance = new static;
-        }
-
-        return static::$classInstance;
     }
 
     /**

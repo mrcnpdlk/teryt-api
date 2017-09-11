@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -21,16 +21,16 @@
 namespace mrcnpdlk\Teryt\Model;
 
 
-use mrcnpdlk\Teryt\Api;
 use mrcnpdlk\Teryt\Exception\InvalidArgument;
 use mrcnpdlk\Teryt\Exception\NotFound;
+use mrcnpdlk\Teryt\NativeApi;
 
 /**
  * Class Commune
  *
  * @package mrcnpdlk\Teryt\Model
  */
-class Commune
+class Commune extends EntityAbstract
 {
     /**
      * 6 (lub 7) znakowy symbol powiatu lub tercId
@@ -78,7 +78,7 @@ class Commune
      * @throws InvalidArgument
      * @throws NotFound
      */
-    public function __construct(string $id)
+    public function find(string $id)
     {
         switch (strlen($id)) {
             case 6;
@@ -98,7 +98,7 @@ class Commune
                 break;
         }
         if (!$tercId) {
-            foreach (Api\TERC::PobierzListeGmin($provinceId, $districtId) as $i) {
+            foreach ($this->oNativeApi->PobierzListeGmin($provinceId, $districtId) as $i) {
                 if ($i->districtId === $districtId) {
                     $this->id       = $id;
                     $this->name     = $i->name;
@@ -109,7 +109,7 @@ class Commune
             }
 
         } else {
-            $res = Api\Search::WyszukajJednostkeWRejestrze(null, Api::CATEGORY_GMI_ALL, [], [$tercId]);
+            $res = $this->oNativeApi->WyszukajJednostkeWRejestrze(null, NativeApi::CATEGORY_GMI_ALL, [], [$tercId]);
             if (!empty($res) && count($res) === 1) {
                 $oCommune       = $res[0];
                 $this->id       = $id;
@@ -125,18 +125,8 @@ class Commune
 
         $this->id       = sprintf('%s%s%s', $provinceId, $districtId, $communeId);
         $this->tercId   = $tercId;
-        $this->district = District::find(sprintf('%s%s', $provinceId, $districtId));
-    }
+        $this->district = (new District($this->oNativeApi))->find(sprintf('%s%s', $provinceId, $districtId));
 
-    /**
-     * Zwrócenie instancji klasy Commune
-     *
-     * @param string $id
-     *
-     * @return static
-     */
-    public static function find(string $id)
-    {
-        return new static($id);
+        return $this;
     }
 }

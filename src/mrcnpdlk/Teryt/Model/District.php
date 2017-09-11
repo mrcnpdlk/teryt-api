@@ -29,7 +29,7 @@ use mrcnpdlk\Teryt\Exception\NotFound;
  *
  * @package mrcnpdlk\Teryt\Model
  */
-class District
+class District extends EntityAbstract
 {
     /**
      * 4 znakowy symbol powiatu
@@ -64,11 +64,11 @@ class District
      *
      * @throws NotFound
      */
-    public function __construct(string $id)
+    public function find(string $id)
     {
         $provinceId = substr($id, 0, 2);
         $districtId = substr($id, 2, 2);
-        foreach (Api\TERC::PobierzListePowiatow($provinceId) as $i) {
+        foreach ($this->oNativeApi->PobierzListePowiatow($provinceId) as $i) {
             if ($i->districtId === $districtId) {
                 $this->id       = $id;
                 $this->name     = $i->name;
@@ -78,18 +78,9 @@ class District
         if (!$this->id) {
             throw new NotFound(sprintf('District [id:%s] not exists', $id));
         }
-        $this->province = Province::find($provinceId);
+        $this->province = (new Province($this->oNativeApi))->find($provinceId);
+
+        return $this;
     }
 
-    /**
-     * Pobranie instancji klasy District
-     *
-     * @param string $id
-     *
-     * @return static
-     */
-    public static function find(string $id)
-    {
-        return new static($id);
-    }
 }

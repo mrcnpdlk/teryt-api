@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -21,6 +21,8 @@
 
 namespace mrcnpdlk\Teryt;
 
+use mrcnpdlk\Teryt\Model\City;
+
 
 /**
  * Class Api
@@ -29,106 +31,26 @@ namespace mrcnpdlk\Teryt;
  */
 class Api
 {
-
     /**
-     * @var string Wyszukiwanie wśród wszystkich rodzajów jednostek
+     * @var NativeApi
      */
-    const CATEGORY_ALL         = '0'; // Wyszukiwanie wśród wszystkich rodzajów jednostek
-    const CATEGORY_WOJ_ALL     = '1'; // Dla województw
-    const CATEGORY_POW_ALL     = '2'; // Dla wszystkich powiatów
-    const CATEGORY_POW_ZIE     = '21'; // Dla powiatów ziemskich (identyfikator powiatu 01-60)
-    const CATEGORY_POW_MIA     = '22'; // Dla miast na prawach powiatu (identyfikator powiatu 61-99)
-    const CATEGORY_GMI_ALL     = '3'; // Dla gmin ogółem
-    const CATEGORY_GMI_MIA     = '31'; // Dla gmin miejskich (identyfikator rodzaju gminy 1)
-    const CATEGORY_DELEG       = '32'; // Dla dzielnic i delegatur (identyfikator rodzaju 8 i 9)
-    const CATEGORY_GMI_WIE     = '33'; // Dla gmin wiejskich (identyfikator rodzaju 2)
-    const CATEGORY_GMI_MIE_WIE = '34'; // Dla gmin miejsko-wiejskich (3)
-    const CATEGORY_MIA         = '341'; // Dla miast w gminach miejsko-wiejskich(4)
-    const CATEGORY_MIA_OBS     = '342'; // Dla obszarów miejskich w gminach miejsko-wiejskich(5)
-    const CATEGORY_MIA_ALL     = '35'; // Dla miast ogółem (identyfikator 1 i 4)
-    const CATEGORY_WIE         = '36'; // Dla terenów wiejskich (identyfikator 2 i 5)
+    private $oNativeApi;
 
     /**
-     * Określenie zakresu miejscowości
-     */
-
-    const SEARCH_CITY_TYPE_ALL  = '000'; //Wszystkie
-    const SEARCH_CITY_TYPE_MAIN = '001'; //Miejscowości podstawowe
-    const SEARCH_CITY_TYPE_ADD  = '002'; //Części integralne miejscowości
-
-    /**
-     * Sprawdzenie czy użytkownik jest zalogowany
+     * Api constructor.
      *
-     * @return bool
+     * @param Client $oClient
      */
-    public static function CzyZalogowany()
+    public function __construct(Client $oClient)
     {
-        $res = Client::getInstance()->request('CzyZalogowany');
-
-        return $res;
+        $this->oNativeApi = new NativeApi($oClient);
     }
 
-    /**
-     * Data początkowa bieżącego stanu katalogu TERC
-     *
-     * @return null|string Data w formacie YYY-MM-DD
-     */
-    public static function PobierzDateAktualnegoKatTerc()
+    public function getCity(string $id)
     {
-        $res = Client::getInstance()->request('PobierzDateAktualnegoKatTerc');
+        $oCity = new City($this->oNativeApi);
 
-        try {
-            return (new \DateTime($res))->format('Y-m-d');
-        } catch (\Exception $e) {
-            return null;
-        }
+        return $oCity->find($id);
     }
 
-    /**
-     * Data początkowa bieżącego stanu katalogu NTS
-     *
-     * @return null|string Data w formacie YYY-MM-DD
-     */
-    public static function PobierzDateAktualnegoKatNTS()
-    {
-        $res = Client::getInstance()->request('PobierzDateAktualnegoKatNTS');
-
-        try {
-            return (new \DateTime($res))->format('Y-m-d');
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-
-    /**
-     * Data początkowa bieżącego stanu katalogu SIMC
-     *
-     * @return null|string Data w formacie YYY-MM-DD
-     */
-    public static function PobierzDateAktualnegoKatSimc()
-    {
-        $res = Client::getInstance()->request('PobierzDateAktualnegoKatSimc');
-
-        try {
-            return (new \DateTime($res))->format('Y-m-d');
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
-
-    /**
-     * Data początkowa bieżącego stanu katalogu ULIC
-     *
-     * @return null|string Data w formacie YYY-MM-DD
-     */
-    public static function PobierzDateAktualnegoKatUlic()
-    {
-        $res = Client::getInstance()->request('PobierzDateAktualnegoKatUlic');
-
-        try {
-            return (new \DateTime($res))->format('Y-m-d');
-        } catch (\Exception $e) {
-            return null;
-        }
-    }
 }

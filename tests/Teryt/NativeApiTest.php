@@ -21,11 +21,13 @@
 
 namespace mrcnpdlk\Teryt;
 
-class ApiTest extends TestCase
+class NativeApiTest extends TestCase
 {
     public function testCatalog()
     {
-        $oFile = Api\Catalog::PobierzKatalogWMRODZ();
+        $oClient    = new \mrcnpdlk\Teryt\Client();
+        $oNativeApi = new NativeApi($oClient);
+        $oFile      = $oNativeApi->PobierzKatalogWMRODZ();
 
         $this->assertInstanceOf(\SplFileObject::class, $oFile);
         $this->assertEquals(true, file_exists($oFile->getPath()));
@@ -34,9 +36,11 @@ class ApiTest extends TestCase
 
     public function testChange()
     {
-        $fromDate = new \DateTime();
-        $toDate   = new \DateTime();
-        $oFile    = Api\Change::PobierzZmianyTercAdresowy($fromDate->modify('-14 day'), $toDate);
+        $oClient    = new \mrcnpdlk\Teryt\Client();
+        $oNativeApi = new NativeApi($oClient);
+        $fromDate   = new \DateTime();
+        $toDate     = new \DateTime();
+        $oFile      = $oNativeApi->PobierzZmianyTercAdresowy($fromDate->modify('-14 day'), $toDate);
 
         $this->assertInstanceOf(\SplFileObject::class, $oFile);
         $this->assertEquals(true, file_exists($oFile->getPath()));

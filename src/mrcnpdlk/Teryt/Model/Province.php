@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -21,15 +21,15 @@
 namespace mrcnpdlk\Teryt\Model;
 
 
-use mrcnpdlk\Teryt\Api;
 use mrcnpdlk\Teryt\Exception;
+use mrcnpdlk\Teryt\NativeApi;
 
 /**
  * Class Province
  *
  * @package mrcnpdlk\Teryt\Model
  */
-class Province
+class Province extends EntityAbstract
 {
     /**
      * Dwuznakowy symbol województwa
@@ -51,9 +51,9 @@ class Province
      *
      * @throws Exception\NotFound
      */
-    public function __construct(string $id)
+    public function find(string $id)
     {
-        foreach (Api\TERC::PobierzListeWojewodztw() as $w) {
+        foreach ($this->oNativeApi->PobierzListeWojewodztw() as $w) {
             if ($w->provinceId === $id) {
                 $this->id   = $w->provinceId;
                 $this->name = $w->name;
@@ -62,19 +62,10 @@ class Province
         if (!$this->id) {
             throw new Exception\NotFound(sprintf('Province [id:%s] not exists', $id));
         }
+
+        return $this;
     }
 
-    /**
-     * Utworzenie instancko klasy Province
-     *
-     * @param string $id Dwuznakowy symbol województwa
-     *
-     * @return Province
-     */
-    public static function find(string $id)
-    {
-        return new static($id);
-    }
 
     /**
      * Pełnokontekstowe wyszukiwanie powiatów w województwie
@@ -89,16 +80,16 @@ class Province
         try {
             $answer = [];
             if ($phrase) {
-                $tList = Api\Search::WyszukajJednostkeWRejestrze($phrase, Api::CATEGORY_POW_ALL);
+                $tList = $this->oNativeApi->WyszukajJednostkeWRejestrze($phrase, NativeApi::CATEGORY_POW_ALL);
                 foreach ($tList as $p) {
                     if ($p->provinceId === $this->id) {
-                        $answer[] = District::find($p->provinceId . $p->districtId);
+                        $answer[] = (new District($this->oNativeApi))->find($p->provinceId . $p->districtId);
                     }
                 }
             } else {
-                $tList = Api\TERC::PobierzListePowiatow($this->id);
+                $tList = $this->oNativeApi->PobierzListePowiatow($this->id);
                 foreach ($tList as $p) {
-                    $answer[] = District::find($p->provinceId . $p->districtId);
+                    $answer[] = (new District($this->oNativeApi))->find($p->provinceId . $p->districtId);
                 }
             }
 

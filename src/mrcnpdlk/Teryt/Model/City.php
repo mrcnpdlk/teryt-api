@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -21,7 +21,6 @@
 namespace mrcnpdlk\Teryt\Model;
 
 
-use mrcnpdlk\Teryt\Api;
 use mrcnpdlk\Teryt\Exception\NotFound;
 
 /**
@@ -29,7 +28,7 @@ use mrcnpdlk\Teryt\Exception\NotFound;
  *
  * @package mrcnpdlk\Teryt\Model
  */
-class City
+class City extends EntityAbstract
 {
     /**
      * 7 znakowy identyfikator miejscowości
@@ -68,16 +67,15 @@ class City
      */
     public $commune;
 
+
     /**
-     * City constructor.
-     *
-     * @param string $id 7-znakowy symbol miejscowosci
+     * @param string $id
      *
      * @throws NotFound
      */
-    public function __construct(string $id)
+    public function find(string $id)
     {
-        $res = Api\Search::WyszukajMiejscowoscWRejestrze(null, $id);
+        $res = $this->oNativeApi->WyszukajMiejscowoscWRejestrze(null, $id);
         if (!empty($res) && count($res) === 1) {
             $oCity          = $res[0];
             $this->id       = $id;
@@ -85,24 +83,13 @@ class City
             $this->name     = $oCity->cityName;
             $this->rmId     = $oCity->rmId;
             $this->rmName   = $oCity->rmName;
-            $this->commune  = Commune::find($oCity->tercId);
+            $this->commune  = (new Commune($this->oNativeApi))->find($oCity->tercId);
         }
 
         if (!$this->id) {
             throw new NotFound(sprintf('City [id:%s] not exists', $id));
         }
 
-    }
-
-    /**
-     * Pobranie instancji klasy City
-     *
-     * @param string $id
-     *
-     * @return static
-     */
-    public static function find(string $id)
-    {
-        return new static($id);
+        return $this;
     }
 }
