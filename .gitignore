@@ -1,5 +1,5 @@
-doc
-devel
+/doc/
+/devel/
 coverage.clover
 # Created by .ignore support plugin (hsz.mobi)
 ### Windows template
