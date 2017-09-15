@@ -87,31 +87,31 @@ optionally set cache and log instances
 
 ```php
 use mrcnpdlk\Teryt\Client;
+use mrcnpdlk\Teryt\NativeApi
 
-Client::create()
-      ->setTerytConfig([
-          'username' => 'secret_login',
-          'password' => 'secret_password',
-      ])
-      ->setCacheInstance($oInstanceCacheRedis)
-      ->setLogger($oInstanceLogger)
+$oClient = new Client()
+$oClient
+        ->setConfig($login,$password,true)
+        ->setCacheInstance($oInstanceCacheRedis)
+        ->setLoggerInstance($oInstanceLogger)
 ;
+$oNativeApi = NativeApi::create($oClient);
 ```
 
-After that we able to call auxiliary static methods defined in Api class, i.e:
+After that we able to call auxiliary static methods defined in NativeApi class, i.e:
 ```php
-var_dump(\mrcnpdlk\Teryt\Api::CzyZalogowany());
-var_dump(\mrcnpdlk\Teryt\Api\Dictionary::PobierzSlownikCechULIC());
-var_dump(\mrcnpdlk\Teryt\Api\Search::WyszukajMiejscowosc('skiernie',null));
+var_dump($NativeApi->CzyZalogowany());
+var_dump($NativeApi->PobierzSlownikCechULIC());
+var_dump($NativeApi->WyszukajMiejscowosc('skiernie',null));
 ```
 
-## Defined methods
+## Defined methods (`\mrcnpdlk\Teryt\NativeApi`)
 Almost all methods from official documentation have been mapped and defined.
 
-Full list below:
+Full list below `\mrcnpdlk\Teryt\NativeApi`:
 
 ### General
-`\mrcnpdlk\Teryt\Api`
+
 
 | Method | Status | Description|
 | ------ | ------ |------ |
@@ -122,7 +122,6 @@ Full list below:
 |`PobierzDateAktualnegoKatUlic()`|:ok_hand:||
 
 ### Catalog TERC
-`\mrcnpdlk\Teryt\Api\TERC`
 
 | Method | Status | Description|
 | ------ | ------ |------ |
@@ -132,7 +131,6 @@ Full list below:
 |`PobierzGminyiPowDlaWoj()`|:ok_hand:||
 
 ### Catalog NTS
-`\mrcnpdlk\Teryt\Api\NTS`
 
 | Method | Status | Description|
 | ------ | ------ |------ |
@@ -143,14 +141,12 @@ Full list below:
 |`PobierzListeGminPowiecie()`|:ok_hand:||
 
 ### Catalog ULIC
-`\mrcnpdlk\Teryt\Api\ULIC`
 
 | Method | Status | Description|
 | ------ | ------ |------ |
 |`PobierzListeUlicDlaMiejscowosci()`|:warning:||
 
 ### Catalog SIMC
-`\mrcnpdlk\Teryt\Api\SIMC`
 
 | Method | Status | Description|
 | ------ | ------ |------ |
@@ -158,8 +154,6 @@ Full list below:
 |`PobierzListeMiejscowosciWRodzajuGminy()`|:ok_hand:||
 
 ### Dictionary
-`\mrcnpdlk\Teryt\Api\Dictionary`
-
 
 | Method | Status | Description|
 | ------ | ------ |------ |
@@ -168,7 +162,6 @@ Full list below:
 |`PobierzSlownikCechULIC()`|:ok_hand:||
 
 ### Catalog
-`\mrcnpdlk\Teryt\Api\Catalog`
 
 | Method | Status | Description|
 | ------ | ------ |------ |
@@ -184,7 +177,6 @@ Full list below:
 |`PobierzKatalogWMRODZ()`|:ok_hand:||
 
 ### Changes
-`\mrcnpdlk\Teryt\Api\Change`
 
 | Method | Status | Description|
 | ------ | ------ |------ |
@@ -198,7 +190,6 @@ Full list below:
 |`PobierzZmianyUlicAdresowy()`|:ok_hand:||
 
 ### Verification
-`\mrcnpdlk\Teryt\Api\Verification`
 
 | Method | Status | Description|
 | ------ | ------ |------ |
@@ -212,7 +203,6 @@ Full list below:
 |`WeryfikujNazwaAdresUlicAdresowy()`|:ok_hand:||
 
 ### Search
-`\mrcnpdlk\Teryt\Api\Search`
 
 | Method | Status | Description|
 | ------ | ------ |------ |
@@ -224,3 +214,43 @@ Full list below:
 |`WyszukajMiejscowoscWRejestrze()`|:ok_hand:||
 |`WyszukajUliceWRejestrze()`|:ok_hand:||
 
+## Defined methods (`\mrcnpdlk\Teryt\Api`)
+
+| Method | Status | Description|
+| ------ | ------ |------ |
+|`getCity()`|:ok_hand:||
+
+```php
+$oApi = new \mrcnpdlk\Teryt\Api($oClient);
+print_r($oApi->getCity('0700884'));
+```
+
+```text
+mrcnpdlk\Teryt\Model\City Object
+(
+    [id] => 0700884
+    [parentId] => 0700884
+    [rmId] => 01
+    [rmName] => wieś
+    [name] => Burzenin
+    [commune] => mrcnpdlk\Teryt\Model\Commune Object
+        (
+            [id] => 101414
+            [tercId] => 1014052
+            [name] => Burzenin
+            [typeId] => 2
+            [typeName] => gmina wiejska
+            [district] => mrcnpdlk\Teryt\Model\District Object
+                (
+                    [id] => 1014
+                    [name] => sieradzki
+                    [typeName] => powiat
+                    [province] => mrcnpdlk\Teryt\Model\Province Object
+                        (
+                            [id] => 10
+                            [name] => ŁÓDZKIE
+                        )
+                )
+        )
+)
+```

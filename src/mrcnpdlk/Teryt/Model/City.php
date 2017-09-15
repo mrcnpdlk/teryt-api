@@ -22,6 +22,7 @@ namespace mrcnpdlk\Teryt\Model;
 
 
 use mrcnpdlk\Teryt\Exception\NotFound;
+use mrcnpdlk\Teryt\NativeApi;
 
 /**
  * Class City
@@ -71,12 +72,12 @@ class City extends EntityAbstract
     /**
      * @param string $id
      *
-     * @return $this
+     * @return \mrcnpdlk\Teryt\Model\City
      * @throws NotFound
      */
     public function find(string $id)
     {
-        $res = $this->getNativeApi()->WyszukajMiejscowoscWRejestrze(null, $id);
+        $res = NativeApi::getInstance()->WyszukajMiejscowoscWRejestrze(null, $id);
         if (!empty($res) && count($res) === 1) {
             $oCity          = $res[0];
             $this->id       = $id;
@@ -84,7 +85,7 @@ class City extends EntityAbstract
             $this->name     = $oCity->cityName;
             $this->rmId     = $oCity->rmId;
             $this->rmName   = $oCity->rmName;
-            $this->commune  = (new Commune($this->getNativeApi()))->find($oCity->tercId);
+            $this->commune  = (new Commune())->find($oCity->tercId);
         }
 
         if (!$this->id) {

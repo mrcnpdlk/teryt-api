@@ -13,12 +13,6 @@
  *
  */
 
-/**
- * Created by Marcin.
- * Date: 06.09.2017
- * Time: 19:47
- */
-
 namespace mrcnpdlk\Teryt;
 
 use mrcnpdlk\Teryt\Model\City;
@@ -43,12 +37,19 @@ class Api
      */
     public function __construct(Client $oClient)
     {
-        $this->oNativeApi = new NativeApi($oClient);
+        $this->oNativeApi = NativeApi::create($oClient);
     }
 
+    /**
+     * Get information about City
+     *
+     * @param string $id
+     *
+     * @return City
+     */
     public function getCity(string $id)
     {
-        $oCity = new City($this->oNativeApi);
+        $oCity = new City();
 
         return $oCity->find($id);
     }

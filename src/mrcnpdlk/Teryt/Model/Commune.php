@@ -99,7 +99,7 @@ class Commune extends EntityAbstract
                 break;
         }
         if (!$tercId) {
-            foreach ($this->getNativeApi()->PobierzListeGmin($provinceId, $districtId) as $i) {
+            foreach (NativeApi::getInstance()->PobierzListeGmin($provinceId, $districtId) as $i) {
                 if ($i->districtId === $districtId) {
                     $this->id       = $id;
                     $this->name     = $i->name;
@@ -110,7 +110,7 @@ class Commune extends EntityAbstract
             }
 
         } else {
-            $res = $this->getNativeApi()->WyszukajJednostkeWRejestrze(null, NativeApi::CATEGORY_GMI_ALL, [], [$tercId]);
+            $res = NativeApi::getInstance()->WyszukajJednostkeWRejestrze(null, NativeApi::CATEGORY_GMI_ALL, [], [$tercId]);
             if (!empty($res) && count($res) === 1) {
                 $oCommune       = $res[0];
                 $this->id       = $id;
@@ -126,7 +126,7 @@ class Commune extends EntityAbstract
 
         $this->id       = sprintf('%s%s%s', $provinceId, $districtId, $communeId);
         $this->tercId   = $tercId;
-        $this->district = (new District($this->getNativeApi()))->find(sprintf('%s%s', $provinceId, $districtId));
+        $this->district = (new District())->find(sprintf('%s%s', $provinceId, $districtId));
 
         return $this;
     }

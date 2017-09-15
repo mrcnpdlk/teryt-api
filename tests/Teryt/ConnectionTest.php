@@ -26,7 +26,7 @@ class ConnectionTest extends TestCase
     public function testConnect()
     {
         $oClient    = new \mrcnpdlk\Teryt\Client();
-        $oNativeApi = new NativeApi($oClient);
+        $oNativeApi = NativeApi::create($oClient);
         $this->assertEquals(true, $oNativeApi->CzyZalogowany());
     }
 
@@ -36,6 +36,8 @@ class ConnectionTest extends TestCase
     public function testInvalidAuth()
     {
         $oClient = new \mrcnpdlk\Teryt\Client();
-        $oClient->setConfig(['url' => 'http://foo.bar']);
+        $oClient->setConfig('invaliduser', 'invalidpassword',false);
+        $oNativeApi = NativeApi::create($oClient);
+        $oNativeApi->PobierzListeWojewodztw();
     }
 }

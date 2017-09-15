@@ -54,7 +54,7 @@ class Province extends EntityAbstract
      */
     public function find(string $id)
     {
-        foreach ($this->getNativeApi()->PobierzListeWojewodztw() as $w) {
+        foreach (NativeApi::getInstance()->PobierzListeWojewodztw() as $w) {
             if ($w->provinceId === $id) {
                 $this->id   = $w->provinceId;
                 $this->name = $w->name;
@@ -81,16 +81,16 @@ class Province extends EntityAbstract
         try {
             $answer = [];
             if ($phrase) {
-                $tList = $this->getNativeApi()->WyszukajJednostkeWRejestrze($phrase, NativeApi::CATEGORY_POW_ALL);
+                $tList = NativeApi::getInstance()->WyszukajJednostkeWRejestrze($phrase, NativeApi::CATEGORY_POW_ALL);
                 foreach ($tList as $p) {
                     if ($p->provinceId === $this->id) {
-                        $answer[] = (new District($this->getNativeApi()))->find($p->provinceId . $p->districtId);
+                        $answer[] = (new District())->find($p->provinceId . $p->districtId);
                     }
                 }
             } else {
-                $tList = $this->getNativeApi()->PobierzListePowiatow($this->id);
+                $tList = NativeApi::getInstance()->PobierzListePowiatow($this->id);
                 foreach ($tList as $p) {
-                    $answer[] = (new District($this->getNativeApi()))->find($p->provinceId . $p->districtId);
+                    $answer[] = (new District())->find($p->provinceId . $p->districtId);
                 }
             }
 

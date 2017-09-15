@@ -26,18 +26,8 @@ use mrcnpdlk\Teryt\NativeApi;
 
 class EntityAbstract
 {
-    /**
-     * @var NativeApi
-     */
-    private $oNativeApi;
 
-    public function __construct(NativeApi $oNativeApi)
+    public function __construct()
     {
-        $this->oNativeApi = $oNativeApi;
-    }
-
-    protected function getNativeApi()
-    {
-        return $this->oNativeApi;
     }
 }

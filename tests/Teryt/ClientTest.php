@@ -47,7 +47,7 @@ class ClientTest extends TestCase
     public function testGetProvinces()
     {
         $oClient    = new \mrcnpdlk\Teryt\Client();
-        $oNativeApi = new NativeApi($oClient);
+        $oNativeApi = NativeApi::create($oClient);
         $tList      = $oNativeApi->PobierzListeWojewodztw();
         $this->assertNotEmpty($tList);
         $this->assertInstanceOf(JednostkaTerytorialna::class, $tList[0]);

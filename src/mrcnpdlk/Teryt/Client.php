@@ -30,6 +30,10 @@ use Psr\SimpleCache\CacheInterface;
  */
 class Client
 {
+    const SERVICE_URL_TEST      = 'https://uslugaterytws1test.stat.gov.pl/wsdl/terytws1.wsdl';
+    const SERVICE_URL           = 'https://uslugaterytws1.stat.gov.pl/wsdl/terytws1.wsdl';
+    const SERVICE_USER_TEST     = 'TestPubliczny';
+    const SERVICE_PASSWORD_TEST = '1234abcd';
     /**
      * SoapClient handler
      *
@@ -49,22 +53,17 @@ class Client
      */
     private $oLogger;
     /**
-     * Teryt auth configuration
-     *
-     * @var array
+     * @var string
      */
-    private $tTerytConfig = [];
+    private $sServiceUrl;
     /**
-     * Default Teryt auth configuration
-     *
-     * @var array
+     * @var string
      */
-    private $tDefTerytConfig
-        = [
-            'url'      => 'https://uslugaterytws1test.stat.gov.pl/wsdl/terytws1.wsdl',
-            'username' => 'TestPubliczny',
-            'password' => '1234abcd',
-        ];
+    private $sServiceUsername;
+    /**
+     * @var string
+     */
+    private $sServicePassword;
 
     /**
      * Client constructor.
@@ -79,23 +78,19 @@ class Client
     /**
      * Set Teryt configuration parameters
      *
-     * @param array $tConfig
+     * @param string|null $username     Service username
+     * @param string|null $password     Service password
+     * @param bool        $isProduction Default FALSE
      *
      * @return $this
-     * @throws \mrcnpdlk\Teryt\Exception\Connection
+     *
      */
-    public function setConfig(array $tConfig = [])
+    public function setConfig(string $username = null, string $password = null, bool $isProduction = false)
     {
-        if (empty($tConfig)) {
-            $tConfig = $this->tDefTerytConfig;
-        }
-        $this->tTerytConfig['url']      = $tConfig['url'] ?? 'https://uslugaterytws1.stat.gov.pl/wsdl/terytws1.wsdl';
-        $this->tTerytConfig['username'] = $tConfig['username'] ?? null;
-        $this->tTerytConfig['password'] = $tConfig['password'] ?? null;
+        $this->sServiceUrl      = $isProduction ? Client::SERVICE_URL : Client::SERVICE_URL_TEST;
+        $this->sServiceUsername = $username ?? Client::SERVICE_USER_TEST;
+        $this->sServicePassword = $password ?? Client::SERVICE_PASSWORD_TEST;
 
-        if (!$this->tTerytConfig['username'] || !$this->tTerytConfig['password']) {
-            throw new Connection(sprintf('Username and password for TERYT WS1 is required'));
-        }
         $this->reinitSoap();
 
         return $this;
@@ -111,12 +106,12 @@ class Client
     private function reinitSoap()
     {
         try {
-            $this->soapClient = new TerytSoapClient($this->tTerytConfig['url'], [
+            $this->soapClient = new TerytSoapClient($this->sServiceUrl, [
                 'soap_version' => SOAP_1_1,
                 'exceptions'   => true,
                 'cache_wsdl'   => WSDL_CACHE_BOTH,
             ]);
-            $this->soapClient->addUserToken($this->tTerytConfig['username'], $this->tTerytConfig['password']);
+            $this->soapClient->addUserToken($this->sServiceUsername, $this->sServicePassword);
         } catch (\Exception $e) {
             throw Helper::handleException($e);
         }

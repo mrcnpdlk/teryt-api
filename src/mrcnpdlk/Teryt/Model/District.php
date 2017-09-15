@@ -22,6 +22,7 @@ namespace mrcnpdlk\Teryt\Model;
 
 
 use mrcnpdlk\Teryt\Exception\NotFound;
+use mrcnpdlk\Teryt\NativeApi;
 
 /**
  * Class District
@@ -68,7 +69,7 @@ class District extends EntityAbstract
     {
         $provinceId = substr($id, 0, 2);
         $districtId = substr($id, 2, 2);
-        foreach ($this->getNativeApi()->PobierzListePowiatow($provinceId) as $i) {
+        foreach (NativeApi::getInstance()->PobierzListePowiatow($provinceId) as $i) {
             if ($i->districtId === $districtId) {
                 $this->id       = $id;
                 $this->name     = $i->name;
@@ -78,7 +79,7 @@ class District extends EntityAbstract
         if (!$this->id) {
             throw new NotFound(sprintf('District [id:%s] not exists', $id));
         }
-        $this->province = (new Province($this->getNativeApi()))->find($provinceId);
+        $this->province = (new Province())->find($provinceId);
 
         return $this;
     }

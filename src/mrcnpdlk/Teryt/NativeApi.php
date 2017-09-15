@@ -35,7 +35,7 @@ use mrcnpdlk\Teryt\ResponseModel\Territory\ZweryfikowanyAdres;
 use mrcnpdlk\Teryt\ResponseModel\Territory\ZweryfikowanyAdresBezUlic;
 
 
-class NativeApi
+final class NativeApi
 {
     /**
      * @var string Wyszukiwanie wśród wszystkich rodzajów jednostek
@@ -64,13 +64,47 @@ class NativeApi
     const SEARCH_CITY_TYPE_ADD  = '002'; //Części integralne miejscowości
 
     /**
+     * @var \mrcnpdlk\Teryt\NativeApi|null
+     */
+    protected static $instance = null;
+    /**
      * @var Client
      */
     protected $oClient;
 
-    public function __construct(Client $oClient)
+    /**
+     * NativeApi constructor.
+     *
+     * @param \mrcnpdlk\Teryt\Client $oClient
+     */
+    protected function __construct(Client $oClient)
     {
         $this->oClient = $oClient;
+    }
+
+    /**
+     * @param \mrcnpdlk\Teryt\Client $oClient
+     *
+     * @return \mrcnpdlk\Teryt\NativeApi
+     */
+    public static function create(Client $oClient)
+    {
+        static::$instance = new static($oClient);
+
+        return static::$instance;
+    }
+
+    /**
+     * @return \mrcnpdlk\Teryt\NativeApi
+     * @throws \mrcnpdlk\Teryt\Exception
+     */
+    public static function getInstance()
+    {
+        if (!isset(static::$instance)) {
+            throw new Exception(sprintf('First call CREATE method!'));
+        }
+
+        return static::$instance;
     }
 
     /**
