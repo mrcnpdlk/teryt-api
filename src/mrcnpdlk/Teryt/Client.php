@@ -165,7 +165,7 @@ class Client
             if (!array_key_exists('DataStanu', $args) && $addDate) {
                 $args['DataStanu'] = (new \DateTime())->format('Y-m-d');
             }
-            $hashKey = md5(json_encode([__METHOD__, $method, $args]));
+            $hashKey = $this->getHash(__METHOD__, $method, $args);
             $self    = $this;
             $this->oLogger->debug(sprintf('REQ: %s, hash: %s', $method, $hashKey), $args);
 
@@ -188,6 +188,19 @@ class Client
         } catch (\Exception $e) {
             throw Helper::handleException($e);
         }
+    }
+
+    /**
+     * @param mixed ,... $arg
+     *
+     * @return string
+     */
+    public function getHash($arg)
+    {
+        $args = func_get_args();
+        array_push($args, $this->sServiceUrl, $this->sServiceUsername, $this->sServicePassword);
+
+        return md5(json_encode($args));
     }
 
     /**
@@ -247,8 +260,13 @@ class Client
         return $this->oLogger;
     }
 
+    /**
+     * @return array
+     *
+     */
     public function __debugInfo()
     {
         return ['Top secret'];
     }
+
 }
