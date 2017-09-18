@@ -649,14 +649,18 @@ final class NativeApi
      *
      * @param string $name
      *
-     * @return mixed
+     * @return JednostkaPodzialuTerytorialnego[]
      * @todo Metoda zwraca 0 wyników
      */
     public function WyszukajJPT(string $name)
     {
-        $res = $this->oClient->request('WyszukajJPT', ['Nazwa' => $name]);
+        $answer = [];
+        $res    = $this->oClient->request('WyszukajJPT', ['Nazwa' => $name]);
+        foreach (Helper::getPropertyAsArray($res, 'JednostkaPodzialuTerytorialnego') as $p) {
+            $answer[] = new JednostkaPodzialuTerytorialnego($p);
+        };
 
-        return $res;
+        return $answer;
     }
 
     /**
@@ -876,7 +880,7 @@ final class NativeApi
         $answer = [];
         $res    = $this->oClient->request('PobierzListeMiejscowosciWGminie',
             [
-                'wojewodztwo' => $provinceName,
+                'Wojewodztwo' => $provinceName,
                 'Powiat'      => $districtName,
                 'Gmina'       => $communeName,
             ]);

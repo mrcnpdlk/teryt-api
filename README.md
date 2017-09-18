@@ -150,7 +150,7 @@ Full list below `\mrcnpdlk\Teryt\NativeApi`:
 
 | Method | Status | Description|
 | ------ | ------ |------ |
-|`PobierzListeMiejscowosciWGminie()`|:warning:||
+|`PobierzListeMiejscowosciWGminie()`|:ok_hand:||
 |`PobierzListeMiejscowosciWRodzajuGminy()`|:ok_hand:||
 
 ### Dictionary
