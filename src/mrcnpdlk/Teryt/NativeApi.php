@@ -655,7 +655,7 @@ final class NativeApi
     public function WyszukajJPT(string $name)
     {
         $answer = [];
-        $res    = $this->oClient->request('WyszukajJPT', ['Nazwa' => $name]);
+        $res    = $this->oClient->request('WyszukajJPT', ['nazwa' => $name], false);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaPodzialuTerytorialnego') as $p) {
             $answer[] = new JednostkaPodzialuTerytorialnego($p);
         };
@@ -997,7 +997,6 @@ final class NativeApi
      * @param bool   $asAddress
      *
      * @return UlicaDrzewo[]
-     * @todo Metoda nie działa poprawnie
      */
     public function PobierzListeUlicDlaMiejscowosci(int $tercId, string $cityId, bool $asAddress = false)
     {
@@ -1005,16 +1004,15 @@ final class NativeApi
         $oTerc  = new Terc($tercId);
         $res    = $this->oClient->request('PobierzListeUlicDlaMiejscowosci',
             [
-                'Woj'               => $oTerc->getProvinceId(),
-                'Pow'               => $oTerc->getDistrictId(),
-                'Gmi'               => $oTerc->getCommuneId(),
-                'Rodz'              => $oTerc->getCommuneTypeId(),
+                'woj'               => $oTerc->getProvinceId(),
+                'pow'               => $oTerc->getDistrictId(),
+                'gmi'               => $oTerc->getCommuneId(),
+                'rodzaj'            => $oTerc->getCommuneTypeId(),
                 'msc'               => $cityId,
                 'czyWersjaUrzedowa' => !$asAddress,
                 'czyWersjaAdresowa' => $asAddress,
             ]
         );
-
         foreach (Helper::getPropertyAsArray($res, 'UlicaDrzewo') as $p) {
             $answer[] = new UlicaDrzewo($p);
         };

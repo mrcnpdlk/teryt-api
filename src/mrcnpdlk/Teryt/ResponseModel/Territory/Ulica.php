@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -67,20 +67,21 @@ class Ulica extends AbstractResponseModel
     {
         if ($oData) {
             $this->streetIdentity = $oData->Cecha;
-            $this->communeTypeId  = $oData->GmiRodzaj;
-            $this->communeId      = $oData->GmiSymbol;
-            $this->communeName    = $oData->Gmina;
+            $this->communeTypeId  = $oData->GmiRodzaj ?? $oData->RodzGmi ?? null;
+            $this->communeId      = $oData->GmiSymbol ?? $oData->Gmi ?? null;
+            $this->communeName    = $oData->Gmina ?? null;
             $this->cityId         = $oData->IdentyfikatorMiejscowosci;
-            $this->streetId       = $oData->IdentyfikatorUlicy;
-            $this->streetName     = $oData->Nazwa;
-            $this->cityName       = $oData->NazwaMiejscowosci;
-            $this->districtId     = $oData->PowSymbol;
-            $this->districtName   = $oData->Powiat;
-            $this->provinceId     = $oData->WojSymbol;
-            $this->provinceName   = $oData->Wojewodztwo;
+            $this->streetId       = $oData->IdentyfikatorUlicy ?? $oData->SymbolUlicy ?? null;
+            $this->streetName     = $oData->Nazwa ?? null;
+            $this->cityName       = $oData->NazwaMiejscowosci ?? null;
+            $this->districtId     = $oData->PowSymbol ?? $oData->Pow ?? null;
+            $this->districtName   = $oData->Powiat ?? null;
+            $this->provinceId     = $oData->WojSymbol ?? $oData->Woj ?? null;
+            $this->provinceName   = $oData->Wojewodztwo ?? null;
 
+            $dataStanu = $oData->DataStanu ?? $oData->StanNa ?? null;
             try {
-                $this->statusDate = $oData->DataStanu ? (new \DateTime($oData->DataStanu))->format('Y-m-d') : null;
+                $this->statusDate = $dataStanu ? (new \DateTime($dataStanu))->format('Y-m-d') : null;
             } catch (\Exception $e) {
                 $this->statusDate = null;
             }

@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -60,6 +60,11 @@ class UlicaDrzewo extends Ulica
     public function __construct(\stdClass $oData)
     {
         parent::__construct($oData);
+
+        $this->cityParentId = $oData->IdentyfikatorMiejscowosciPodstawowej;
+        $this->streetName1  = $oData->Nazwa1;
+        $this->streetName2  = $oData->Nazwa2;
+        $this->indexKey     = $oData->IndeksKlucza;
 
         return $oData;
     }

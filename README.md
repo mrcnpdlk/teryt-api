@@ -144,7 +144,7 @@ Full list below `\mrcnpdlk\Teryt\NativeApi`:
 
 | Method | Status | Description|
 | ------ | ------ |------ |
-|`PobierzListeUlicDlaMiejscowosci()`|:warning:||
+|`PobierzListeUlicDlaMiejscowosci()`|:ok_hand:||
 
 ### Catalog SIMC
 
