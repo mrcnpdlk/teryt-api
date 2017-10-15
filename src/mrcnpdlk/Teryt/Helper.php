@@ -41,7 +41,7 @@ class Helper
                 return $exclude === 1;
             } else {
                 if (is_string($exclude)) {
-                    return strtolower(trim($exclude)) === 'true';
+                    return strtolower(trim($exclude)) === 'true' || trim($exclude) === '1';
                 } else {
                     return false;
                 }
