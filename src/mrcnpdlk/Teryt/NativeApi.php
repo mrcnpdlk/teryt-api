@@ -388,7 +388,6 @@ final class NativeApi
      * @param string $communeName
      *
      * @return Miejscowosc[]
-     * @todo Metoda nie działa
      */
     public function PobierzListeMiejscowosciWGminie(string $provinceName, string $districtName, string $communeName)
     {
@@ -413,7 +412,6 @@ final class NativeApi
      * @param int $tercId
      *
      * @return Miejscowosc[]
-     * @todo Zwraca niezgodne typy - połatane
      */
     public function PobierzListeMiejscowosciWRodzajuGminy(int $tercId)
     {
@@ -954,6 +952,7 @@ final class NativeApi
      * @param string      $streetName
      *
      * @return ZweryfikowanyAdres[]
+     * @todo empty response
      */
     public function WeryfikujNazwaAdresUlic(
         string $provinceName,
@@ -1139,14 +1138,13 @@ final class NativeApi
     }
 
     /**
-     * Zwaraca listę znalezionych miejscowości we wskazanej
-     * jednostcepodziału terytorialnego
+     * Zwaraca listę znalezionych miejscowości we wskazanej jednostcepodziału terytorialnego
      *
      * @param string|null $name         Nazwa miejscowości
      * @param string|null $cityId       ID miejscowości
-     * @param array       $tSimc        Lista cityId w których szukamy
-     * @param array       $tTerc        Lista tercId w których szukamy
-     * @param string      $cityTypeName Predefinowany typ wyszukiwania ('000','001','002')
+     * @param string[]    $tSimc        Lista cityId w których szukamy
+     * @param string[]    $tTerc        Lista tercId w których szukamy
+     * @param string      $cityTypeName Predefiniowany typ wyszukiwania ('000','001','002') stałe: SEARCH_CITY_TYPE_*
      *
      * @return WyszukanaMiejscowosc[]
      */
@@ -1180,8 +1178,7 @@ final class NativeApi
     }
 
     /**
-     * Wyszukuje wskazaną ulicę w katalogu ULIC. Wyszukiwanie
-     * odbywa się za pomoca nazw
+     * Wyszukuje wskazaną ulicę w katalogu ULIC. Wyszukiwanie odbywa się za pomoca nazw
      *
      * @param string|null $streetName
      * @param string|null $streetIdentityName
