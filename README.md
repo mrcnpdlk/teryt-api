@@ -91,7 +91,7 @@ use mrcnpdlk\Teryt\NativeApi
 
 $oClient = new Client()
 $oClient
-        ->setConfig($login,$password,true)
+        ->setConfig($login,$password,true) // not required for connect to testing database
         ->setCacheInstance($oInstanceCacheRedis)
         ->setLoggerInstance($oInstanceLogger)
 ;
