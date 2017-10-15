@@ -151,9 +151,9 @@ class Client
     /**
      * Making request to Teryt WS1 API
      *
-     * @param string  $method  Methid name
+     * @param string  $method  Method name
      * @param array   $args    Parameters
-     * @param boolean $addDate Add DataSTanu to request
+     * @param boolean $addDate Add DataStanu to request
      *
      * @return mixed
      * @throws \mrcnpdlk\Teryt\Exception
@@ -206,7 +206,7 @@ class Client
     /**
      * Caching things
      *
-     * @param \Closure $closure Function calling wheen cache is empty or not valid
+     * @param \Closure $closure Function calling when cache is empty or not valid
      * @param mixed    $hashKey Cache key of item
      * @param int|null $ttl     Time to live for item
      *
