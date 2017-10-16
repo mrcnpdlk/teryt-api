@@ -17,6 +17,7 @@ declare (strict_types=1);
 
 namespace mrcnpdlk\Teryt;
 
+use mrcnpdlk\Psr16Cache\Adapter;
 use mrcnpdlk\Teryt\Exception\Connection;
 use mrcnpdlk\Teryt\Exception\Response;
 use Psr\Log\LoggerInterface;
@@ -47,6 +48,10 @@ class Client
      */
     private $oCache;
     /**
+     * @var Adapter
+     */
+    private $oCacheAdapter;
+    /**
      * Logger handler
      *
      * @var LoggerInterface
@@ -76,24 +81,41 @@ class Client
     }
 
     /**
-     * Set Teryt configuration parameters
-     *
-     * @param string|null $username     Service username
-     * @param string|null $password     Service password
-     * @param bool        $isProduction Default FALSE
-     *
-     * @return $this
+     * @return array
      *
      */
-    public function setConfig(string $username = null, string $password = null, bool $isProduction = false)
+    public function __debugInfo()
     {
-        $this->sServiceUrl      = $isProduction ? Client::SERVICE_URL : Client::SERVICE_URL_TEST;
-        $this->sServiceUsername = $username ?? Client::SERVICE_USER_TEST;
-        $this->sServicePassword = $password ?? Client::SERVICE_PASSWORD_TEST;
+        return ['Top secret'];
+    }
 
-        $this->reinitSoap();
+    /**
+     * Get logger instance
+     *
+     * @return LoggerInterface
+     */
+    public function getLogger()
+    {
+        return $this->oLogger;
+    }
 
-        return $this;
+    /**
+     * Get SoapClient
+     *
+     * @return \mrcnpdlk\Teryt\TerytSoapClient
+     */
+    private function getSoap()
+    {
+        try {
+            if (!$this->soapClient) {
+                $this->reinitSoap();
+            }
+
+        } catch (\Exception $e) {
+            Helper::handleException($e);
+        }
+
+        return $this->soapClient;
     }
 
     /**
@@ -120,35 +142,6 @@ class Client
     }
 
     /**
-     * Set Logger handler (PSR-3)
-     *
-     * @param LoggerInterface|null $oLogger
-     *
-     * @return $this
-     */
-    public function setLoggerInstance(LoggerInterface $oLogger = null)
-    {
-        $this->oLogger = $oLogger ?: new NullLogger();
-
-        return $this;
-    }
-
-    /**
-     * Set Cache handler (PSR-16)
-     *
-     * @param CacheInterface|null $oCache
-     *
-     * @return \mrcnpdlk\Teryt\Client
-     * @see https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-16-simple-cache.md PSR-16
-     */
-    public function setCacheInstance(CacheInterface $oCache = null)
-    {
-        $this->oCache = $oCache;
-
-        return $this;
-    }
-
-    /**
      * Making request to Teryt WS1 API
      *
      * @param string  $method  Method name
@@ -165,11 +158,11 @@ class Client
             if (!array_key_exists('DataStanu', $args) && $addDate) {
                 $args['DataStanu'] = (new \DateTime())->format('Y-m-d');
             }
-            $hashKey = $this->getHash(__METHOD__, $method, $args);
             $self    = $this;
-            $this->oLogger->debug(sprintf('REQ: %s, hash: %s', $method, $hashKey), $args);
+            $this->oLogger->debug(sprintf('REQ: %s', $method), $args);
 
-            $resp = $this->useCache(
+
+            $resp = $this->oCacheAdapter->useCache(
                 function () use ($self, $method, $args) {
                     $res       = $self->getSoap()->__soapCall($method, [$args]);
                     $resultKey = $method . 'Result';
@@ -179,7 +172,8 @@ class Client
 
                     return $res->{$resultKey};
                 },
-                $hashKey);
+                [__METHOD__, $method, $args]
+            );
 
             $this->oLogger->debug(sprintf('RESP: %s, type is %s', $method, gettype($resp)));
 
@@ -191,82 +185,67 @@ class Client
     }
 
     /**
-     * @param mixed ,... $arg
+     * Setting Cache Adapter
      *
-     * @return string
+     * @return $this
      */
-    public function getHash($arg)
+    private function setCacheAdapter()
     {
-        $args = func_get_args();
-        array_push($args, $this->sServiceUrl, $this->sServiceUsername, $this->sServicePassword);
+        $this->oCacheAdapter = new Adapter($this->oCache, $this->oLogger);
 
-        return md5(json_encode($args));
+        return $this;
     }
 
     /**
-     * Caching things
+     * Set Cache handler (PSR-16)
      *
-     * @param \Closure $closure Function calling when cache is empty or not valid
-     * @param mixed    $hashKey Cache key of item
-     * @param int|null $ttl     Time to live for item
+     * @param CacheInterface|null $oCache
      *
-     * @return mixed
+     * @return \mrcnpdlk\Teryt\Client
+     * @see https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-16-simple-cache.md PSR-16
      */
-    private function useCache(\Closure $closure, string $hashKey, int $ttl = null)
+    public function setCacheInstance(CacheInterface $oCache = null)
     {
-        if ($this->oCache) {
-            if ($this->oCache->has($hashKey)) {
-                $answer = $this->oCache->get($hashKey);
-                $this->oLogger->debug(sprintf('CACHE [%s]: geting from cache', $hashKey));
-            } else {
-                $answer = $closure();
-                $this->oCache->set($hashKey, $answer, $ttl);
-                $this->oLogger->debug(sprintf('CACHE [%s]: old, reset', $hashKey));
-            }
-        } else {
-            $this->oLogger->debug(sprintf('CACHE [%s]: no implemented', $hashKey));
-            $answer = $closure();
-        }
+        $this->oCache = $oCache;
+        $this->setCacheAdapter();
 
-        return $answer;
+        return $this;
     }
 
     /**
-     * Get SoapClient
+     * Set Teryt configuration parameters
      *
-     * @return \mrcnpdlk\Teryt\TerytSoapClient
+     * @param string|null $username     Service username
+     * @param string|null $password     Service password
+     * @param bool        $isProduction Default FALSE
+     *
+     * @return $this
+     *
      */
-    private function getSoap()
+    public function setConfig(string $username = null, string $password = null, bool $isProduction = false)
     {
-        try {
-            if (!$this->soapClient) {
-                $this->reinitSoap();
-            }
+        $this->sServiceUrl      = $isProduction ? Client::SERVICE_URL : Client::SERVICE_URL_TEST;
+        $this->sServiceUsername = $username ?? Client::SERVICE_USER_TEST;
+        $this->sServicePassword = $password ?? Client::SERVICE_PASSWORD_TEST;
 
-        } catch (\Exception $e) {
-            Helper::handleException($e);
-        }
+        $this->reinitSoap();
 
-        return $this->soapClient;
+        return $this;
     }
 
     /**
-     * Get logger instance
+     * Set Logger handler (PSR-3)
      *
-     * @return LoggerInterface
+     * @param LoggerInterface|null $oLogger
+     *
+     * @return $this
      */
-    public function getLogger()
+    public function setLoggerInstance(LoggerInterface $oLogger = null)
     {
-        return $this->oLogger;
-    }
+        $this->oLogger = $oLogger ?: new NullLogger();
+        $this->setCacheAdapter();
 
-    /**
-     * @return array
-     *
-     */
-    public function __debugInfo()
-    {
-        return ['Top secret'];
+        return $this;
     }
 
 }

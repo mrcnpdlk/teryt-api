@@ -22,7 +22,6 @@
 namespace mrcnpdlk\Teryt\Model;
 
 
-use mrcnpdlk\Teryt\NativeApi;
 
 class EntityAbstract
 {

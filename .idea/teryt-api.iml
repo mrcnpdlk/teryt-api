@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
-    <perl5 />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/mrcnpdlk/Teryt" isTestSource="false" packagePrefix="mrcnpdlk\Teryt\" />
       <excludeFolder url="file://$MODULE_DIR$/doc" />
@@ -24,6 +23,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/letsdrink/ouzo-goodies" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mockery/mockery" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/monolog/monolog" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mrcnpdlk/psr16cache-adapter" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
@@ -111,6 +111,7 @@
           <root url="file://$MODULE_DIR$/vendor/kherge/version" />
           <root url="file://$MODULE_DIR$/vendor/mockery/mockery" />
           <root url="file://$MODULE_DIR$/vendor/monolog/monolog" />
+          <root url="file://$MODULE_DIR$/vendor/mrcnpdlk/psr16cache-adapter" />
           <root url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
           <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
           <root url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
@@ -193,6 +194,7 @@
           <root url="file://$MODULE_DIR$/vendor/kherge/version" />
           <root url="file://$MODULE_DIR$/vendor/mockery/mockery" />
           <root url="file://$MODULE_DIR$/vendor/monolog/monolog" />
+          <root url="file://$MODULE_DIR$/vendor/mrcnpdlk/psr16cache-adapter" />
           <root url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
           <root url="file://$MODULE_DIR$/vendor/nikic/php-parser" />
           <root url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
@@ -255,6 +257,22 @@
           <root url="file://$MODULE_DIR$/vendor/zendframework/zend-stdlib" />
           <root url="file://$MODULE_DIR$/vendor/zetacomponents/base" />
           <root url="file://$MODULE_DIR$/vendor/zetacomponents/document" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library">
+      <library name="PHARS">
+        <CLASSES>
+          <root url="phar://$MODULE_DIR$/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar/" />
+          <root url="phar://$MODULE_DIR$/vendor/phpdocumentor/fileset/tests/data/test.phar/" />
+          <root url="phar://$MODULE_DIR$/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar/" />
+          <root url="phar://$MODULE_DIR$/vendor/phar-io/manifest/tests/_fixture/test.phar/" />
+        </CLASSES>
+        <SOURCES>
+          <root url="phar://$MODULE_DIR$/vendor/twig/twig/test/Twig/Tests/Loader/Fixtures/phar/phar-sample.phar/" />
+          <root url="phar://$MODULE_DIR$/vendor/phpdocumentor/fileset/tests/data/test.phar/" />
+          <root url="phar://$MODULE_DIR$/vendor/phpunit/phpunit/tests/_files/phpunit-example-extension/tools/phpunit.d/phpunit-example-extension-1.0.1.phar/" />
+          <root url="phar://$MODULE_DIR$/vendor/phar-io/manifest/tests/_fixture/test.phar/" />
         </SOURCES>
       </library>
     </orderEntry>
