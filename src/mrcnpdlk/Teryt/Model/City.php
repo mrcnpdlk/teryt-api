@@ -73,9 +73,12 @@ class City extends EntityAbstract
      * @param string $id
      *
      * @return \mrcnpdlk\Teryt\Model\City
-     * @throws NotFound
+     * @throws \mrcnpdlk\Teryt\Exception
+     * @throws \mrcnpdlk\Teryt\Exception\Connection
+     * @throws \mrcnpdlk\Teryt\Exception\InvalidArgument
+     * @throws \mrcnpdlk\Teryt\Exception\NotFound
      */
-    public function find(string $id)
+    public function find(string $id): City
     {
         $res = NativeApi::getInstance()->WyszukajMiejscowoscWRejestrze(null, $id);
         if (!empty($res) && count($res) === 1) {

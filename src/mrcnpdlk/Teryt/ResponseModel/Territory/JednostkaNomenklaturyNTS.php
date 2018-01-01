@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -58,25 +58,34 @@ class JednostkaNomenklaturyNTS extends AbstractResponseModel
      */
     public $typeName;
 
+    /**
+     * JednostkaNomenklaturyNTS constructor.
+     *
+     * @param \stdClass|null $oData
+     *
+     * @throws \mrcnpdlk\Teryt\Exception
+     */
     public function __construct(\stdClass $oData = null)
     {
-        parent::__construct($oData);
-        $this->communeId     = $oData->GMI;
-        $this->name          = $oData->NAZWA;
-        $this->typeName      = $oData->NAZWA_DOD;
-        $this->subregionId   = $oData->PODREG;
-        $this->districtId    = $oData->POW;
-        $this->level         = $oData->POZIOM;
-        $this->regionId      = $oData->REGION;
-        $this->communeTypeId = $oData->RODZ;
-        $this->provinceId    = $oData->WOJ;
+        if (null !== $oData) {
+            parent::__construct($oData);
+            $this->communeId     = $oData->GMI;
+            $this->name          = $oData->NAZWA;
+            $this->typeName      = $oData->NAZWA_DOD;
+            $this->subregionId   = $oData->PODREG;
+            $this->districtId    = $oData->POW;
+            $this->level         = $oData->POZIOM;
+            $this->regionId      = $oData->REGION;
+            $this->communeTypeId = $oData->RODZ;
+            $this->provinceId    = $oData->WOJ;
 
-        try {
-            $this->statusDate = $oData->STAN_NA ? (new \DateTime($oData->STAN_NA))->format('Y-m-d') : null;
-        } catch (\Exception $e) {
-            $this->statusDate = null;
+            try {
+                $this->statusDate = $oData->STAN_NA ? (new \DateTime($oData->STAN_NA))->format('Y-m-d') : null;
+            } catch (\Exception $e) {
+                $this->statusDate = null;
+            }
+
+            $this->expandData();
         }
-
-        $this->expandData();
     }
 }

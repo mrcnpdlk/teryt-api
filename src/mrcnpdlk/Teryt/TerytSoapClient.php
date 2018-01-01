@@ -42,7 +42,7 @@ class TerytSoapClient extends \SoapClient
         $this->username = $username;
         $this->password = $password;
         $this->digest   = $digest;
-    }
+    }/** @noinspection MagicMethodsValidityInspection */
 
     /**
      * @param string $request
@@ -52,6 +52,7 @@ class TerytSoapClient extends \SoapClient
      * @param int    $oneWay
      *
      * @return string
+     * @throws \Exception
      */
     public function __doRequest($request, $location, $action, $version, $oneWay = 0)
     {

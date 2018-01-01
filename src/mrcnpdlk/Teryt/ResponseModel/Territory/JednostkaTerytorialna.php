@@ -44,6 +44,8 @@ class JednostkaTerytorialna extends AbstractResponseModel
      * JednostkaTerytorialna constructor.
      *
      * @param \stdClass $oData Obiekt zwrócony z TerytWS1
+     *
+     * @throws \mrcnpdlk\Teryt\Exception
      */
     public function __construct(\stdClass $oData)
     {
@@ -62,11 +64,11 @@ class JednostkaTerytorialna extends AbstractResponseModel
         }
 
         if ($this->provinceId && $this->districtId && $this->communeId && $this->communeTypeId) {
-            $this->tercId = intval(sprintf("%s%s%s%s",
+            $this->tercId = (int)sprintf('%s%s%s%s',
                 $this->provinceId,
                 $this->districtId,
                 $this->communeId,
-                $this->communeTypeId));
+                $this->communeTypeId);
         }
 
         parent::__construct();

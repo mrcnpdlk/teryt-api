@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -34,31 +34,31 @@ class Terc
     /**
      * Dwuznakowy id wojewodztwa
      *
-     * @var string
+     * @var string|null
      */
     private $provinceId;
     /**
      * Dwuznakowy id powiatu
      *
-     * @var string
+     * @var string|null
      */
     private $districtId;
     /**
      * dwuznakowy id gminy
      *
-     * @var string
+     * @var string|null
      */
     private $communeId;
     /**
      * Jednoznakowy id rodzaju gminy
      *
-     * @var string
+     * @var string|null
      */
     private $communeTypeId;
     /**
      * Identyfikator gminy wraz z RODZ
      *
-     * @var int
+     * @var int|null
      */
     private $tercId;
 
@@ -66,10 +66,52 @@ class Terc
      * Terc constructor.
      *
      * @param int|null $tercId
+     *
+     * @throws \mrcnpdlk\Teryt\Exception
      */
     public function __construct(int $tercId = null)
     {
         $this->setTercId($tercId);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCommuneId()
+    {
+        return $this->communeId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getCommuneTypeId()
+    {
+        return $this->communeTypeId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getDistrictId()
+    {
+        return $this->districtId;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getProvinceId()
+    {
+        return $this->provinceId;
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getTercId()
+    {
+        return $this->tercId;
     }
 
     /**
@@ -89,53 +131,13 @@ class Terc
         $this->districtId    = str_pad($districtId, 2, '0', \STR_PAD_LEFT);
         $this->communeId     = str_pad($communeId, 2, '0', \STR_PAD_LEFT);
         $this->communeTypeId = $communeTypeId;
-        $this->tercId        = intval(sprintf('%s%s%s%s',
+        $this->tercId        = (int)sprintf('%s%s%s%s',
             $this->provinceId,
             $this->districtId,
             $this->communeId,
-            $this->communeTypeId));
+            $this->communeTypeId);
 
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getProvinceId()
-    {
-        return $this->provinceId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDistrictId()
-    {
-        return $this->districtId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCommuneId()
-    {
-        return $this->communeId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCommuneTypeId()
-    {
-        return $this->communeTypeId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getTercId()
-    {
-        return $this->tercId;
     }
 
     /**
@@ -151,7 +153,7 @@ class Terc
     {
         if ($tercId) {
             $this->tercId = $tercId;
-            $sTercId      = str_pad(strval($tercId), 7, '0', \STR_PAD_LEFT);
+            $sTercId      = str_pad((string)$tercId, 7, '0', \STR_PAD_LEFT);
             if (strlen($sTercId) > 7) {
                 throw new Exception(sprintf('TercId [%s] malformed', $sTercId));
             }

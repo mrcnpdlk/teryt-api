@@ -63,6 +63,8 @@ class District extends EntityAbstract
      * @param string $id 4-znakowy symbol powiatu
      *
      * @return $this
+     * @throws \mrcnpdlk\Teryt\Exception\Connection
+     * @throws \mrcnpdlk\Teryt\Exception
      * @throws NotFound
      */
     public function find(string $id)

@@ -56,6 +56,8 @@ class UlicaDrzewo extends Ulica
      * UlicaDrzewo constructor.
      *
      * @param \stdClass $oData Obiekt zwrócony z TerytWS1
+     *
+     * @throws \mrcnpdlk\Teryt\Exception
      */
     public function __construct(\stdClass $oData)
     {
@@ -65,7 +67,5 @@ class UlicaDrzewo extends Ulica
         $this->streetName1  = $oData->Nazwa1;
         $this->streetName2  = $oData->Nazwa2;
         $this->indexKey     = $oData->IndeksKlucza;
-
-        return $oData;
     }
 }

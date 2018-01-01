@@ -46,8 +46,12 @@ class Api
      * @param string $id
      *
      * @return City
+     * @throws \mrcnpdlk\Teryt\Exception
+     * @throws \mrcnpdlk\Teryt\Exception\Connection
+     * @throws \mrcnpdlk\Teryt\Exception\InvalidArgument
+     * @throws \mrcnpdlk\Teryt\Exception\NotFound
      */
-    public function getCity(string $id)
+    public function getCity(string $id): City
     {
         $oCity = new City();
 

@@ -76,6 +76,8 @@ class Commune extends EntityAbstract
      * @param string $id 6 lub 7-znakowy symbol gminy
      *
      * @return $this
+     * @throws \mrcnpdlk\Teryt\Exception\Connection
+     * @throws \mrcnpdlk\Teryt\Exception
      * @throws InvalidArgument
      * @throws NotFound
      */

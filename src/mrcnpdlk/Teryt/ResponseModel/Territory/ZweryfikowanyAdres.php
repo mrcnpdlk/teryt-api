@@ -63,6 +63,8 @@ class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
      * ZweryfikowanyAdres constructor.
      *
      * @param \stdClass $oData Obiekt zwrócony z TerytWS1
+     *
+     * @throws \mrcnpdlk\Teryt\Exception
      */
     public function __construct(\stdClass $oData)
     {

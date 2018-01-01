@@ -46,6 +46,7 @@ class Miejscowosc extends AbstractResponseModel
      * @param \stdClass|null $oData Obiekt zwrócony z TerytWS1
      *
      * @todo Błąd w dokumentacji, zwracana niezgodna ilosc znaków dla PowSymbol i GmiSymbol. Narazie połatałem
+     * @throws \mrcnpdlk\Teryt\Exception
      */
     public function __construct(\stdClass $oData = null)
     {

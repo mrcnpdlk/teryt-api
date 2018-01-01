@@ -50,6 +50,8 @@ class Province extends EntityAbstract
      * @param string $id Dwuznakowy symbol województwa
      *
      * @return $this
+     * @throws \mrcnpdlk\Teryt\Exception\Connection
+     * @throws \mrcnpdlk\Teryt\Exception
      * @throws Exception\NotFound
      */
     public function find(string $id)

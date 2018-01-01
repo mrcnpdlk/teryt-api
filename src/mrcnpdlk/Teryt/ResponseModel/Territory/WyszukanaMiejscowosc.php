@@ -50,6 +50,8 @@ class WyszukanaMiejscowosc extends Miejscowosc
      * WyszukanaMiejscowosc constructor.
      *
      * @param \stdClass $oData Obiekt zwrócony z TerytWS1
+     *
+     * @throws \mrcnpdlk\Teryt\Exception
      */
     public function __construct(\stdClass $oData)
     {

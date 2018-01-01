@@ -32,21 +32,21 @@ class Helper
      *
      * @return boolean
      */
-    public static function convertToBoolean($exclude)
+    public static function convertToBoolean($exclude): bool
     {
         if (is_bool($exclude)) {
             return $exclude;
-        } else {
-            if (is_numeric($exclude)) {
-                return $exclude === 1;
-            } else {
-                if (is_string($exclude)) {
-                    return strtolower(trim($exclude)) === 'true' || trim($exclude) === '1';
-                } else {
-                    return false;
-                }
-            }
         }
+
+        if (is_numeric($exclude)) {
+            return $exclude === 1;
+        }
+
+        if (is_string($exclude)) {
+            return strtolower(trim($exclude)) === 'true' || trim($exclude) === '1';
+        }
+
+        return false;
     }
 
 
@@ -73,9 +73,9 @@ class Helper
         } else {
             if ($e instanceof Exception) {
                 return $e;
-            } else {
-                return new Exception('Unknown Exception', 1, $e);
             }
+
+            return new Exception('Unknown Exception', 1, $e);
         }
     }
 
@@ -89,7 +89,7 @@ class Helper
      * @return array
      * @throws Exception
      */
-    public static function getKeyValues(array $tItems, string $sKey, bool $asUnique = true)
+    public static function getKeyValues(array $tItems, string $sKey, bool $asUnique = true): array
     {
         $answer = [];
         foreach ($tItems as $item) {
@@ -100,7 +100,7 @@ class Helper
             if (
                 array_key_exists($sKey, $item)
                 && (is_string($item[$sKey]) || is_numeric($item[$sKey]))
-                && !in_array($item[$sKey], $answer)
+                && !in_array($item[$sKey], $answer, true)
             ) {
                 $answer[] = $item[$sKey];
             }
@@ -120,16 +120,16 @@ class Helper
      * @return array
      * @throws Exception
      */
-    public static function getPropertyAsArray(\stdClass $oObject, string $sPropertyName)
+    public static function getPropertyAsArray(\stdClass $oObject, string $sPropertyName): array
     {
         if (!property_exists($oObject, $sPropertyName)) {
             throw new Exception\NotFound(sprintf('%s() Property [%s] not exist in object', __METHOD__, $sPropertyName));
         }
         if (!is_array($oObject->{$sPropertyName})) {
             return [$oObject->{$sPropertyName}];
-        } else {
-            return $oObject->{$sPropertyName};
         }
+
+        return $oObject->{$sPropertyName};
     }
 
     /**
@@ -152,9 +152,9 @@ class Helper
         if (!is_object($oObject->{$sPropertyName})) {
             throw new Exception(sprintf('%s() Property [%s] is not an object type [is:%s]', __METHOD__, $sPropertyName,
                 gettype($oObject->{$sPropertyName})));
-        } else {
-            return $oObject->{$sPropertyName};
         }
+
+        return $oObject->{$sPropertyName};
     }
 
     /**
@@ -164,8 +164,10 @@ class Helper
      * @param string $content File content
      *
      * @return \SplFileObject
+     * @throws \RuntimeException
+     * @throws \LogicException
      */
-    public static function saveFile(string $sPath, string $content)
+    public static function saveFile(string $sPath, string $content): \SplFileObject
     {
         if (!file_exists($sPath) || (md5_file($sPath) !== md5($content))) {
             $oFile = new \SplFileObject($sPath, 'w+');

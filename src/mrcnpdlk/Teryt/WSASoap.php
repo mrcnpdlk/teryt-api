@@ -9,7 +9,7 @@
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
  *
- * @author Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author  Marcin Pudełek <marcin@pudelek.org.pl>
  *
  */
 
@@ -41,21 +41,6 @@ class WSASoap
         $this->locateHeader();
     }
 
-    private function locateHeader()
-    {
-        if ($this->header == null) {
-            $headers = $this->SOAPXPath->query('//wssoap:Envelope/wssoap:Header');
-            $header  = $headers->item(0);
-            if (!$header) {
-                $header = $this->soapDoc->createElementNS($this->soapNS, $this->soapPFX . ':Header');
-                $this->envelope->insertBefore($header, $this->envelope->firstChild);
-            }
-            $this->header = $header;
-        }
-
-        return $this->header;
-    }
-
     public function addAction($action)
     {
         /* Add the WSA Action */
@@ -67,5 +52,20 @@ class WSASoap
     public function getDoc()
     {
         return $this->soapDoc;
+    }
+
+    private function locateHeader()
+    {
+        if ($this->header === null) {
+            $headers = $this->SOAPXPath->query('//wssoap:Envelope/wssoap:Header');
+            $header  = $headers->item(0);
+            if (!$header) {
+                $header = $this->soapDoc->createElementNS($this->soapNS, $this->soapPFX . ':Header');
+                $this->envelope->insertBefore($header, $this->envelope->firstChild);
+            }
+            $this->header = $header;
+        }
+
+        return $this->header;
     }
 }

@@ -72,6 +72,10 @@ class Client
 
     /**
      * Client constructor.
+     *
+     * @throws \Exception
+     * @throws \mrcnpdlk\Teryt\Exception
+     * @throws \mrcnpdlk\Teryt\Exception\Connection
      */
     public function __construct()
     {
@@ -94,7 +98,7 @@ class Client
      *
      * @return LoggerInterface
      */
-    public function getLogger()
+    public function getLogger(): LoggerInterface
     {
         return $this->oLogger;
     }
@@ -104,7 +108,7 @@ class Client
      *
      * @return \mrcnpdlk\Teryt\TerytSoapClient
      */
-    private function getSoap()
+    private function getSoap(): TerytSoapClient
     {
         try {
             if (!$this->soapClient) {
@@ -122,6 +126,7 @@ class Client
      * Reinit Soap Client
      *
      * @return $this
+     * @throws \Exception
      * @throws Connection
      * @throws Exception
      */
@@ -204,7 +209,7 @@ class Client
      * @return \mrcnpdlk\Teryt\Client
      * @see https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-16-simple-cache.md PSR-16
      */
-    public function setCacheInstance(CacheInterface $oCache = null)
+    public function setCacheInstance(CacheInterface $oCache = null): Client
     {
         $this->oCache = $oCache;
         $this->setCacheAdapter();
@@ -221,12 +226,15 @@ class Client
      *
      * @return $this
      *
+     * @throws \Exception
+     * @throws \mrcnpdlk\Teryt\Exception
+     * @throws \mrcnpdlk\Teryt\Exception\Connection
      */
     public function setConfig(string $username = null, string $password = null, bool $isProduction = false)
     {
-        $this->sServiceUrl      = $isProduction ? Client::SERVICE_URL : Client::SERVICE_URL_TEST;
-        $this->sServiceUsername = $username ?? Client::SERVICE_USER_TEST;
-        $this->sServicePassword = $password ?? Client::SERVICE_PASSWORD_TEST;
+        $this->sServiceUrl      = $isProduction ? self::SERVICE_URL : self::SERVICE_URL_TEST;
+        $this->sServiceUsername = $username ?? self::SERVICE_USER_TEST;
+        $this->sServicePassword = $password ?? self::SERVICE_PASSWORD_TEST;
 
         $this->reinitSoap();
 

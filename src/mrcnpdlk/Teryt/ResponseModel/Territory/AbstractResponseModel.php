@@ -95,6 +95,8 @@ abstract class AbstractResponseModel
      * AbstractResponseModel constructor.
      *
      * @param \stdClass|null $oData
+     *
+     * @throws \mrcnpdlk\Teryt\Exception
      */
     public function __construct(\stdClass $oData = null)
     {
