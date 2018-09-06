@@ -125,9 +125,9 @@ class NativeApiTest extends TestCase
         $this->assertEquals(true, is_array($tResp));
         $this->assertInstanceOf(ZweryfikowanyAdresBezUlic::class, $tResp[0]);
 
-        $oResp = $this->oNativeApi->WeryfikujAdresDlaUlic('0976050','00011');
+        $oResp = $this->oNativeApi->WeryfikujAdresDlaUlic('0976050','00157');
         $this->assertInstanceOf(ZweryfikowanyAdresBezUlic::class, $oResp);
-        $oResp = $this->oNativeApi->WeryfikujAdresDlaUlicAdresowy('0976050','00011');
+        $oResp = $this->oNativeApi->WeryfikujAdresDlaUlicAdresowy('0976050','00157');
         $this->assertInstanceOf(ZweryfikowanyAdresBezUlic::class, $oResp);
 
     }
