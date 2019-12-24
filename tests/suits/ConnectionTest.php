@@ -20,6 +20,7 @@
 namespace Tests\mrcnpdlk\Teryt;
 
 use mrcnpdlk\Teryt\Client;
+use mrcnpdlk\Teryt\Config;
 use mrcnpdlk\Teryt\Exception\Connection;
 use mrcnpdlk\Teryt\Exception\NotFound;
 use mrcnpdlk\Teryt\NativeApi;
@@ -28,21 +29,25 @@ class ConnectionTest extends TestCase
 {
     public function testConnect(): void
     {
-        $oClient    = new Client();
-        $oNativeApi = NativeApi::create($oClient);
+        $oConfig    = new Config();
+        $oNativeApi = NativeApi::create($oConfig);
         $this->assertEquals(true, $oNativeApi->CzyZalogowany());
     }
 
     /**
+     * @throws \Mrcnpdlk\Lib\ConfigurationException
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      */
     public function testInvalidAuth(): void
     {
         $this->expectException(Connection::class);
-        $oClient = new Client();
-        $oClient->setConfig('invaliduser', 'invalidpassword', false);
-        $oNativeApi = NativeApi::create($oClient);
+        $oConfig = new Config([
+            'username'     => 'invaliduser',
+            'password'     => 'invalidpassword',
+            'isProduction' => false,
+        ]);
+        $oNativeApi = NativeApi::create($oConfig);
         $oNativeApi->PobierzListeWojewodztw();
     }
 }

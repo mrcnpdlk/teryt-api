@@ -4,8 +4,84 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "86096c9cd0245fce2f7fe9292f91194e",
+    "content-hash": "02adc962bb4f0f092151792efbebaf12",
     "packages": [
+        {
+            "name": "mrcnpdlk/lib-configuration",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mrcnpdlk/lib-configuration.git",
+                "reference": "e733bef07d53e1cdbe48b6304a9fe6e04caa4b76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mrcnpdlk/lib-configuration/zipball/e733bef07d53e1cdbe48b6304a9fe6e04caa4b76",
+                "reference": "e733bef07d53e1cdbe48b6304a9fe6e04caa4b76",
+                "shasum": ""
+            },
+            "require": {
+                "mrcnpdlk/lib-exception": "^0",
+                "php": ">=7.2",
+                "psr/log": "^1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mrcnpdlk\\Lib\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcin Pudełek",
+                    "email": "marcin@pudelek.org.pl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Configuration Option Library",
+            "time": "2019-03-30T19:37:40+00:00"
+        },
+        {
+            "name": "mrcnpdlk/lib-exception",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mrcnpdlk/lib-exception.git",
+                "reference": "159747cd0c8b8db97a26236aa00559666ce209ff"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mrcnpdlk/lib-exception/zipball/159747cd0c8b8db97a26236aa00559666ce209ff",
+                "reference": "159747cd0c8b8db97a26236aa00559666ce209ff",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Mrcnpdlk\\Lib\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Marcin Pudełek",
+                    "email": "marcin@pudelek.org.pl",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Exception Library",
+            "time": "2019-03-30T19:11:27+00:00"
+        },
         {
             "name": "mrcnpdlk/psr16cache-adapter",
             "version": "v0.1.1",

@@ -1,14 +1,16 @@
 <?php
+
+declare(strict_types=1);
 /**
  * TERYT-API
  *
- * Copyright (c) 2017 pudelek.org.pl
+ * Copyright (c) 2019 pudelek.org.pl
  *
  * @license MIT License (MIT)
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- * @author  Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author Marcin Pudełek <marcin@pudelek.org.pl>
  */
 
 /**
@@ -66,28 +68,28 @@ final class NativeApi
      */
     private static $instance = null;
     /**
-     * @var Client
+     * @var \mrcnpdlk\Teryt\Config
      */
-    private $oClient;
+    private $oConfig;
 
     /**
      * NativeApi constructor.
      *
-     * @param \mrcnpdlk\Teryt\Client $oClient
+     * @param \mrcnpdlk\Teryt\Config $configuration
      */
-    private function __construct(Client $oClient)
+    private function __construct(Config $configuration)
     {
-        $this->oClient = $oClient;
+        $this->oConfig = $configuration;
     }
 
     /**
-     * @param \mrcnpdlk\Teryt\Client $oClient
+     * @param \mrcnpdlk\Teryt\Config $configuration
      *
      * @return \mrcnpdlk\Teryt\NativeApi
      */
-    public static function create(Client $oClient): NativeApi
+    public static function create(Config $configuration): NativeApi
     {
-        static::$instance = new static($oClient);
+        static::$instance = new static($configuration);
 
         return static::$instance;
     }
@@ -116,7 +118,7 @@ final class NativeApi
      */
     public function CzyZalogowany(): bool
     {
-        return $this->oClient->request('CzyZalogowany');
+        return $this->oConfig->request('CzyZalogowany');
     }
 
     /**
@@ -129,7 +131,7 @@ final class NativeApi
      */
     public function PobierzDateAktualnegoKatNTS()
     {
-        $res = $this->oClient->request('PobierzDateAktualnegoKatNTS');
+        $res = $this->oConfig->request('PobierzDateAktualnegoKatNTS');
 
         try {
             return (new DateTime($res))->format('Y-m-d');
@@ -148,7 +150,7 @@ final class NativeApi
      */
     public function PobierzDateAktualnegoKatSimc()
     {
-        $res = $this->oClient->request('PobierzDateAktualnegoKatSimc');
+        $res = $this->oConfig->request('PobierzDateAktualnegoKatSimc');
 
         try {
             return (new DateTime($res))->format('Y-m-d');
@@ -167,7 +169,7 @@ final class NativeApi
      */
     public function PobierzDateAktualnegoKatTerc()
     {
-        $res = $this->oClient->request('PobierzDateAktualnegoKatTerc');
+        $res = $this->oConfig->request('PobierzDateAktualnegoKatTerc');
 
         try {
             return (new DateTime($res))->format('Y-m-d');
@@ -186,7 +188,7 @@ final class NativeApi
      */
     public function PobierzDateAktualnegoKatUlic()
     {
-        $res = $this->oClient->request('PobierzDateAktualnegoKatUlic');
+        $res = $this->oConfig->request('PobierzDateAktualnegoKatUlic');
 
         try {
             return (new DateTime($res))->format('Y-m-d');
@@ -208,7 +210,7 @@ final class NativeApi
     public function PobierzGminyiPowDlaWoj(string $provinceId): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzGminyiPowDlaWoj', ['Woj' => $provinceId]);
+        $res    = $this->oConfig->request('PobierzGminyiPowDlaWoj', ['Woj' => $provinceId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
             $answer[] = new JednostkaTerytorialna($p);
         }
@@ -228,7 +230,7 @@ final class NativeApi
      */
     public function PobierzKatalogNTS(): SplFileObject
     {
-        $res     = $this->oClient->request('PobierzKatalogNTS');
+        $res     = $this->oConfig->request('PobierzKatalogNTS');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
@@ -247,7 +249,7 @@ final class NativeApi
      */
     public function PobierzKatalogSIMC(): SplFileObject
     {
-        $res     = $this->oClient->request('PobierzKatalogSIMC');
+        $res     = $this->oConfig->request('PobierzKatalogSIMC');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
@@ -266,7 +268,7 @@ final class NativeApi
      */
     public function PobierzKatalogSIMCAdr(): SplFileObject
     {
-        $res     = $this->oClient->request('PobierzKatalogSIMCAdr');
+        $res     = $this->oConfig->request('PobierzKatalogSIMCAdr');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
@@ -285,7 +287,7 @@ final class NativeApi
      */
     public function PobierzKatalogSIMCStat(): SplFileObject
     {
-        $res     = $this->oClient->request('PobierzKatalogSIMCStat');
+        $res     = $this->oConfig->request('PobierzKatalogSIMCStat');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
@@ -304,7 +306,7 @@ final class NativeApi
      */
     public function PobierzKatalogTERC(): SplFileObject
     {
-        $res     = $this->oClient->request('PobierzKatalogTERC');
+        $res     = $this->oConfig->request('PobierzKatalogTERC');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
@@ -323,7 +325,7 @@ final class NativeApi
      */
     public function PobierzKatalogTERCAdr(): SplFileObject
     {
-        $res     = $this->oClient->request('PobierzKatalogTERCAdr');
+        $res     = $this->oConfig->request('PobierzKatalogTERCAdr');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
@@ -342,7 +344,7 @@ final class NativeApi
      */
     public function PobierzKatalogULIC(): SplFileObject
     {
-        $res     = $this->oClient->request('PobierzKatalogULIC');
+        $res     = $this->oConfig->request('PobierzKatalogULIC');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
@@ -361,7 +363,7 @@ final class NativeApi
      */
     public function PobierzKatalogULICAdr(): SplFileObject
     {
-        $res     = $this->oClient->request('PobierzKatalogULICAdr');
+        $res     = $this->oConfig->request('PobierzKatalogULICAdr');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
@@ -380,7 +382,7 @@ final class NativeApi
      */
     public function PobierzKatalogULICBezDzielnic(): SplFileObject
     {
-        $res     = $this->oClient->request('PobierzKatalogULICBezDzielnic');
+        $res     = $this->oConfig->request('PobierzKatalogULICBezDzielnic');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
@@ -399,7 +401,7 @@ final class NativeApi
      */
     public function PobierzKatalogWMRODZ(): SplFileObject
     {
-        $res     = $this->oClient->request('PobierzKatalogWMRODZ');
+        $res     = $this->oConfig->request('PobierzKatalogWMRODZ');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
         $content = base64_decode($res->plik_zawartosc);
 
@@ -420,7 +422,7 @@ final class NativeApi
     public function PobierzListeGmin(string $provinceId, string $districtId): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzListeGmin', ['Woj' => $provinceId, 'Pow' => $districtId]);
+        $res    = $this->oConfig->request('PobierzListeGmin', ['Woj' => $provinceId, 'Pow' => $districtId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
             $answer[] = new JednostkaTerytorialna($p);
         }
@@ -442,7 +444,7 @@ final class NativeApi
     public function PobierzListeGminPowiecie(string $districtId, string $subregionId): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzListeGminPowiecie', ['Pow' => $districtId, 'Podreg' => $subregionId]);
+        $res    = $this->oConfig->request('PobierzListeGminPowiecie', ['Pow' => $districtId, 'Podreg' => $subregionId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
             $answer[] = new JednostkaNomenklaturyNTS($p);
         }
@@ -466,7 +468,7 @@ final class NativeApi
     public function PobierzListeMiejscowosciWGminie(string $provinceName, string $districtName, string $communeName): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzListeMiejscowosciWGminie',
+        $res    = $this->oConfig->request('PobierzListeMiejscowosciWGminie',
             [
                 'Wojewodztwo' => $provinceName,
                 'Powiat'      => $districtName,
@@ -494,7 +496,7 @@ final class NativeApi
     {
         $answer = [];
         $oTerc  = new Terc($tercId);
-        $res    = $this->oClient->request('PobierzListeMiejscowosciWRodzajuGminy',
+        $res    = $this->oConfig->request('PobierzListeMiejscowosciWRodzajuGminy',
             [
                 'symbolWoj'  => $oTerc->getProvinceId(),
                 'symbolPow'  => $oTerc->getDistrictId(),
@@ -521,7 +523,7 @@ final class NativeApi
     public function PobierzListePodregionow(string $provinceId): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzListePodregionow', ['Woj' => $provinceId]);
+        $res    = $this->oConfig->request('PobierzListePodregionow', ['Woj' => $provinceId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
             $answer[] = new JednostkaNomenklaturyNTS($p);
         }
@@ -542,7 +544,7 @@ final class NativeApi
     public function PobierzListePowiatow(string $provinceId): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzListePowiatow', ['Woj' => $provinceId]);
+        $res    = $this->oConfig->request('PobierzListePowiatow', ['Woj' => $provinceId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
             $answer[] = new JednostkaTerytorialna($p);
         }
@@ -563,7 +565,7 @@ final class NativeApi
     public function PobierzListePowiatowWPodregionie(string $subregionId): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzListePowiatowWPodregionie', ['Podreg' => $subregionId]);
+        $res    = $this->oConfig->request('PobierzListePowiatowWPodregionie', ['Podreg' => $subregionId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
             $answer[] = new JednostkaNomenklaturyNTS($p);
         }
@@ -582,7 +584,7 @@ final class NativeApi
     public function PobierzListeRegionow(): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzListeRegionow');
+        $res    = $this->oConfig->request('PobierzListeRegionow');
         foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
             $answer[] = new JednostkaNomenklaturyNTS($p);
         }
@@ -606,7 +608,7 @@ final class NativeApi
     {
         $answer = [];
         $oTerc  = new Terc($tercId);
-        $res    = $this->oClient->request('PobierzListeUlicDlaMiejscowosci',
+        $res    = $this->oConfig->request('PobierzListeUlicDlaMiejscowosci',
             [
                 'woj'               => $oTerc->getProvinceId(),
                 'pow'               => $oTerc->getDistrictId(),
@@ -635,7 +637,7 @@ final class NativeApi
     public function PobierzListeWojewodztw(): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzListeWojewodztw');
+        $res    = $this->oConfig->request('PobierzListeWojewodztw');
         foreach (Helper::getPropertyAsArray($res, 'JednostkaTerytorialna') as $p) {
             $answer[] = new JednostkaTerytorialna($p);
         }
@@ -656,7 +658,7 @@ final class NativeApi
     public function PobierzListeWojewodztwWRegionie(string $regionId): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzListeWojewodztwWRegionie', ['Reg' => $regionId]);
+        $res    = $this->oConfig->request('PobierzListeWojewodztwWRegionie', ['Reg' => $regionId]);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaNomenklaturyNTS') as $p) {
             $answer[] = new JednostkaNomenklaturyNTS($p);
         }
@@ -674,7 +676,7 @@ final class NativeApi
      */
     public function PobierzSlownikCechULIC(): array
     {
-        $res = $this->oClient->request('PobierzSlownikCechULIC');
+        $res = $this->oConfig->request('PobierzSlownikCechULIC');
 
         return Helper::getPropertyAsArray($res, 'string');
     }
@@ -689,7 +691,7 @@ final class NativeApi
      */
     public function PobierzSlownikRodzajowJednostek(): array
     {
-        $res = $this->oClient->request('PobierzSlownikRodzajowJednostek');
+        $res = $this->oConfig->request('PobierzSlownikRodzajowJednostek');
 
         return Helper::getPropertyAsArray($res, 'string');
     }
@@ -705,7 +707,7 @@ final class NativeApi
     public function PobierzSlownikRodzajowSIMC(): array
     {
         $answer = [];
-        $res    = $this->oClient->request('PobierzSlownikRodzajowSIMC');
+        $res    = $this->oConfig->request('PobierzSlownikRodzajowSIMC');
         foreach (Helper::getPropertyAsArray($res, 'RodzajMiejscowosci') as $p) {
             $answer[] = new RodzajMiejscowosci($p);
         }
@@ -729,7 +731,7 @@ final class NativeApi
     public function PobierzZmianyNTS(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
         $toDate  = $toDate ?? new DateTime();
-        $res     = $this->oClient->request(
+        $res     = $this->oConfig->request(
             'PobierzZmianyNTS',
             [
                 'stanod' => $fromDate->format('Y-m-d'),
@@ -758,7 +760,7 @@ final class NativeApi
     public function PobierzZmianySimcAdresowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
         $toDate  = $toDate ?? new DateTime();
-        $res     = $this->oClient->request(
+        $res     = $this->oConfig->request(
             'PobierzZmianySimcAdresowy',
             [
                 'stanod' => $fromDate->format('Y-m-d'),
@@ -787,7 +789,7 @@ final class NativeApi
     public function PobierzZmianySimcStatystyczny(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
         $toDate  = $toDate ?? new DateTime();
-        $res     = $this->oClient->request(
+        $res     = $this->oConfig->request(
             'PobierzZmianySimcStatystyczny',
             [
                 'stanod' => $fromDate->format('Y-m-d'),
@@ -816,7 +818,7 @@ final class NativeApi
     public function PobierzZmianySimcUrzedowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
         $toDate  = $toDate ?? new DateTime();
-        $res     = $this->oClient->request(
+        $res     = $this->oConfig->request(
             'PobierzZmianySimcUrzedowy',
             [
                 'stanod' => $fromDate->format('Y-m-d'),
@@ -845,7 +847,7 @@ final class NativeApi
     public function PobierzZmianyTercAdresowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
         $toDate  = $toDate ?? new DateTime();
-        $res     = $this->oClient->request(
+        $res     = $this->oConfig->request(
             'PobierzZmianyTercAdresowy',
             [
                 'stanod' => $fromDate->format('Y-m-d'),
@@ -874,7 +876,7 @@ final class NativeApi
     public function PobierzZmianyTercUrzedowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
         $toDate  = $toDate ?? new DateTime();
-        $res     = $this->oClient->request(
+        $res     = $this->oConfig->request(
             'PobierzZmianyTercUrzedowy',
             [
                 'stanod' => $fromDate->format('Y-m-d'),
@@ -903,7 +905,7 @@ final class NativeApi
     public function PobierzZmianyUlicAdresowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
         $toDate  = $toDate ?? new DateTime();
-        $res     = $this->oClient->request(
+        $res     = $this->oConfig->request(
             'PobierzZmianyUlicAdresowy',
             [
                 'stanod' => $fromDate->format('Y-m-d'),
@@ -932,7 +934,7 @@ final class NativeApi
     public function PobierzZmianyUlicUrzedowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
         $toDate  = $toDate ?? new DateTime();
-        $res     = $this->oClient->request(
+        $res     = $this->oConfig->request(
             'PobierzZmianyUlicUrzedowy',
             [
                 'stanod' => $fromDate->format('Y-m-d'),
@@ -959,7 +961,7 @@ final class NativeApi
      */
     public function WeryfikujAdresDlaMiejscowosci(string $cityId): ZweryfikowanyAdresBezUlic
     {
-        $res   = $this->oClient->request('WeryfikujAdresDlaMiejscowosci', ['symbolMsc' => $cityId]);
+        $res   = $this->oConfig->request('WeryfikujAdresDlaMiejscowosci', ['symbolMsc' => $cityId]);
         $oData = Helper::getPropertyAsObject($res, 'ZweryfikowanyAdresBezUlic');
 
         return new ZweryfikowanyAdresBezUlic($oData);
@@ -979,7 +981,7 @@ final class NativeApi
      */
     public function WeryfikujAdresDlaMiejscowosciAdresowy(string $cityId): ZweryfikowanyAdresBezUlic
     {
-        $res   = $this->oClient->request('WeryfikujAdresDlaMiejscowosciAdresowy', ['symbolMsc' => $cityId]);
+        $res   = $this->oConfig->request('WeryfikujAdresDlaMiejscowosciAdresowy', ['symbolMsc' => $cityId]);
         $oData = Helper::getPropertyAsObject($res, 'ZweryfikowanyAdresBezUlic');
 
         return new ZweryfikowanyAdresBezUlic($oData);
@@ -1000,7 +1002,7 @@ final class NativeApi
      */
     public function WeryfikujAdresDlaUlic(string $cityId, string $streetId): ZweryfikowanyAdres
     {
-        $res   = $this->oClient->request('WeryfikujAdresDlaUlic', ['symbolMsc' => $cityId, 'SymUl' => $streetId]);
+        $res   = $this->oConfig->request('WeryfikujAdresDlaUlic', ['symbolMsc' => $cityId, 'SymUl' => $streetId]);
         $oData = Helper::getPropertyAsObject($res, 'ZweryfikowanyAdres');
 
         return new ZweryfikowanyAdres($oData);
@@ -1021,7 +1023,7 @@ final class NativeApi
      */
     public function WeryfikujAdresDlaUlicAdresowy(string $cityId, string $streetId): ZweryfikowanyAdres
     {
-        $res   = $this->oClient->request('WeryfikujAdresDlaUlicAdresowy', ['symbolMsc' => $cityId, 'SymUl' => $streetId]);
+        $res   = $this->oConfig->request('WeryfikujAdresDlaUlicAdresowy', ['symbolMsc' => $cityId, 'SymUl' => $streetId]);
         $oData = Helper::getPropertyAsObject($res, 'ZweryfikowanyAdres');
 
         return new ZweryfikowanyAdres($oData);
@@ -1053,7 +1055,7 @@ final class NativeApi
         string $cityTypeName = null
     ): array {
         $answer = [];
-        $res    = $this->oClient->request('WeryfikujAdresWmiejscowosci',
+        $res    = $this->oConfig->request('WeryfikujAdresWmiejscowosci',
             [
                 'Wojewodztwo' => $provinceName,
                 'Powiat'      => $districtName,
@@ -1094,7 +1096,7 @@ final class NativeApi
         string $cityTypeName = null
     ): array {
         $answer = [];
-        $res    = $this->oClient->request('WeryfikujAdresWmiejscowosciAdresowy',
+        $res    = $this->oConfig->request('WeryfikujAdresWmiejscowosciAdresowy',
             [
                 'Wojewodztwo' => $provinceName,
                 'Powiat'      => $districtName,
@@ -1136,7 +1138,7 @@ final class NativeApi
         string $streetName
     ): array {
         $answer = [];
-        $res    = $this->oClient->request('WeryfikujNazwaAdresUlic',
+        $res    = $this->oConfig->request('WeryfikujNazwaAdresUlic',
             [
                 'nazwaWoj'         => $provinceName,
                 'nazwaPow'         => $districtName,
@@ -1180,7 +1182,7 @@ final class NativeApi
         string $streetName
     ): array {
         $answer = [];
-        $res    = $this->oClient->request('WeryfikujNazwaAdresUlicAdresowy',
+        $res    = $this->oConfig->request('WeryfikujNazwaAdresUlicAdresowy',
             [
                 'nazwaWoj'         => $provinceName,
                 'nazwaPow'         => $districtName,
@@ -1214,7 +1216,7 @@ final class NativeApi
     public function WyszukajJPT(string $name): array
     {
         $answer = [];
-        $res    = $this->oClient->request('WyszukajJPT', ['nazwa' => $name], false);
+        $res    = $this->oConfig->request('WyszukajJPT', ['nazwa' => $name], false);
         foreach (Helper::getPropertyAsArray($res, 'JednostkaPodzialuTerytorialnego') as $p) {
             $answer[] = new JednostkaPodzialuTerytorialnego($p);
         }
@@ -1249,7 +1251,7 @@ final class NativeApi
         foreach ($tTerc as $terc) {
             $identyfiks[] = ['terc' => $terc];
         }
-        $res = $this->oClient->request('WyszukajJednostkeWRejestrze',
+        $res = $this->oConfig->request('WyszukajJednostkeWRejestrze',
             [
                 'nazwa'      => $name,
                 'kategoria'  => $category ?? self::CATEGORY_ALL,
@@ -1276,7 +1278,7 @@ final class NativeApi
     public function WyszukajMiejscowosc(string $cityName = null, string $cityId = null): array
     {
         $answer = [];
-        $res    = $this->oClient->request('WyszukajMiejscowosc',
+        $res    = $this->oConfig->request('WyszukajMiejscowosc',
             ['nazwaMiejscowosci' => $cityName, 'identyfikatorMiejscowosci' => $cityId]);
         foreach (Helper::getPropertyAsArray($res, 'Miejscowosc') as $p) {
             $answer[] = new Miejscowosc($p);
@@ -1311,7 +1313,7 @@ final class NativeApi
         /**
          * @var \stdClass|null
          */
-        $res = $this->oClient->request('WyszukajMiejscowoscWJPT',
+        $res = $this->oConfig->request('WyszukajMiejscowoscWJPT',
             [
                 'nazwaWoj'                  => $provinceName,
                 'nazwaPow'                  => $districtName,
@@ -1355,7 +1357,7 @@ final class NativeApi
         foreach ($tTerc as $terc) {
             $identyfiks[] = ['terc' => $terc];
         }
-        $res = $this->oClient->request('WyszukajMiejscowoscWRejestrze',
+        $res = $this->oConfig->request('WyszukajMiejscowoscWRejestrze',
             [
                 'nazwa'              => $name,
                 'rodzajMiejscowosci' => $cityTypeName,
@@ -1384,7 +1386,7 @@ final class NativeApi
     public function WyszukajUlice(string $streetName = null, string $streetIdentityName = null, string $cityName = null): array
     {
         $answer = [];
-        $res    = $this->oClient->request('WyszukajUlice',
+        $res    = $this->oConfig->request('WyszukajUlice',
             [
                 'nazwaulicy'        => $streetName,
                 'cecha'             => $streetIdentityName,
@@ -1426,7 +1428,7 @@ final class NativeApi
         foreach ($tTerc as $terc) {
             $identyfiks[] = ['terc' => $terc];
         }
-        $res = $this->oClient->request('WyszukajUliceWRejestrze',
+        $res = $this->oConfig->request('WyszukajUliceWRejestrze',
             [
                 'nazwa'         => $name,
                 'cecha'         => $identityName,

@@ -2,7 +2,7 @@
 /**
  * TERYT-API
  *
- * Copyright (c) 2017 pudelek.org.pl
+ * Copyright (c) 2019 pudelek.org.pl
  *
  * @license MIT License (MIT)
  *
@@ -16,6 +16,6 @@ namespace mrcnpdlk\Teryt;
 /**
  * Class Exception
  */
-class Exception extends \Exception
+class Exception extends \Mrcnpdlk\Lib\Exception
 {
 }

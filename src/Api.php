@@ -2,13 +2,13 @@
 /**
  * TERYT-API
  *
- * Copyright (c) 2017 pudelek.org.pl
+ * Copyright (c) 2019 pudelek.org.pl
  *
  * @license MIT License (MIT)
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- * @author  Marcin Pudełek <marcin@pudelek.org.pl>
+ * @author Marcin Pudełek <marcin@pudelek.org.pl>
  */
 
 namespace mrcnpdlk\Teryt;
@@ -28,11 +28,11 @@ class Api
     /**
      * Api constructor.
      *
-     * @param Client $oClient
+     * @param \mrcnpdlk\Teryt\Config $configuration
      */
-    public function __construct(Client $oClient)
+    public function __construct(Config $configuration)
     {
-        $this->oNativeApi = NativeApi::create($oClient);
+        $this->oNativeApi = NativeApi::create($configuration);
     }
 
     /**

@@ -19,33 +19,29 @@
 
 namespace Tests\mrcnpdlk\Teryt;
 
+use mrcnpdlk\Teryt\Config;
 use mrcnpdlk\Teryt\NativeApi;
 use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaTerytorialna;
 use Psr\Log\NullLogger;
 
 class ClientTest extends TestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-    }
-
     public function testEmptyLogger(): void
     {
-        $oClient = new \mrcnpdlk\Teryt\Client();
-        $this->assertInstanceOf(NullLogger::class, $oClient->getLogger());
+        $oConfig = new Config();
+        $this->assertInstanceOf(NullLogger::class, $oConfig->getLogger());
     }
 
     public function testEmptyCache(): void
     {
-        $oClient = new \mrcnpdlk\Teryt\Client();
-        $this->assertInstanceOf(NullLogger::class, $oClient->getLogger());
+        $oConfig = new Config();
+        $this->assertInstanceOf(NullLogger::class, $oConfig->getLogger());
     }
 
     public function testGetProvinces(): void
     {
-        $oClient    = new \mrcnpdlk\Teryt\Client();
-        $oNativeApi = NativeApi::create($oClient);
+        $oConfig    = new Config();
+        $oNativeApi = NativeApi::create($oConfig);
         $tList      = $oNativeApi->PobierzListeWojewodztw();
         $this->assertNotEmpty($tList);
         $this->assertInstanceOf(JednostkaTerytorialna::class, $tList[0]);
