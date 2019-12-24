@@ -18,22 +18,22 @@
   "minimum-stability": "stable",
   "prefer-stable": true,
   "require": {
-    "php": ">=7.0",
+    "php": ">=7.2",
     "ext-soap": "*",
-    "robrichards/wse-php": "2.0.2",
-    "mrcnpdlk/psr16cache-adapter":"~0"
+    "robrichards/wse-php": "^2",
+    "mrcnpdlk/psr16cache-adapter":"^0"
   },
   "require-dev": {
-    "phpunit/phpunit": "~6.3",
-    "mockery/mockery": "~0",
-    "phpdocumentor/phpdocumentor": "2.*",
-    "cvuorinen/phpdoc-markdown-public": "*",
+    "phpunit/phpunit": "^8",
+    "mockery/mockery": "^1",
+    "phpdocumentor/phpdocumentor": "^2",
+    "cvuorinen/phpdoc-markdown-public": "^0",
     "monolog/monolog": "^1.23",
-    "phpfastcache/phpfastcache": "~6.0"
+    "phpfastcache/phpfastcache": "^7"
   },
   "suggest": {
     "monolog/monolog": "^1.23",
-    "phpfastcache/phpfastcache": "~6.0"
+    "phpfastcache/phpfastcache": "^7"
   },
   "autoload": {
     "psr-4": {
