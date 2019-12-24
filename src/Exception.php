@@ -2,7 +2,7 @@
 /**
  * TERYT-API
  *
- * Copyright (c) 2017 pudelek.org.pl
+ * Copyright (c) 2019 pudelek.org.pl
  *
  * @license MIT License (MIT)
  *
@@ -11,9 +11,11 @@
  * @author Marcin Pudełek <marcin@pudelek.org.pl>
  */
 
+namespace mrcnpdlk\Teryt;
+
 /**
- * Created by Marcin.
- * Date: 09.09.2017
- * Time: 14:37
+ * Class Exception
  */
-require_once __DIR__ . '/../vendor/autoload.php';
+class Exception extends \Mrcnpdlk\Lib\Exception
+{
+}

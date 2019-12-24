@@ -12,8 +12,18 @@
  */
 
 /**
- * Created by Marcin.
- * Date: 09.09.2017
- * Time: 14:37
+ * Created by Marcin Pudełek <marcin@pudelek.org.pl>
+ * Date: 05.09.2017
+ * Time: 12:49
  */
-require_once __DIR__ . '/../vendor/autoload.php';
+
+namespace mrcnpdlk\Teryt\Exception;
+
+use mrcnpdlk\Teryt\Exception;
+
+/**
+ * Class Response
+ */
+class Response extends Exception
+{
+}

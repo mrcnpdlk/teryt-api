@@ -39,23 +39,7 @@ More information about using cache and configuration it you can find in this [Wi
     /**
      * Cache in system files
      */
-    $oInstanceCacheFiles = new \phpFastCache\Helper\Psr16Adapter(
-        'files',
-        [
-            'defaultTtl' => 3600 * 24, // 24h
-            'path'       => sys_get_temp_dir(),
-        ]);
-    /**
-     * Cache in Redis
-     */
-    $oInstanceCacheRedis = new \phpFastCache\Helper\Psr16Adapter(
-        'redis',
-        [
-            "host"                => null, // default localhost
-            "port"                => null, // default 6379
-            'defaultTtl'          => 3600 * 24, // 24h
-            'ignoreSymfonyNotice' => true,
-        ]);
+    $oInstanceCacheFiles = new \phpFastCache\Helper\Psr16Adapter('files');
 
 ```
 
@@ -89,13 +73,14 @@ optionally set cache and log instances
 use mrcnpdlk\Teryt\Client;
 use mrcnpdlk\Teryt\NativeApi
 
-$oClient = new Client()
-$oClient
-        ->setConfig($login,$password,true) // not required for connect to testing database
-        ->setCacheInstance($oInstanceCacheRedis)
-        ->setLoggerInstance($oInstanceLogger)
-;
-$oNativeApi = NativeApi::create($oClient);
+$oConfig = new Config([
+    'logger'       => $oInstanceLogger,
+    'cache'        => $oInstanceCacheFiles,
+    'username'     => $login,
+    'password'     => $pass,
+    'isProduction' => true,
+]);
+$oNativeApi = NativeApi::create($oConfig);
 ```
 
 After that we able to call auxiliary static methods defined in NativeApi class, i.e:

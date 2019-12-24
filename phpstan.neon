@@ -1,0 +1,14 @@
+parameters:
+	level: 6
+	paths:
+		- src
+		- tests
+	fileExtensions:
+		- php
+	ignoreErrors:
+	    - '#Access to an undefined property SoapFault::.*#'
+	bootstrap: ./vendor/autoload.php
+includes:
+	- vendor/phpstan/phpstan-phpunit/extension.neon
+	- vendor/phpstan/phpstan-phpunit/rules.neon
+	- vendor/jangregor/phpstan-prophecy/src/extension.neon

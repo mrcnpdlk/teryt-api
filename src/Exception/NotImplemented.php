@@ -13,7 +13,17 @@
 
 /**
  * Created by Marcin.
- * Date: 09.09.2017
- * Time: 14:37
+ * Date: 06.09.2017
+ * Time: 22:27
  */
-require_once __DIR__ . '/../vendor/autoload.php';
+
+namespace mrcnpdlk\Teryt\Exception;
+
+use mrcnpdlk\Teryt\Exception;
+
+/**
+ * Class NotImplemented
+ */
+class NotImplemented extends Exception
+{
+}
