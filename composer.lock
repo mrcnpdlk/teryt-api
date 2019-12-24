@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9d9b86a14fec1925949a36c5cb02a27a",
+    "content-hash": "86096c9cd0245fce2f7fe9292f91194e",
     "packages": [
         {
             "name": "mrcnpdlk/psr16cache-adapter",
@@ -3561,7 +3561,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=7.2",
-        "ext-soap": "*"
+        "ext-soap": "*",
+        "ext-dom": "*"
     },
     "platform-dev": []
 }
