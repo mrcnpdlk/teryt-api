@@ -26,4 +26,4 @@ jobs:
         run: composer phpstan
 
       - name: Run test suite
-        run: composer phunit
+        run: composer phpunit
