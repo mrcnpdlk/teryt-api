@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -22,8 +20,6 @@ namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 /**
  * Class Miejscowosc
- *
- * @package mrcnpdlk\Teryt\ResponseModel\Territory
  */
 class Miejscowosc extends AbstractResponseModel
 {
@@ -46,6 +42,7 @@ class Miejscowosc extends AbstractResponseModel
      * @param \stdClass|null $oData Obiekt zwrócony z TerytWS1
      *
      * @todo Błąd w dokumentacji, zwracana niezgodna ilosc znaków dla PowSymbol i GmiSymbol. Narazie połatałem
+     *
      * @throws \mrcnpdlk\Teryt\Exception
      */
     public function __construct(\stdClass $oData = null)
@@ -56,13 +53,11 @@ class Miejscowosc extends AbstractResponseModel
             $this->provinceId    = $oData->WojSymbol;
             $this->provinceName  = $oData->Wojewodztwo;
             $this->districtName  = $oData->Powiat;
-            $this->districtId    = strlen($oData->PowSymbol) === 4 ? substr($oData->PowSymbol, 2, 2) : $oData->PowSymbol;
+            $this->districtId    = 4 === strlen($oData->PowSymbol) ? substr($oData->PowSymbol, 2, 2) : $oData->PowSymbol;
             $this->communeName   = $oData->Gmina;
-            $this->communeId     = strlen($oData->GmiSymbol) === 7 ? substr($oData->GmiSymbol, 4, 2) : $oData->GmiSymbol;
+            $this->communeId     = 7 === strlen($oData->GmiSymbol) ? substr($oData->GmiSymbol, 4, 2) : $oData->GmiSymbol;
             $this->communeTypeId = $oData->GmiRodzaj;
         }
         parent::__construct();
     }
-
-
 }

@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -22,8 +20,6 @@ namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 /**
  * Class Ulica
- *
- * @package mrcnpdlk\Teryt\ResponseModel\Territory
  */
 class Ulica extends AbstractResponseModel
 {
@@ -71,15 +67,15 @@ class Ulica extends AbstractResponseModel
             $this->streetIdentity = $oData->Cecha;
             $this->communeTypeId  = $oData->GmiRodzaj ?? $oData->RodzGmi ?? null;
             $this->communeId      = $oData->GmiSymbol ?? $oData->Gmi ?? null;
-            $this->communeName    = $oData->Gmina ?? null;
+            $this->communeName    = $oData->Gmina     ?? null;
             $this->cityId         = $oData->IdentyfikatorMiejscowosci;
             $this->streetId       = $oData->IdentyfikatorUlicy ?? $oData->SymbolUlicy ?? null;
-            $this->streetName     = $oData->Nazwa ?? null;
-            $this->cityName       = $oData->NazwaMiejscowosci ?? null;
-            $this->districtId     = $oData->PowSymbol ?? $oData->Pow ?? null;
-            $this->districtName   = $oData->Powiat ?? null;
-            $this->provinceId     = $oData->WojSymbol ?? $oData->Woj ?? null;
-            $this->provinceName   = $oData->Wojewodztwo ?? null;
+            $this->streetName     = $oData->Nazwa              ?? null;
+            $this->cityName       = $oData->NazwaMiejscowosci  ?? null;
+            $this->districtId     = $oData->PowSymbol          ?? $oData->Pow          ?? null;
+            $this->districtName   = $oData->Powiat             ?? null;
+            $this->provinceId     = $oData->WojSymbol          ?? $oData->Woj          ?? null;
+            $this->provinceName   = $oData->Wojewodztwo        ?? null;
 
             $dataStanu = $oData->DataStanu ?? $oData->StanNa ?? null;
             try {

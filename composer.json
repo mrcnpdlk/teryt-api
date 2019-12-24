@@ -20,24 +20,44 @@
   "require": {
     "php": ">=7.2",
     "ext-soap": "*",
+    "ext-dom": "*",
     "robrichards/wse-php": "^2",
-    "mrcnpdlk/psr16cache-adapter":"^0"
+    "mrcnpdlk/psr16cache-adapter": "^0"
   },
   "require-dev": {
+    "phpunit/php-code-coverage": "^7",
+    "friendsofphp/php-cs-fixer": "^2",
+    "phpstan/phpstan": "^0",
+    "phpstan/phpstan-phpunit": "^0",
+    "jangregor/phpstan-prophecy": "^0",
     "phpunit/phpunit": "^8",
     "mockery/mockery": "^1",
-    "phpdocumentor/phpdocumentor": "^2",
-    "cvuorinen/phpdoc-markdown-public": "^0",
     "monolog/monolog": "^1.23",
     "phpfastcache/phpfastcache": "^7"
   },
   "suggest": {
-    "monolog/monolog": "^1.23",
+    "monolog/monolog": "^1",
     "phpfastcache/phpfastcache": "^7"
   },
   "autoload": {
     "psr-4": {
       "mrcnpdlk\\Teryt\\": "src/mrcnpdlk/Teryt/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\mrcnpdlk\\Teryt\\": "tests/suits/"
+    }
+  },
+  "scripts": {
+    "test": [
+      "@phpstan",
+      "@lint",
+      "@phpunit"
+    ],
+    "phpunit": "phpunit --configuration phpunit.xml --coverage-text --colors=never",
+    "phpstan": "phpstan analyse",
+    "fixer": "php-cs-fixer fix --diff --show-progress=dots",
+    "lint": "php-cs-fixer fix --diff --dry-run"
   }
 }

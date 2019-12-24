@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -18,6 +16,4 @@
  * Date: 09.09.2017
  * Time: 14:37
  */
-
-require_once __DIR__ . "/../vendor/autoload.php";
-require_once __DIR__."/TestCase.php";
+require_once __DIR__ . '/../vendor/autoload.php';

@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -21,13 +19,10 @@
 
 namespace mrcnpdlk\Teryt\Model;
 
-
 use mrcnpdlk\Teryt\Exception;
 
 /**
  * Class Terc
- *
- * @package mrcnpdlk\Teryt\Model
  */
 class Terc
 {
@@ -146,8 +141,9 @@ class Terc
      *
      * @param int|null $tercId
      *
-     * @return static
      * @throws Exception
+     *
+     * @return static
      */
     public function setTercId(int $tercId = null)
     {

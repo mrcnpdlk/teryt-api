@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -25,10 +23,7 @@ use mrcnpdlk\Teryt\Exception;
 
 /**
  * Class Response
- *
- * @package mrcnpdlk\Teryt\Exception
  */
 class Response extends Exception
 {
-
 }

@@ -8,12 +8,13 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 namespace mrcnpdlk\Teryt;
+
+use DOMDocument;
+use DOMXPath;
 
 /**
  * @see https://github.com/robrichards/wse-php/issues/31
@@ -22,26 +23,48 @@ class WSASoap
 {
     const WSANS  = 'http://www.w3.org/2005/08/addressing';
     const WSAPFX = 'wsa';
-    private $soapNS, $soapPFX;
-    private          $soapDoc   = null;
-    private          $envelope  = null;
-    private          $SOAPXPath = null;
-    private          $header    = null;
+    /**
+     * @var string|null
+     */
+    private $soapNS;
+    /**
+     * @var string|null
+     */
+    private $soapPFX;
+    /**
+     * @var \DOMDocument|null
+     */
+    private $soapDoc   = null;
+    /**
+     * @var \DOMElement|null
+     */
+    private $envelope  = null;
+    /**
+     * @var \DOMXPath|null
+     */
+    private $SOAPXPath = null;
+    /**
+     * @var \DOMElement|\DOMNode|null
+     */
+    private $header    = null;
 
-    public function __construct(\DOMDocument $doc)
+    public function __construct(DOMDocument $doc)
     {
         $this->soapDoc   = $doc;
         $this->envelope  = $doc->documentElement;
         $this->soapNS    = $this->envelope->namespaceURI;
         $this->soapPFX   = $this->envelope->prefix;
-        $this->SOAPXPath = new \DOMXPath($doc);
+        $this->SOAPXPath = new DOMXPath($doc);
         $this->SOAPXPath->registerNamespace('wssoap', $this->soapNS);
         $this->SOAPXPath->registerNamespace('wswsa', static::WSANS);
         $this->envelope->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . self::WSAPFX, static::WSANS);
         $this->locateHeader();
     }
 
-    public function addAction($action)
+    /**
+     * @param string $action
+     */
+    public function addAction($action): void
     {
         /* Add the WSA Action */
         $header     = $this->locateHeader();
@@ -49,14 +72,20 @@ class WSASoap
         $header->appendChild($nodeAction);
     }
 
-    public function getDoc()
+    /**
+     * @return \DOMDocument
+     */
+    public function getDoc(): DOMDocument
     {
         return $this->soapDoc;
     }
 
+    /**
+     * @return \DOMElement|\DOMNode
+     */
     private function locateHeader()
     {
-        if ($this->header === null) {
+        if (null === $this->header) {
             $headers = $this->SOAPXPath->query('//wssoap:Envelope/wssoap:Header');
             $header  = $headers->item(0);
             if (!$header) {

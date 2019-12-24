@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 namespace mrcnpdlk\Teryt;
@@ -37,12 +35,14 @@ class TerytSoapClient extends \SoapClient
      * @param string $password
      * @param bool   $digest
      */
-    public function addUserToken(string $username, string $password, bool $digest = false)
+    public function addUserToken(string $username, string $password, bool $digest = false): void
     {
         $this->username = $username;
         $this->password = $password;
         $this->digest   = $digest;
-    }/** @noinspection MagicMethodsValidityInspection */
+    }
+
+    /** @noinspection MagicMethodsValidityInspection */
 
     /**
      * @param string $request
@@ -51,8 +51,9 @@ class TerytSoapClient extends \SoapClient
      * @param int    $version
      * @param int    $oneWay
      *
-     * @return string
      * @throws \Exception
+     *
+     * @return string
      */
     public function __doRequest($request, $location, $action, $version, $oneWay = 0)
     {

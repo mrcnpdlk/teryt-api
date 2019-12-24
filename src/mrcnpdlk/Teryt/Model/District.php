@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -20,14 +18,11 @@
 
 namespace mrcnpdlk\Teryt\Model;
 
-
 use mrcnpdlk\Teryt\Exception\NotFound;
 use mrcnpdlk\Teryt\NativeApi;
 
 /**
  * Class District
- *
- * @package mrcnpdlk\Teryt\Model
  */
 class District extends EntityAbstract
 {
@@ -41,7 +36,7 @@ class District extends EntityAbstract
     /**
      * Nazwa powiatu
      *
-     * @var static
+     * @var string
      */
     public $name;
     /**
@@ -62,10 +57,11 @@ class District extends EntityAbstract
      *
      * @param string $id 4-znakowy symbol powiatu
      *
-     * @return $this
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws NotFound
+     *
+     * @return $this
      */
     public function find(string $id)
     {
@@ -85,5 +81,4 @@ class District extends EntityAbstract
 
         return $this;
     }
-
 }

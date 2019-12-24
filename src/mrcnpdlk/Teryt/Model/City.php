@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -20,14 +18,11 @@
 
 namespace mrcnpdlk\Teryt\Model;
 
-
 use mrcnpdlk\Teryt\Exception\NotFound;
 use mrcnpdlk\Teryt\NativeApi;
 
 /**
  * Class City
- *
- * @package mrcnpdlk\Teryt\Model
  */
 class City extends EntityAbstract
 {
@@ -58,7 +53,7 @@ class City extends EntityAbstract
     /**
      * Nazwa miejscowości
      *
-     * @var static
+     * @var string
      */
     public $name;
     /**
@@ -68,27 +63,27 @@ class City extends EntityAbstract
      */
     public $commune;
 
-
     /**
      * @param string $id
      *
-     * @return \mrcnpdlk\Teryt\Model\City
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception\InvalidArgument
      * @throws \mrcnpdlk\Teryt\Exception\NotFound
+     *
+     * @return \mrcnpdlk\Teryt\Model\City
      */
     public function find(string $id): City
     {
         $res = NativeApi::getInstance()->WyszukajMiejscowoscWRejestrze(null, $id);
-        if (!empty($res) && count($res) === 1) {
+        if (!empty($res) && 1 === count($res)) {
             $oCity          = $res[0];
             $this->id       = $id;
             $this->parentId = $oCity->cityParentId;
             $this->name     = $oCity->cityName;
             $this->rmId     = $oCity->rmId;
             $this->rmName   = $oCity->rmName;
-            $this->commune  = (new Commune())->find($oCity->tercId);
+            $this->commune  = (new Commune())->find((string)($oCity->tercId));
         }
 
         if (!$this->id) {

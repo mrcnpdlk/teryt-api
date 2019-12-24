@@ -2,15 +2,13 @@
 /**
  * TERYT-API
  *
- * Copyright (c) 2017 pudelek.org.pl
+ * Copyright (c) 2019 pudelek.org.pl
  *
  * @license MIT License (MIT)
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -19,11 +17,13 @@
  * Time: 19:59
  */
 
-namespace mrcnpdlk\Teryt;
+namespace Tests\mrcnpdlk\Teryt;
+
+use mrcnpdlk\Teryt\Helper;
 
 class HelperTest extends TestCase
 {
-    public function testConvertToBoolean()
+    public function testConvertToBoolean(): void
     {
         $this->assertEquals(true, Helper::convertToBoolean('true'));
         $this->assertEquals(true, Helper::convertToBoolean(1));

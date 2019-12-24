@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -20,10 +18,11 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
+use stdClass;
+use Throwable;
+
 /**
  * Class WyszukanaUlica
- *
- * @package mrcnpdlk\Teryt\ResponseModel\Territory
  */
 class WyszukanaUlica extends Ulica
 {
@@ -47,7 +46,7 @@ class WyszukanaUlica extends Ulica
      *
      * @throws \mrcnpdlk\Teryt\Exception
      */
-    public function __construct(\stdClass $oData = null)
+    public function __construct(stdClass $oData = null)
     {
         if ($oData) {
             $this->streetIdentity = $oData->Cecha;
@@ -67,7 +66,7 @@ class WyszukanaUlica extends Ulica
 
             try {
                 $this->statusDate = $oData->DataStanu ? (new \DateTime($oData->DataStanu))->format('Y-m-d') : null;
-            } catch (\Exception $e) {
+            } catch (Throwable $e) {
                 $this->statusDate = null;
             }
         }

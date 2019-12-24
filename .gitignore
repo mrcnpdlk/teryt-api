@@ -2,6 +2,8 @@
 /devel/
 coverage.clover
 .idea
+.php_cs.cache
+.phpunit.result.cache
 # Created by .ignore support plugin (hsz.mobi)
 ### Windows template
 # Windows thumbnail cache files

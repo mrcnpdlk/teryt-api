@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -20,14 +18,11 @@
 
 namespace mrcnpdlk\Teryt\Model;
 
-
 use mrcnpdlk\Teryt\Exception;
 use mrcnpdlk\Teryt\NativeApi;
 
 /**
  * Class Province
- *
- * @package mrcnpdlk\Teryt\Model
  */
 class Province extends EntityAbstract
 {
@@ -40,7 +35,7 @@ class Province extends EntityAbstract
     /**
      * Nazwa województwa
      *
-     * @var static
+     * @var string
      */
     public $name;
 
@@ -49,10 +44,11 @@ class Province extends EntityAbstract
      *
      * @param string $id Dwuznakowy symbol województwa
      *
-     * @return $this
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws Exception\NotFound
+     *
+     * @return $this
      */
     public function find(string $id)
     {
@@ -69,14 +65,14 @@ class Province extends EntityAbstract
         return $this;
     }
 
-
     /**
      * Pełnokontekstowe wyszukiwanie powiatów w województwie
      *
      * @param string|null $phrase Szukana fraza, gdy NULL zwraca wszystkie powiaty w województwie
      *
-     * @return \mrcnpdlk\Teryt\Model\District[]
      * @throws \Exception
+     *
+     * @return \mrcnpdlk\Teryt\Model\District[]
      */
     public function searchDistricts(string $phrase = null)
     {
@@ -97,7 +93,6 @@ class Province extends EntityAbstract
             }
 
             return $answer;
-
         } catch (Exception\NotFound $e) {
             return [];
         } catch (\Exception $e) {
@@ -105,5 +100,3 @@ class Province extends EntityAbstract
         }
     }
 }
-
-

@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -22,8 +20,6 @@ namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 /**
  * Class JednostkaNomenklaturyNTS
- *
- * @package mrcnpdlk\Teryt\ResponseModel\Territory
  */
 class JednostkaNomenklaturyNTS extends AbstractResponseModel
 {
@@ -68,7 +64,7 @@ class JednostkaNomenklaturyNTS extends AbstractResponseModel
     public function __construct(\stdClass $oData = null)
     {
         if (null !== $oData) {
-            parent::__construct($oData);
+            parent::__construct();
             $this->communeId     = $oData->GMI;
             $this->name          = $oData->NAZWA;
             $this->typeName      = $oData->NAZWA_DOD;

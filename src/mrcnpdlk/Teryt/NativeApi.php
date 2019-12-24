@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -21,6 +19,7 @@
 
 namespace mrcnpdlk\Teryt;
 
+use DateTime;
 use mrcnpdlk\Teryt\Model\Terc;
 use mrcnpdlk\Teryt\ResponseModel\Dictionary\RodzajMiejscowosci;
 use mrcnpdlk\Teryt\ResponseModel\Territory\JednostkaNomenklaturyNTS;
@@ -33,35 +32,34 @@ use mrcnpdlk\Teryt\ResponseModel\Territory\WyszukanaMiejscowosc;
 use mrcnpdlk\Teryt\ResponseModel\Territory\WyszukanaUlica;
 use mrcnpdlk\Teryt\ResponseModel\Territory\ZweryfikowanyAdres;
 use mrcnpdlk\Teryt\ResponseModel\Territory\ZweryfikowanyAdresBezUlic;
-
+use SplFileObject;
 
 final class NativeApi
 {
     /**
      * @var string Wyszukiwanie wśród wszystkich rodzajów jednostek
      */
-    const CATEGORY_ALL         = '0'; // Wyszukiwanie wśród wszystkich rodzajów jednostek
-    const CATEGORY_WOJ_ALL     = '1'; // Dla województw
-    const CATEGORY_POW_ALL     = '2'; // Dla wszystkich powiatów
-    const CATEGORY_POW_ZIE     = '21'; // Dla powiatów ziemskich (identyfikator powiatu 01-60)
-    const CATEGORY_POW_MIA     = '22'; // Dla miast na prawach powiatu (identyfikator powiatu 61-99)
-    const CATEGORY_GMI_ALL     = '3'; // Dla gmin ogółem
-    const CATEGORY_GMI_MIA     = '31'; // Dla gmin miejskich (identyfikator rodzaju gminy 1)
-    const CATEGORY_DELEG       = '32'; // Dla dzielnic i delegatur (identyfikator rodzaju 8 i 9)
-    const CATEGORY_GMI_WIE     = '33'; // Dla gmin wiejskich (identyfikator rodzaju 2)
-    const CATEGORY_GMI_MIE_WIE = '34'; // Dla gmin miejsko-wiejskich (3)
-    const CATEGORY_MIA         = '341'; // Dla miast w gminach miejsko-wiejskich(4)
-    const CATEGORY_MIA_OBS     = '342'; // Dla obszarów miejskich w gminach miejsko-wiejskich(5)
-    const CATEGORY_MIA_ALL     = '35'; // Dla miast ogółem (identyfikator 1 i 4)
-    const CATEGORY_WIE         = '36'; // Dla terenów wiejskich (identyfikator 2 i 5)
+    public const CATEGORY_ALL         = '0'; // Wyszukiwanie wśród wszystkich rodzajów jednostek
+    public const CATEGORY_WOJ_ALL     = '1'; // Dla województw
+    public const CATEGORY_POW_ALL     = '2'; // Dla wszystkich powiatów
+    public const CATEGORY_POW_ZIE     = '21'; // Dla powiatów ziemskich (identyfikator powiatu 01-60)
+    public const CATEGORY_POW_MIA     = '22'; // Dla miast na prawach powiatu (identyfikator powiatu 61-99)
+    public const CATEGORY_GMI_ALL     = '3'; // Dla gmin ogółem
+    public const CATEGORY_GMI_MIA     = '31'; // Dla gmin miejskich (identyfikator rodzaju gminy 1)
+    public const CATEGORY_DELEG       = '32'; // Dla dzielnic i delegatur (identyfikator rodzaju 8 i 9)
+    public const CATEGORY_GMI_WIE     = '33'; // Dla gmin wiejskich (identyfikator rodzaju 2)
+    public const CATEGORY_GMI_MIE_WIE = '34'; // Dla gmin miejsko-wiejskich (3)
+    public const CATEGORY_MIA         = '341'; // Dla miast w gminach miejsko-wiejskich(4)
+    public const CATEGORY_MIA_OBS     = '342'; // Dla obszarów miejskich w gminach miejsko-wiejskich(5)
+    public const CATEGORY_MIA_ALL     = '35'; // Dla miast ogółem (identyfikator 1 i 4)
+    public const CATEGORY_WIE         = '36'; // Dla terenów wiejskich (identyfikator 2 i 5)
 
     /**
      * Określenie zakresu miejscowości
      */
-
-    const SEARCH_CITY_TYPE_ALL  = '000'; //Wszystkie
-    const SEARCH_CITY_TYPE_MAIN = '001'; //Miejscowości podstawowe
-    const SEARCH_CITY_TYPE_ADD  = '002'; //Części integralne miejscowości
+    public const SEARCH_CITY_TYPE_ALL  = '000'; //Wszystkie
+    public const SEARCH_CITY_TYPE_MAIN = '001'; //Miejscowości podstawowe
+    public const SEARCH_CITY_TYPE_ADD  = '002'; //Części integralne miejscowości
 
     /**
      * @var \mrcnpdlk\Teryt\NativeApi|null
@@ -95,8 +93,9 @@ final class NativeApi
     }
 
     /**
-     * @return \mrcnpdlk\Teryt\NativeApi
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \mrcnpdlk\Teryt\NativeApi
      */
     public static function getInstance(): NativeApi
     {
@@ -110,9 +109,10 @@ final class NativeApi
     /**
      * Sprawdzenie czy użytkownik jest zalogowany
      *
-     * @return bool
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return bool
      */
     public function CzyZalogowany(): bool
     {
@@ -122,16 +122,17 @@ final class NativeApi
     /**
      * Data początkowa bieżącego stanu katalogu NTS
      *
-     * @return null|string Data w formacie YYY-MM-DD
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
+     *
+     * @return string|null Data w formacie YYY-MM-DD
      */
     public function PobierzDateAktualnegoKatNTS()
     {
         $res = $this->oClient->request('PobierzDateAktualnegoKatNTS');
 
         try {
-            return (new \DateTime($res))->format('Y-m-d');
+            return (new DateTime($res))->format('Y-m-d');
         } catch (\Exception $e) {
             return null;
         }
@@ -140,16 +141,17 @@ final class NativeApi
     /**
      * Data początkowa bieżącego stanu katalogu SIMC
      *
-     * @return null|string Data w formacie YYY-MM-DD
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return string|null Data w formacie YYY-MM-DD
      */
     public function PobierzDateAktualnegoKatSimc()
     {
         $res = $this->oClient->request('PobierzDateAktualnegoKatSimc');
 
         try {
-            return (new \DateTime($res))->format('Y-m-d');
+            return (new DateTime($res))->format('Y-m-d');
         } catch (\Exception $e) {
             return null;
         }
@@ -158,16 +160,17 @@ final class NativeApi
     /**
      * Data początkowa bieżącego stanu katalogu TERC
      *
-     * @return null|string Data w formacie YYY-MM-DD
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return string|null Data w formacie YYY-MM-DD
      */
     public function PobierzDateAktualnegoKatTerc()
     {
         $res = $this->oClient->request('PobierzDateAktualnegoKatTerc');
 
         try {
-            return (new \DateTime($res))->format('Y-m-d');
+            return (new DateTime($res))->format('Y-m-d');
         } catch (\Exception $e) {
             return null;
         }
@@ -176,16 +179,17 @@ final class NativeApi
     /**
      * Data początkowa bieżącego stanu katalogu ULIC
      *
-     * @return null|string Data w formacie YYY-MM-DD
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return string|null Data w formacie YYY-MM-DD
      */
     public function PobierzDateAktualnegoKatUlic()
     {
         $res = $this->oClient->request('PobierzDateAktualnegoKatUlic');
 
         try {
-            return (new \DateTime($res))->format('Y-m-d');
+            return (new DateTime($res))->format('Y-m-d');
         } catch (\Exception $e) {
             return null;
         }
@@ -196,9 +200,10 @@ final class NativeApi
      *
      * @param string $provinceId
      *
-     * @return JednostkaTerytorialna[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaTerytorialna[]
      */
     public function PobierzGminyiPowDlaWoj(string $provinceId): array
     {
@@ -214,13 +219,14 @@ final class NativeApi
     /**
      * Identyfikatory i nazwy jednostek nomenklatury z wybranego stanu katalogu
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzKatalogNTS(): \SplFileObject
+    public function PobierzKatalogNTS(): SplFileObject
     {
         $res     = $this->oClient->request('PobierzKatalogNTS');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
@@ -232,13 +238,14 @@ final class NativeApi
     /**
      * Dane o miejscowościach z systemu identyfikatorów SIMC z wybranego stanu katalogu w wersji adresowej
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzKatalogSIMC(): \SplFileObject
+    public function PobierzKatalogSIMC(): SplFileObject
     {
         $res     = $this->oClient->request('PobierzKatalogSIMC');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
@@ -250,13 +257,14 @@ final class NativeApi
     /**
      * Dane o miejscowościach z systemu identyfikatorów SIMC z wybranego stanu katalogu w wersji adresowej
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzKatalogSIMCAdr(): \SplFileObject
+    public function PobierzKatalogSIMCAdr(): SplFileObject
     {
         $res     = $this->oClient->request('PobierzKatalogSIMCAdr');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
@@ -268,13 +276,14 @@ final class NativeApi
     /**
      * Dane o miejscowościach z systemu identyfikatorów SIMC z wybranego stanu katalogu w wersji adresowej
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzKatalogSIMCStat(): \SplFileObject
+    public function PobierzKatalogSIMCStat(): SplFileObject
     {
         $res     = $this->oClient->request('PobierzKatalogSIMCStat');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
@@ -286,13 +295,14 @@ final class NativeApi
     /**
      * Dane z systemu identyfikatorów TERC z wybranego stanu katalogu w wersji urzędowej
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzKatalogTERC(): \SplFileObject
+    public function PobierzKatalogTERC(): SplFileObject
     {
         $res     = $this->oClient->request('PobierzKatalogTERC');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
@@ -304,13 +314,14 @@ final class NativeApi
     /**
      * Dane z systemu identyfikatorów TERC z wybranego stanu katalogu w wersji adresowej
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzKatalogTERCAdr(): \SplFileObject
+    public function PobierzKatalogTERCAdr(): SplFileObject
     {
         $res     = $this->oClient->request('PobierzKatalogTERCAdr');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
@@ -322,13 +333,14 @@ final class NativeApi
     /**
      * Katalog ulic dla wskazanego stanu w wersji urzędowej
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzKatalogULIC(): \SplFileObject
+    public function PobierzKatalogULIC(): SplFileObject
     {
         $res     = $this->oClient->request('PobierzKatalogULIC');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
@@ -340,13 +352,14 @@ final class NativeApi
     /**
      * Katalog ulic dla wskazanego stanu w wersji adresowej
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzKatalogULICAdr(): \SplFileObject
+    public function PobierzKatalogULICAdr(): SplFileObject
     {
         $res     = $this->oClient->request('PobierzKatalogULICAdr');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
@@ -358,13 +371,14 @@ final class NativeApi
     /**
      * Katalog ulic dla wskazanego stanu w wersji urzędowej zmodyfikowany dla miast posiadający delegatury
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzKatalogULICBezDzielnic(): \SplFileObject
+    public function PobierzKatalogULICBezDzielnic(): SplFileObject
     {
         $res     = $this->oClient->request('PobierzKatalogULICBezDzielnic');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
@@ -376,13 +390,14 @@ final class NativeApi
     /**
      * Katalog rodzajów miejscowości dla wskazanego stanu
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzKatalogWMRODZ(): \SplFileObject
+    public function PobierzKatalogWMRODZ(): SplFileObject
     {
         $res     = $this->oClient->request('PobierzKatalogWMRODZ');
         $sPath   = sprintf('%s/%s.zip', sys_get_temp_dir(), $res->nazwa_pliku);
@@ -397,9 +412,10 @@ final class NativeApi
      * @param string $provinceId
      * @param string $districtId
      *
-     * @return JednostkaTerytorialna[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaTerytorialna[]
      */
     public function PobierzListeGmin(string $provinceId, string $districtId): array
     {
@@ -418,9 +434,10 @@ final class NativeApi
      * @param string $districtId  dwuznakowy symbol powiatu
      * @param string $subregionId dwuznakowy symbol podregionu
      *
-     * @return JednostkaNomenklaturyNTS[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaNomenklaturyNTS[]
      */
     public function PobierzListeGminPowiecie(string $districtId, string $subregionId): array
     {
@@ -441,9 +458,10 @@ final class NativeApi
      * @param string $districtName
      * @param string $communeName
      *
-     * @return Miejscowosc[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return Miejscowosc[]
      */
     public function PobierzListeMiejscowosciWGminie(string $provinceName, string $districtName, string $communeName): array
     {
@@ -467,9 +485,10 @@ final class NativeApi
      *
      * @param int $tercId
      *
-     * @return Miejscowosc[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return Miejscowosc[]
      */
     public function PobierzListeMiejscowosciWRodzajuGminy(int $tercId): array
     {
@@ -494,9 +513,10 @@ final class NativeApi
      *
      * @param string $provinceId Dwuznakowy symbol województwa
      *
-     * @return JednostkaNomenklaturyNTS[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaNomenklaturyNTS[]
      */
     public function PobierzListePodregionow(string $provinceId): array
     {
@@ -514,9 +534,10 @@ final class NativeApi
      *
      * @param string $provinceId
      *
-     * @return JednostkaTerytorialna[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaTerytorialna[]
      */
     public function PobierzListePowiatow(string $provinceId): array
     {
@@ -534,9 +555,10 @@ final class NativeApi
      *
      * @param string $subregionId Dwuznakowy symbol podregionu
      *
-     * @return JednostkaNomenklaturyNTS[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaNomenklaturyNTS[]
      */
     public function PobierzListePowiatowWPodregionie(string $subregionId): array
     {
@@ -552,9 +574,10 @@ final class NativeApi
     /**
      * Lista regionów
      *
-     * @return JednostkaNomenklaturyNTS[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaNomenklaturyNTS[]
      */
     public function PobierzListeRegionow(): array
     {
@@ -574,9 +597,10 @@ final class NativeApi
      * @param string $cityId
      * @param bool   $asAddress
      *
-     * @return UlicaDrzewo[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return UlicaDrzewo[]
      */
     public function PobierzListeUlicDlaMiejscowosci(int $tercId, string $cityId, bool $asAddress = false): array
     {
@@ -603,9 +627,10 @@ final class NativeApi
     /**
      * Lista województw
      *
-     * @return JednostkaTerytorialna[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaTerytorialna[]
      */
     public function PobierzListeWojewodztw(): array
     {
@@ -623,9 +648,10 @@ final class NativeApi
      *
      * @param string $regionId Jednoznakowy symbol regionu
      *
-     * @return JednostkaNomenklaturyNTS[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaNomenklaturyNTS[]
      */
     public function PobierzListeWojewodztwWRegionie(string $regionId): array
     {
@@ -641,9 +667,10 @@ final class NativeApi
     /**
      * Zwraca listę cech obiektów z katalogu ulic
      *
-     * @return string[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return string[]
      */
     public function PobierzSlownikCechULIC(): array
     {
@@ -655,9 +682,10 @@ final class NativeApi
     /**
      * Zwraca listę rodzajów jednostek
      *
-     * @return string[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return string[]
      */
     public function PobierzSlownikRodzajowJednostek(): array
     {
@@ -669,9 +697,10 @@ final class NativeApi
     /**
      * Zwraca listę rodzajów miejscowości
      *
-     * @return RodzajMiejscowosci[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return RodzajMiejscowosci[]
      */
     public function PobierzSlownikRodzajowSIMC(): array
     {
@@ -690,15 +719,16 @@ final class NativeApi
      * @param \DateTime      $fromDate
      * @param \DateTime|null $toDate
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzZmianyNTS(\DateTime $fromDate, \DateTime $toDate = null): \SplFileObject
+    public function PobierzZmianyNTS(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
-        $toDate  = $toDate ?? new \DateTime();
+        $toDate  = $toDate ?? new DateTime();
         $res     = $this->oClient->request(
             'PobierzZmianyNTS',
             [
@@ -718,15 +748,16 @@ final class NativeApi
      * @param \DateTime      $fromDate
      * @param \DateTime|null $toDate
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzZmianySimcAdresowy(\DateTime $fromDate, \DateTime $toDate = null): \SplFileObject
+    public function PobierzZmianySimcAdresowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
-        $toDate  = $toDate ?? new \DateTime();
+        $toDate  = $toDate ?? new DateTime();
         $res     = $this->oClient->request(
             'PobierzZmianySimcAdresowy',
             [
@@ -746,15 +777,16 @@ final class NativeApi
      * @param \DateTime      $fromDate
      * @param \DateTime|null $toDate
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzZmianySimcStatystyczny(\DateTime $fromDate, \DateTime $toDate = null): \SplFileObject
+    public function PobierzZmianySimcStatystyczny(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
-        $toDate  = $toDate ?? new \DateTime();
+        $toDate  = $toDate ?? new DateTime();
         $res     = $this->oClient->request(
             'PobierzZmianySimcStatystyczny',
             [
@@ -774,15 +806,16 @@ final class NativeApi
      * @param \DateTime      $fromDate
      * @param \DateTime|null $toDate
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzZmianySimcUrzedowy(\DateTime $fromDate, \DateTime $toDate = null): \SplFileObject
+    public function PobierzZmianySimcUrzedowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
-        $toDate  = $toDate ?? new \DateTime();
+        $toDate  = $toDate ?? new DateTime();
         $res     = $this->oClient->request(
             'PobierzZmianySimcUrzedowy',
             [
@@ -802,15 +835,16 @@ final class NativeApi
      * @param \DateTime      $fromDate
      * @param \DateTime|null $toDate
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzZmianyTercAdresowy(\DateTime $fromDate, \DateTime $toDate = null): \SplFileObject
+    public function PobierzZmianyTercAdresowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
-        $toDate  = $toDate ?? new \DateTime();
+        $toDate  = $toDate ?? new DateTime();
         $res     = $this->oClient->request(
             'PobierzZmianyTercAdresowy',
             [
@@ -830,15 +864,16 @@ final class NativeApi
      * @param \DateTime      $fromDate
      * @param \DateTime|null $toDate
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzZmianyTercUrzedowy(\DateTime $fromDate, \DateTime $toDate = null): \SplFileObject
+    public function PobierzZmianyTercUrzedowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
-        $toDate  = $toDate ?? new \DateTime();
+        $toDate  = $toDate ?? new DateTime();
         $res     = $this->oClient->request(
             'PobierzZmianyTercUrzedowy',
             [
@@ -858,15 +893,16 @@ final class NativeApi
      * @param \DateTime      $fromDate
      * @param \DateTime|null $toDate
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzZmianyUlicAdresowy(\DateTime $fromDate, \DateTime $toDate = null): \SplFileObject
+    public function PobierzZmianyUlicAdresowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
-        $toDate  = $toDate ?? new \DateTime();
+        $toDate  = $toDate ?? new DateTime();
         $res     = $this->oClient->request(
             'PobierzZmianyUlicAdresowy',
             [
@@ -886,15 +922,16 @@ final class NativeApi
      * @param \DateTime      $fromDate
      * @param \DateTime|null $toDate
      *
-     * @return \SplFileObject
      * @throws \RuntimeException
      * @throws \LogicException
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return \SplFileObject
      */
-    public function PobierzZmianyUlicUrzedowy(\DateTime $fromDate, \DateTime $toDate = null): \SplFileObject
+    public function PobierzZmianyUlicUrzedowy(DateTime $fromDate, DateTime $toDate = null): SplFileObject
     {
-        $toDate  = $toDate ?? new \DateTime();
+        $toDate  = $toDate ?? new DateTime();
         $res     = $this->oClient->request(
             'PobierzZmianyUlicUrzedowy',
             [
@@ -914,10 +951,11 @@ final class NativeApi
      *
      * @param string $cityId
      *
-     * @return ZweryfikowanyAdresBezUlic
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception\NotFound
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return ZweryfikowanyAdresBezUlic
      */
     public function WeryfikujAdresDlaMiejscowosci(string $cityId): ZweryfikowanyAdresBezUlic
     {
@@ -933,10 +971,11 @@ final class NativeApi
      *
      * @param string $cityId
      *
-     * @return ZweryfikowanyAdresBezUlic
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception\NotFound
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return ZweryfikowanyAdresBezUlic
      */
     public function WeryfikujAdresDlaMiejscowosciAdresowy(string $cityId): ZweryfikowanyAdresBezUlic
     {
@@ -953,10 +992,11 @@ final class NativeApi
      * @param string $cityId
      * @param string $streetId
      *
-     * @return ZweryfikowanyAdres
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception\NotFound
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return ZweryfikowanyAdres
      */
     public function WeryfikujAdresDlaUlic(string $cityId, string $streetId): ZweryfikowanyAdres
     {
@@ -973,10 +1013,11 @@ final class NativeApi
      * @param string $cityId
      * @param string $streetId
      *
-     * @return ZweryfikowanyAdres
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception\NotFound
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return ZweryfikowanyAdres
      */
     public function WeryfikujAdresDlaUlicAdresowy(string $cityId, string $streetId): ZweryfikowanyAdres
     {
@@ -999,9 +1040,10 @@ final class NativeApi
      * @param string      $cityName     Nazwa miejscowości
      * @param string|null $cityTypeName Nazwa typu miejscowości
      *
-     * @return ZweryfikowanyAdresBezUlic[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return ZweryfikowanyAdresBezUlic[]
      */
     public function WeryfikujAdresWmiejscowosci(
         string $provinceName,
@@ -1039,9 +1081,10 @@ final class NativeApi
      * @param string      $cityName     Nazwa miejscowości
      * @param string|null $cityTypeName Nazwa typu miejscowości
      *
-     * @return ZweryfikowanyAdresBezUlic[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return ZweryfikowanyAdresBezUlic[]
      */
     public function WeryfikujAdresWmiejscowosciAdresowy(
         string $provinceName,
@@ -1077,10 +1120,12 @@ final class NativeApi
      * @param string|null $cityTypeName
      * @param string      $streetName
      *
-     * @return ZweryfikowanyAdres[]
-     * @todo empty response
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return ZweryfikowanyAdres[]
+     *
+     * @todo empty response
      */
     public function WeryfikujNazwaAdresUlic(
         string $provinceName,
@@ -1121,9 +1166,10 @@ final class NativeApi
      * @param string|null $cityTypeName
      * @param string      $streetName
      *
-     * @return ZweryfikowanyAdres[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return ZweryfikowanyAdres[]
      */
     public function WeryfikujNazwaAdresUlicAdresowy(
         string $provinceName,
@@ -1158,10 +1204,12 @@ final class NativeApi
      *
      * @param string $name
      *
-     * @return JednostkaPodzialuTerytorialnego[]
-     * @todo Metoda zwraca 0 wyników
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaPodzialuTerytorialnego[]
+     *
+     * @todo Metoda zwraca 0 wyników
      */
     public function WyszukajJPT(string $name): array
     {
@@ -1182,9 +1230,10 @@ final class NativeApi
      * @param string[]    $tSimc    lista identyfikatorów SIMC (cityId)
      * @param string[]    $tTerc    lista identyfikatorów TERC (tercId)
      *
-     * @return JednostkaPodzialuTerytorialnego[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return JednostkaPodzialuTerytorialnego[]
      */
     public function WyszukajJednostkeWRejestrze(
         string $name = null,
@@ -1219,9 +1268,10 @@ final class NativeApi
      * @param string|null $cityName
      * @param string|null $cityId
      *
-     * @return Miejscowosc[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return Miejscowosc[]
      */
     public function WyszukajMiejscowosc(string $cityName = null, string $cityId = null): array
     {
@@ -1245,9 +1295,10 @@ final class NativeApi
      * @param string $cityName
      * @param string $cityId
      *
-     * @return Miejscowosc[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return Miejscowosc[]
      */
     public function WyszukajMiejscowoscWJPT(
         string $provinceName,
@@ -1258,7 +1309,7 @@ final class NativeApi
     ): array {
         $answer = [];
         /**
-         * @var \stdClass|null $res
+         * @var \stdClass|null
          */
         $res = $this->oClient->request('WyszukajMiejscowoscWJPT',
             [
@@ -1284,9 +1335,10 @@ final class NativeApi
      * @param string[]    $tTerc        Lista tercId w których szukamy
      * @param string      $cityTypeName Predefiniowany typ wyszukiwania ('000','001','002') stałe: SEARCH_CITY_TYPE_*
      *
-     * @return WyszukanaMiejscowosc[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return WyszukanaMiejscowosc[]
      */
     public function WyszukajMiejscowoscWRejestrze(
         string $name = null,
@@ -1324,9 +1376,10 @@ final class NativeApi
      * @param string|null $streetIdentityName
      * @param string|null $cityName
      *
-     * @return Ulica[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return Ulica[]
      */
     public function WyszukajUlice(string $streetName = null, string $streetIdentityName = null, string $cityName = null): array
     {
@@ -1347,15 +1400,16 @@ final class NativeApi
     /**
      * Wyszukuje wskazaną ulicę w katalogu ULIC
      *
-     * @param string|null $name         Nazwa ulicy
-     * @param string      $identityName Nazwa cechy, wymagane
-     * @param string|null $streetId     ID ulicy
-     * @param array       $tSimc        Lista cityId w których szukamy
-     * @param array       $tTerc        Lista tercId w których szukamy
+     * @param string|null       $name         Nazwa ulicy
+     * @param string            $identityName Nazwa cechy, wymagane
+     * @param string|null       $streetId     ID ulicy
+     * @param array<string,int> $tSimc        Lista cityId w których szukamy
+     * @param array<string,int> $tTerc        Lista tercId w których szukamy
      *
-     * @return WyszukanaUlica[]
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
+     *
+     * @return WyszukanaUlica[]
      */
     public function WyszukajUliceWRejestrze(
         string $name = null,

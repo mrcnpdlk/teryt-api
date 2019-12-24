@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -22,8 +20,6 @@ namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 /**
  * Class ZweryfikowanyAdres
- *
- * @package mrcnpdlk\Teryt\ResponseModel\Territory
  */
 class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
 {
@@ -75,5 +71,4 @@ class ZweryfikowanyAdres extends ZweryfikowanyAdresBezUlic
         $this->streetName         = $oData->NazwaUlicyWPelnymBrzmieniu;
         $this->streetIdentityName = $oData->NazwaCechy;
     }
-
 }

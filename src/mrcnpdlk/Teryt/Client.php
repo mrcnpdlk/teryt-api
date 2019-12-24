@@ -8,12 +8,10 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
-declare (strict_types=1);
+declare(strict_types=1);
 
 namespace mrcnpdlk\Teryt;
 
@@ -26,8 +24,6 @@ use Psr\SimpleCache\CacheInterface;
 
 /**
  * Class Client
- *
- * @package mrcnpdlk\Teryt
  */
 class Client
 {
@@ -38,7 +34,7 @@ class Client
     /**
      * SoapClient handler
      *
-     * @var \mrcnpdlk\Teryt\TerytSoapClient
+     * @var \mrcnpdlk\Teryt\TerytSoapClient|null
      */
     private $soapClient;
     /**
@@ -85,8 +81,7 @@ class Client
     }
 
     /**
-     * @return array
-     *
+     * @return string[]
      */
     public function __debugInfo()
     {
@@ -104,58 +99,16 @@ class Client
     }
 
     /**
-     * Get SoapClient
-     *
-     * @return \mrcnpdlk\Teryt\TerytSoapClient
-     */
-    private function getSoap(): TerytSoapClient
-    {
-        try {
-            if (!$this->soapClient) {
-                $this->reinitSoap();
-            }
-
-        } catch (\Exception $e) {
-            Helper::handleException($e);
-        }
-
-        return $this->soapClient;
-    }
-
-    /**
-     * Reinit Soap Client
-     *
-     * @return $this
-     * @throws \Exception
-     * @throws Connection
-     * @throws Exception
-     */
-    private function reinitSoap()
-    {
-        try {
-            $this->soapClient = new TerytSoapClient($this->sServiceUrl, [
-                'soap_version' => SOAP_1_1,
-                'exceptions'   => true,
-                'cache_wsdl'   => WSDL_CACHE_BOTH,
-            ]);
-            $this->soapClient->addUserToken($this->sServiceUsername, $this->sServicePassword);
-        } catch (\Exception $e) {
-            throw Helper::handleException($e);
-        }
-
-        return $this;
-    }
-
-    /**
      * Making request to Teryt WS1 API
      *
-     * @param string  $method  Method name
-     * @param array   $args    Parameters
-     * @param boolean $addDate Add DataStanu to request
+     * @param string               $method  Method name
+     * @param array<string, mixed> $args    Parameters
+     * @param bool                 $addDate Add DataStanu to request
      *
-     * @return mixed
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
+     *
+     * @return mixed
      */
     public function request(string $method, array $args = [], bool $addDate = true)
     {
@@ -163,9 +116,8 @@ class Client
             if (!array_key_exists('DataStanu', $args) && $addDate) {
                 $args['DataStanu'] = (new \DateTime())->format('Y-m-d');
             }
-            $self    = $this;
+            $self = $this;
             $this->oLogger->debug(sprintf('REQ: %s', $method), $args);
-
 
             $resp = $this->oCacheAdapter->useCache(
                 function () use ($self, $method, $args) {
@@ -183,22 +135,9 @@ class Client
             $this->oLogger->debug(sprintf('RESP: %s, type is %s', $method, gettype($resp)));
 
             return $resp;
-
         } catch (\Exception $e) {
             throw Helper::handleException($e);
         }
-    }
-
-    /**
-     * Setting Cache Adapter
-     *
-     * @return $this
-     */
-    private function setCacheAdapter()
-    {
-        $this->oCacheAdapter = new Adapter($this->oCache, $this->oLogger);
-
-        return $this;
     }
 
     /**
@@ -207,6 +146,7 @@ class Client
      * @param CacheInterface|null $oCache
      *
      * @return \mrcnpdlk\Teryt\Client
+     *
      * @see https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-16-simple-cache.md PSR-16
      */
     public function setCacheInstance(CacheInterface $oCache = null): Client
@@ -224,11 +164,11 @@ class Client
      * @param string|null $password     Service password
      * @param bool        $isProduction Default FALSE
      *
-     * @return $this
-     *
      * @throws \Exception
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
+     *
+     * @return $this
      */
     public function setConfig(string $username = null, string $password = null, bool $isProduction = false)
     {
@@ -256,4 +196,58 @@ class Client
         return $this;
     }
 
+    /**
+     * Get SoapClient
+     *
+     * @return \mrcnpdlk\Teryt\TerytSoapClient
+     */
+    private function getSoap(): TerytSoapClient
+    {
+        try {
+            if (null === $this->soapClient) {
+                $this->reinitSoap();
+            }
+        } catch (\Exception $e) {
+            Helper::handleException($e);
+        }
+
+        return $this->soapClient;
+    }
+
+    /**
+     * Reinit Soap Client
+     *
+     * @throws \Exception
+     * @throws Connection
+     * @throws Exception
+     *
+     * @return $this
+     */
+    private function reinitSoap()
+    {
+        try {
+            $this->soapClient = new TerytSoapClient($this->sServiceUrl, [
+                'soap_version' => SOAP_1_1,
+                'exceptions'   => true,
+                'cache_wsdl'   => WSDL_CACHE_BOTH,
+            ]);
+            $this->soapClient->addUserToken($this->sServiceUsername, $this->sServicePassword);
+        } catch (\Exception $e) {
+            throw Helper::handleException($e);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Setting Cache Adapter
+     *
+     * @return $this
+     */
+    private function setCacheAdapter()
+    {
+        $this->oCacheAdapter = new Adapter($this->oCache, $this->oLogger);
+
+        return $this;
+    }
 }

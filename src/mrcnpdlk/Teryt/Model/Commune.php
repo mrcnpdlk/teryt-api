@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -20,15 +18,12 @@
 
 namespace mrcnpdlk\Teryt\Model;
 
-
 use mrcnpdlk\Teryt\Exception\InvalidArgument;
 use mrcnpdlk\Teryt\Exception\NotFound;
 use mrcnpdlk\Teryt\NativeApi;
 
 /**
  * Class Commune
- *
- * @package mrcnpdlk\Teryt\Model
  */
 class Commune extends EntityAbstract
 {
@@ -48,7 +43,7 @@ class Commune extends EntityAbstract
     /**
      * Nazwa powiatu
      *
-     * @var static
+     * @var string
      */
     public $name;
     /**
@@ -75,16 +70,17 @@ class Commune extends EntityAbstract
      *
      * @param string $id 6 lub 7-znakowy symbol gminy
      *
-     * @return $this
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws InvalidArgument
      * @throws NotFound
+     *
+     * @return $this
      */
     public function find(string $id)
     {
         switch (strlen($id)) {
-            case 6;
+            case 6:
                 $provinceId = substr($id, 0, 2);
                 $districtId = substr($id, 2, 2);
                 $communeId  = substr($id, 2, 2);
@@ -98,7 +94,6 @@ class Commune extends EntityAbstract
                 break;
             default:
                 throw new InvalidArgument(sprintf('CommuneSymbol malformed, it has %s chars', strlen($id)));
-                break;
         }
         if (!$tercId) {
             foreach (NativeApi::getInstance()->PobierzListeGmin($provinceId, $districtId) as $i) {
@@ -110,10 +105,9 @@ class Commune extends EntityAbstract
                     $tercId         = sprintf('%s%s%s%s', $provinceId, $districtId, $communeId, $i->communeTypeId);
                 }
             }
-
         } else {
             $res = NativeApi::getInstance()->WyszukajJednostkeWRejestrze(null, NativeApi::CATEGORY_GMI_ALL, [], [$tercId]);
-            if (!empty($res) && count($res) === 1) {
+            if (!empty($res) && 1 === count($res)) {
                 $oCommune       = $res[0];
                 $this->id       = $id;
                 $this->name     = $oCommune->communeName;
@@ -124,7 +118,6 @@ class Commune extends EntityAbstract
         if (!$this->id) {
             throw new NotFound(sprintf('Commune [id:%s] not exists', $id));
         }
-
 
         $this->id       = sprintf('%s%s%s', $provinceId, $districtId, $communeId);
         $this->tercId   = $tercId;

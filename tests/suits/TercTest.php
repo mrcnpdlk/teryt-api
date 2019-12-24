@@ -2,15 +2,13 @@
 /**
  * TERYT-API
  *
- * Copyright (c) 2017 pudelek.org.pl
+ * Copyright (c) 2019 pudelek.org.pl
  *
  * @license MIT License (MIT)
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -19,13 +17,13 @@
  * Time: 20:12
  */
 
-namespace mrcnpdlk\Teryt;
+namespace Tests\mrcnpdlk\Teryt;
 
 use mrcnpdlk\Teryt\Model\Terc;
 
 class TercTest extends TestCase
 {
-    public function testTerc()
+    public function testTerc(): void
     {
         $oTerc = new Terc(1234567);
         $this->assertEquals('12', $oTerc->getProvinceId());
@@ -49,7 +47,7 @@ class TercTest extends TestCase
         $this->assertEquals(null, $oTerc->getTercId());
 
         $oTerc = new Terc();
-        $oTerc->setIds('1','2','3','4');
+        $oTerc->setIds('1', '2', '3', '4');
         $this->assertEquals('01', $oTerc->getProvinceId());
         $this->assertEquals('02', $oTerc->getDistrictId());
         $this->assertEquals('03', $oTerc->getCommuneId());

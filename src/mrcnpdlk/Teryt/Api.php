@@ -8,20 +8,15 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 namespace mrcnpdlk\Teryt;
 
 use mrcnpdlk\Teryt\Model\City;
 
-
 /**
  * Class Api
- *
- * @package mrcnpdlk\Teryt
  */
 class Api
 {
@@ -45,11 +40,12 @@ class Api
      *
      * @param string $id
      *
-     * @return City
      * @throws \mrcnpdlk\Teryt\Exception
      * @throws \mrcnpdlk\Teryt\Exception\Connection
      * @throws \mrcnpdlk\Teryt\Exception\InvalidArgument
      * @throws \mrcnpdlk\Teryt\Exception\NotFound
+     *
+     * @return City
      */
     public function getCity(string $id): City
     {
@@ -57,5 +53,4 @@ class Api
 
         return $oCity->find($id);
     }
-
 }

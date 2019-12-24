@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -20,13 +18,11 @@
 
 namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
-
 use mrcnpdlk\Teryt\Model\Terc;
+use stdClass;
 
 /**
  * Class AbstractResponseModel
- *
- * @package mrcnpdlk\Teryt\ResponseModel\Territory
  */
 abstract class AbstractResponseModel
 {
@@ -81,24 +77,22 @@ abstract class AbstractResponseModel
     /**
      * Określa datę katalogu dla wskazanego stanu w formacie YYYY-MM-DD
      *
-     * @var string
+     * @var string|null
      */
     public $statusDate;
     /**
      * Identyfikator gminy wraz z RODZ
      *
-     * @var integer
+     * @var int
      */
     public $tercId;
 
     /**
      * AbstractResponseModel constructor.
      *
-     * @param \stdClass|null $oData
-     *
      * @throws \mrcnpdlk\Teryt\Exception
      */
-    public function __construct(\stdClass $oData = null)
+    public function __construct()
     {
         $this->expandData();
     }
@@ -106,9 +100,11 @@ abstract class AbstractResponseModel
     /**
      * Dociągnięcie informacji na pozostałe pola obiektu
      *
+     * @throws \mrcnpdlk\Teryt\Exception
+     *
      * @return $this
      */
-    public function expandData()
+    public function expandData(): self
     {
         if ($this->tercId) {
             $oTerc               = new Terc($this->tercId);
@@ -133,11 +129,11 @@ abstract class AbstractResponseModel
      *
      * @return $this
      */
-    public function clearData()
+    public function clearData(): self
     {
         //clearing data
         foreach (get_object_vars($this) as $prop => $value) {
-            if ($value === '') {
+            if ('' === $value) {
                 $this->{$prop} = null;
             }
         }

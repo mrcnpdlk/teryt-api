@@ -8,9 +8,7 @@
  *
  * For the full copyright and license information, please view source file
  * that is bundled with this package in the file LICENSE
- *
  * @author  Marcin Pudełek <marcin@pudelek.org.pl>
- *
  */
 
 /**
@@ -22,8 +20,6 @@ namespace mrcnpdlk\Teryt\ResponseModel\Territory;
 
 /**
  * Class UlicaDrzewo
- *
- * @package mrcnpdlk\Teryt\ResponseModel\Territory
  */
 class UlicaDrzewo extends Ulica
 {
@@ -48,7 +44,7 @@ class UlicaDrzewo extends Ulica
     /**
      * wyznacza miejsce podziału pełnej nazwy ulicy na nazwa1 i nazwa2
      *
-     * @var integer
+     * @var int
      */
     public $indexKey;
 
