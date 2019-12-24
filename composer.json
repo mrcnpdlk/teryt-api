@@ -41,7 +41,7 @@
   },
   "autoload": {
     "psr-4": {
-      "mrcnpdlk\\Teryt\\": "src/mrcnpdlk/Teryt/"
+      "mrcnpdlk\\Teryt\\": "src/"
     }
   },
   "autoload-dev": {
