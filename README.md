@@ -71,13 +71,14 @@ optionally set cache and log instances
 
 ```php
 use mrcnpdlk\Teryt\Client;
-use mrcnpdlk\Teryt\NativeApi
+use mrcnpdlk\Teryt\NativeApi;
+use mrcnpdlk\Teryt\Config;
 
 $oConfig = new Config([
     'logger'       => $oInstanceLogger,
     'cache'        => $oInstanceCacheFiles,
-    'username'     => $login,
-    'password'     => $pass,
+    'username'     => 'my_login',
+    'password'     => 'my_password',
     'isProduction' => true,
 ]);
 $oNativeApi = NativeApi::create($oConfig);
@@ -85,9 +86,9 @@ $oNativeApi = NativeApi::create($oConfig);
 
 After that we able to call auxiliary static methods defined in NativeApi class, i.e:
 ```php
-var_dump($NativeApi->CzyZalogowany());
-var_dump($NativeApi->PobierzSlownikCechULIC());
-var_dump($NativeApi->WyszukajMiejscowosc('skiernie',null));
+var_dump($oNativeApi->CzyZalogowany());
+var_dump($oNativeApi->PobierzSlownikCechULIC());
+var_dump($oNativeApi->WyszukajMiejscowosc('skiernie',null));
 ```
 
 ## Defined methods (`\mrcnpdlk\Teryt\NativeApi`)

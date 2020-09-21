@@ -5,10 +5,14 @@ parameters:
 		- tests
 	fileExtensions:
 		- php
-	ignoreErrors:
-	    - '#Access to an undefined property SoapFault::.*#'
-	bootstrap: ./vendor/autoload.php
+	bootstrapFiles:
+	    - ./vendor/autoload.php
+	parallel:
+		processTimeout: 300.0
+		jobSize: 20
+		maximumNumberOfProcesses: 32
+		minimumNumberOfJobsPerProcess: 4
 includes:
 	- vendor/phpstan/phpstan-phpunit/extension.neon
 	- vendor/phpstan/phpstan-phpunit/rules.neon
-	- vendor/jangregor/phpstan-prophecy/src/extension.neon
+	- vendor/jangregor/phpstan-prophecy/extension.neon
