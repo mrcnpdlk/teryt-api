@@ -6,6 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+## [1.0.1] - 2020-09-21
+### Changed:
+- composer update
+### Fixed:
+- [issue #3](https://github.com/mrcnpdlk/teryt-api/issues/3) - documentation fix
+
 ## [1.0.0] - 2019-12-24
 ### Added:
 - github CI
