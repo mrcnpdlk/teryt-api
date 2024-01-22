@@ -21,8 +21,8 @@ use DOMXPath;
  */
 class WSASoap
 {
-    const WSANS  = 'http://www.w3.org/2005/08/addressing';
-    const WSAPFX = 'wsa';
+    public const WSANS  = 'http://www.w3.org/2005/08/addressing';
+    public const WSAPFX = 'wsa';
     /**
      * @var string|null
      */
