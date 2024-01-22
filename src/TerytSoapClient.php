@@ -43,7 +43,7 @@ class TerytSoapClient extends \SoapClient
     }
 
     /** @noinspection MagicMethodsValidityInspection */
-
+    #[\ReturnTypeWillChange]
     /**
      * @param string $request
      * @param string $location
@@ -53,7 +53,7 @@ class TerytSoapClient extends \SoapClient
      *
      * @throws \Exception
      *
-     * @return string
+     * @return string|null
      */
     public function __doRequest($request, $location, $action, $version, $oneWay = 0)
     {
